@@ -20,15 +20,10 @@ int main()
     Random::SetResolution(1920, 1200);
     Renderer renderer = Renderer();
     renderer.Initialize("Game Engine", RESOLUTION_X, RESOLUTION_Y);
+    Input input;
+    input.Initialize();
 
-    //SDL_Init(SDL_INIT_VIDEO);
-    //fnEngine();
-    SDL_Event e;
-
-    ///
-    // MAIN LOOP
-    ///
-    bool quit = false;
+    //
 
     std::vector<Vector2> v;
 
@@ -39,6 +34,13 @@ int main()
         v[i] = Vector2(Random::PointOnScreenX(), Random::PointOnScreenY());
     }
 
+
+    ///
+    // MAIN LOOP
+    ///
+    SDL_Event e;
+    bool quit = false;
+
     while (!quit) {
         ///
         // UPDATE
@@ -48,6 +50,18 @@ int main()
                 quit = true;
             }
         }
+
+
+
+        ///
+        // INPUT
+        ///
+        input.Update();
+
+        if (input.GetKeyPressed(SDL_SCANCODE_Q)) std::cout << "PRESSED\n";
+        if (input.GetKeyDown(SDL_SCANCODE_Q)) std::cout << "DOWN\n";
+        if (input.GetKeyReleased(SDL_SCANCODE_Q)) std::cout << "RELEASED\n";
+
 
 
         ///
@@ -72,11 +86,11 @@ int main()
         //        renderer.DrawRect(Random::PointOnScreenX(), Random::PointOnScreenX(), Random::Int(rectangle_size), Random::Int(rectangle_size));
         //}
 
-        //// Lines!
-        //for (int i = 0; i < 25; i++) {
-        //    renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
-        //    renderer.DrawLine(Random::PointOnScreenX(), Random::PointOnScreenY(), Random::PointOnScreenX(), Random::PointOnScreenY());
-        //}
+        // Lines!
+        for (int i = 0; i < 25; i++) {
+            renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
+            renderer.DrawLine(input.GetMousePosition().x, input.GetMousePosition().y, Random::PointOnScreenX(), Random::PointOnScreenY());
+        }
 
         renderer.Present(); // Render the screen
     }
