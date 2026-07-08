@@ -20,19 +20,18 @@ int main()
     Random::SetResolution(1920, 1200);
     Renderer renderer = Renderer();
     renderer.Initialize("Game Engine", RESOLUTION_X, RESOLUTION_Y);
+
     Input input;
     input.Initialize();
 
-    //
+    Time time = Time();
 
-    std::vector<Vector2> v;
 
-    for (int i = 0; i < POINT_COUNT; i++) {
-        Vector2 vec;
+    // values
+    Vector2 position;
+    std::vector<Vector2> points;
+    float speed = 150.0f;
 
-        v.push_back(vec);
-        v[i] = Vector2(Random::PointOnScreenX(), Random::PointOnScreenY());
-    }
 
 
     ///
@@ -54,13 +53,27 @@ int main()
 
 
         ///
-        // INPUT
+        // Engine
         ///
         input.Update();
+        time.Tick();
 
-        if (input.GetKeyPressed(SDL_SCANCODE_Q)) std::cout << "PRESSED\n";
-        if (input.GetKeyDown(SDL_SCANCODE_Q)) std::cout << "DOWN\n";
-        if (input.GetKeyReleased(SDL_SCANCODE_Q)) std::cout << "RELEASED\n";
+
+
+        /// 
+        // Input
+        ///
+        if (input.GetMouseDown(Input::MouseButton::Left)) {
+            points.push_back(input.GetMousePosition());
+        }
+
+        Vector2 velocity{ 0.0f, 0.0f };
+        if (input.GetKeyDown(SDL_SCANCODE_W)) velocity.y = -speed;
+        if (input.GetKeyDown(SDL_SCANCODE_A)) velocity.x = -speed;
+        if (input.GetKeyDown(SDL_SCANCODE_S)) velocity.y =  speed;
+        if (input.GetKeyDown(SDL_SCANCODE_D)) velocity.x =  speed;
+
+        position += velocity * time.GetDeltaTime();
 
 
 
@@ -70,30 +83,16 @@ int main()
         renderer.SetColor(0, 0, 0, 255); // Set render draw color to black
         renderer.Clear();                // Clear the renderer
 
-        // Static! (Points)
-        for (int i = 0; i < POINT_COUNT; i++) {
-            renderer.SetColor(Random::Int(256), Random::Int(256), Random::Int(256), 255);
-            renderer.DrawPoint(v[i].x, v[i].y);
-        }
-
-        //// Rectangles!
-        //for (int i = 0; i < 15; i++) {
-        //    int rectangle_size = 100;
-        //    renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
-        //    if (rand() % 2 == 0)
-        //        renderer.DrawFillRect(Random::PointOnScreenX(), Random::PointOnScreenX(), Random::Int(rectangle_size), Random::Int(rectangle_size));
-        //    else
-        //        renderer.DrawRect(Random::PointOnScreenX(), Random::PointOnScreenX(), Random::Int(rectangle_size), Random::Int(rectangle_size));
-        //}
-
         // Lines!
         for (int i = 0; i < 25; i++) {
             renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
-            renderer.DrawLine(input.GetMousePosition().x, input.GetMousePosition().y, Random::PointOnScreenX(), Random::PointOnScreenY());
+            renderer.DrawLine(input.GetMousePosition().x, input.GetMousePosition().y, position.x, position.y);
         }
 
         renderer.Present(); // Render the screen
     }
+
+
 
     ///
     // SHUTDOWN

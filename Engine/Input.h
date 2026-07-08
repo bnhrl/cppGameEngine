@@ -6,12 +6,14 @@
 namespace bnhe {
 	class Input {
 	public:
-		enum MouseButton
+		enum class MouseButton
 		{
 			Left   = 1,
 			Middle = 2,
 			Right  = 3,
 		};
+
+
 
 	public:
 		bool Initialize();
@@ -19,15 +21,15 @@ namespace bnhe {
 
 		void Update();
 
-		const bool GetKeyDown(int key) const { return m_keyStates[key]; }
+		const bool GetKeyDown(int key) const     { return m_keyStates[key]; }
 		const bool GetPrevKeyDown(int key) const { return m_prevKeyStates[key]; }
-		const bool GetKeyPressed(int key) const { return m_keyStates[key] && !m_prevKeyStates[key]; }
+		const bool GetKeyPressed(int key) const  { return m_keyStates[key] && !m_prevKeyStates[key]; }
 		const bool GetKeyReleased(int key) const { return !m_keyStates[key] && m_prevKeyStates[key]; }
 
-		bool GetMouseDown(MouseButton button) const { return false; }
-		bool GetPrevMouseDown(MouseButton button) const { return false; }
-		bool GetMousePressed(MouseButton button) const { return false; }
-		bool GetMouseReleased(MouseButton button) const { return false; }
+		bool GetMouseDown(MouseButton button) const     { return m_buttonStates & GetButtonBit(button); }
+		bool GetPrevMouseDown(MouseButton button) const { return m_prevButtonStates & GetButtonBit(button); }
+		bool GetMousePressed(MouseButton button) const  { return !GetPrevMouseDown(button) && GetMouseDown(button); }
+		bool GetMouseReleased(MouseButton button) const { return GetPrevMouseDown(button) && !GetMouseDown(button); }
 		Vector2 GetMousePosition() { return m_mousePosition; }
 
 	private:
@@ -36,6 +38,8 @@ namespace bnhe {
 		std::vector<bool> m_prevKeyStates;
 
 		// mouse
+		uint32_t GetButtonBit(MouseButton button) const;
+
 		uint32_t m_buttonStates     = 0;
 		uint32_t m_prevButtonStates = 0;
 

@@ -27,7 +27,8 @@ namespace bnhe
 
 	void Input::Update()
 	{
-		m_prevKeyStates = m_keyStates;
+		// Keyboard
+		m_prevKeyStates = m_keyStates; // Store previous button states
 		int numKeys;
 		const bool* keyState = SDL_GetKeyboardState(&numKeys);
 		if (numKeys != m_keyStates.size()) {
@@ -35,6 +36,17 @@ namespace bnhe
 		}
 		std::copy(keyState, keyState + m_keyStates.size(), m_keyStates.begin());
 
-		SDL_GetMouseState(&m_mousePosition.x, &m_mousePosition.y);
+		// Mouse
+		m_prevButtonStates = m_buttonStates; // Store previous button states
+		m_buttonStates = SDL_GetMouseState(&m_mousePosition.x, &m_mousePosition.y);
+		
+	}
+
+	uint32_t Input::GetButtonBit(MouseButton button) const
+	{
+		// 1 -> 0001
+		// 2 -> 0010
+		// 3 -> 0100
+		return SDL_BUTTON_MASK((uint32_t)button);
 	}
 }
