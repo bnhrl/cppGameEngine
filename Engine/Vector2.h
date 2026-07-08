@@ -38,8 +38,15 @@ namespace bnhe {
 		Vector2 operator *= (const float v) { this->x *= v; this->y *= v; return *this; }
 		Vector2 operator /= (const float v) { this->x /= v; this->y /= v; return *this; }
 
-		float LengthSqr() const { return (x* x) + (y * y); }
-		float Length()    const { return std::sqrt(LengthSqr()); }
+		// Methods
 
+		float LengthSqr() const { return (x * x) + (y * y); }
+		float Length()    const { return std::sqrt(LengthSqr()); }
+		float DistanceTo(const Vector2 v) const
+		{
+			float xDist = std::pow(v.x - this->x, 2);
+			float yDist = std::pow(v.y - this->y, 2);
+			return std::sqrt(xDist + yDist);
+		}
 	};
 }
