@@ -53,6 +53,11 @@ namespace bnhe
         SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
     }
 
+    void Renderer::SetColor(Color color)
+    {
+        SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+    }
+
 
 
     // Shape/Point Drawing

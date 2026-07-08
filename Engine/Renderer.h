@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include "Color.h"
 
 namespace bnhe
 {
@@ -14,6 +15,7 @@ namespace bnhe
 		void ShutDown();
 
 		void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
+		void SetColor(Color color);
 
 		void DrawPoint(float x, float y);
 		void DrawLine(float x1, float y1, float x2, float y2);

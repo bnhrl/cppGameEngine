@@ -28,9 +28,8 @@ int main()
 
 
     // values
-    Vector2 position;
     std::vector<Vector2> points;
-    float speed = 150.0f;
+    Color color = Color();
 
 
 
@@ -67,13 +66,7 @@ int main()
             points.push_back(input.GetMousePosition());
         }
 
-        Vector2 velocity{ 0.0f, 0.0f };
-        if (input.GetKeyDown(SDL_SCANCODE_W)) velocity.y = -speed;
-        if (input.GetKeyDown(SDL_SCANCODE_A)) velocity.x = -speed;
-        if (input.GetKeyDown(SDL_SCANCODE_S)) velocity.y =  speed;
-        if (input.GetKeyDown(SDL_SCANCODE_D)) velocity.x =  speed;
-
-        position += velocity * time.GetDeltaTime();
+        
 
 
 
@@ -84,9 +77,9 @@ int main()
         renderer.Clear();                // Clear the renderer
 
         // Lines!
-        for (int i = 0; i < 25; i++) {
-            renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
-            renderer.DrawLine(input.GetMousePosition().x, input.GetMousePosition().y, position.x, position.y);
+        for (int i = 0; i < points.size(); i++) {
+            renderer.SetColor(color);
+            renderer.DrawLine(input.GetMousePosition().x, input.GetMousePosition().y, points[i].x, points[i].y);
         }
 
         renderer.Present(); // Render the screen
