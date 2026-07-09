@@ -44,9 +44,16 @@ namespace bnhe {
 		float Length()    const { return std::sqrt(LengthSqr()); }
 		float DistanceTo(const Vector2 v) const
 		{
-			float xDist = std::pow(v.x - this->x, 2);
-			float yDist = std::pow(v.y - this->y, 2);
+			float xDist = (float)std::pow(v.x - this->x, 2);
+			float yDist = (float)std::pow(v.y - this->y, 2);
 			return std::sqrt(xDist + yDist);
+		}
+		Vector2 Lerp(Vector2 target, float multiplier, float delta) const {
+			Vector2 temp = Vector2(this->x, this->y);
+			float speed = std::exp(-multiplier * delta);
+			temp.x = target.x + (temp.x - target.x) * speed;
+			temp.y = target.y + (temp.y - target.y) * speed;
+			return temp;
 		}
 	};
 }

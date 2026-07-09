@@ -3,6 +3,7 @@
 
 
 #include <iostream>
+#include "Vector2.h"
 
 namespace bnhe
 {
@@ -49,11 +50,12 @@ namespace bnhe
 
 
     // Color?
-    void Renderer::SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+    void Renderer::SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const 
+    {
         SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
     }
 
-    void Renderer::SetColor(Color color)
+    void Renderer::SetColor(Color color) const
     {
         SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
     }
@@ -61,33 +63,43 @@ namespace bnhe
 
 
     // Shape/Point Drawing
-    void Renderer::DrawPoint(float x, float y)
+    void Renderer::DrawPoint(float x, float y) const
     {
         SDL_RenderPoint(m_renderer, x, y);
     }
 
-    void Renderer::DrawLine(float x1, float y1, float x2, float y2) {
+    void Renderer::DrawLine(float x1, float y1, float x2, float y2) const
+    {
         SDL_RenderLine(m_renderer, x1, y1, x2, y2);
     }
 
-    void Renderer::DrawRect(float x, float y, float w, float h)
+    void Renderer::DrawRect(SDL_FRect rect) const
     {
-        SDL_FRect rect{ x, y, w, h };
         SDL_RenderRect(m_renderer, &rect);
     }
-
-    void Renderer::DrawRect(SDL_FRect rect) {
-        SDL_RenderFillRect(m_renderer, &rect);
-    }
-
-    void Renderer::DrawFillRect(float x, float y, float w, float h)
+    void Renderer::DrawRect(float x, float y, float w, float h) const
     {
         SDL_FRect rect{ x, y, w, h };
-        SDL_RenderFillRect(m_renderer, &rect);
+        DrawRect(rect);
+    }
+    void Renderer::DrawRect(Vector2 center, Vector2 size) const
+    {
+        SDL_FRect rect{ center.x - size.x / 2.0f, center.y - size.y / 2.0f, size.x, size.y };
+        DrawRect(rect);
     }
 
-    void Renderer::DrawFillRect(SDL_FRect rect)
+    void Renderer::DrawFillRect(SDL_FRect rect) const
     {
         SDL_RenderFillRect(m_renderer, &rect);
+    }
+    void Renderer::DrawFillRect(float x, float y, float w, float h) const
+    {
+        SDL_FRect rect{ x, y, w, h };
+        DrawFillRect(rect);
+    }
+    void Renderer::DrawFillRect(const Vector2 center, const Vector2 size) const
+    {
+        SDL_FRect rect{ center.x - size.x / 2.0f, center.y - size.y / 2.0f, size.x, size.y };
+        DrawFillRect(rect);
     }
 }
