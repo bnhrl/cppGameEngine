@@ -12,45 +12,6 @@ const float RESOLUTION_Yf = RESOLUTION_Y;
 
 using namespace bnhe;
 
-struct Transform {
-    Vector2 position;
-    float rotation;
-    Vector2 scale;
-};
-
-class Actor {
-public:
-    Actor(Transform transform, Vector2 size = Vector2(64, 64)) : m_transform{ transform }, m_size{ size } {}
-
-    void Update(float delta) {
-        m_transform.position += (m_velocity * delta);
-        m_velocity = m_velocity.Lerp(Vector2(0, 0), 6.7f, delta);
-    
-        m_transform.position.x = math::Wrap(m_transform.position.x, 0.0f, RESOLUTION_Xf);
-        m_transform.position.y = math::Wrap(m_transform.position.y, 0.0f, RESOLUTION_Yf);
-    }
-    
-    void Draw(const Renderer& renderer) {
-        renderer.SetColor(0, 255, 0);
-        renderer.DrawRect(m_transform.position, m_size * m_transform.scale);
-    }
-
-    const Transform& GetTransform() { return m_transform; }
-    const Vector2 GetSize() { return m_size; }
-    const Vector2 GetVelocity() { return m_velocity; }
-
-    void SetPosition(const Vector2 position) { m_transform.position = position; }
-    void SetRotation(float rotation)         { m_transform.rotation = rotation; }
-    void SetScale(const Vector2 scale)       { m_transform.scale = scale; }
-
-    void SetSize(const Vector2 size)         { m_size = size; }
-    void SetVelocity(const Vector2 velocity) { m_velocity = velocity; }
-
-protected:
-    Transform m_transform;
-    Vector2 m_velocity{ 0, 0 };
-    Vector2 m_size;
-};
 
 int main()
 {
@@ -131,7 +92,7 @@ int main()
             }
         }
 
-        if (input.GetMousePressed(Input::MouseButton::Right)) {
+        if (input.GetMouseDown(Input::MouseButton::Right)) {
             if (points.size() >= 1) {
                 points.pop_back();
             }
@@ -176,7 +137,6 @@ int main()
         // Player
         renderer.SetColor(Color(0, 255, 0));
         player.Draw(renderer);
-        std::cout << menuPos.x << " " << menuPos.y << "\n";
 
         // Menu
         renderer.SetColor(0, 0, 255);

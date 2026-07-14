@@ -1,11 +1,11 @@
 #pragma once
 
 #include <cmath>
+#include <cassert>
 
 namespace bnhe {
-	class Vector2 
+	struct Vector2 
 	{
-	public:
 		float x, y;
 
 		Vector2()                 : x{0}, y{0} {}
@@ -15,6 +15,13 @@ namespace bnhe {
 
 
 		// Vector operators
+
+		float operator [] (unsigned int i) const { assert(i < 2); return (&x)[i]; }
+		float& operator [] (unsigned int i) { assert(i < 2); return (&x)[i]; }
+
+		bool operator == (const Vector2& v) { return this->x == v.x && this->y == v.y; }
+		bool operator != (const Vector2& v) { return this->x != v.x && this->y != v.y; }
+
 
 		Vector2 operator + (const Vector2& v) const { return Vector2(this->x + v.x, this->y + v.y); }
 		Vector2 operator - (const Vector2& v) const { return Vector2(this->x - v.x, this->y - v.y); }
@@ -48,12 +55,22 @@ namespace bnhe {
 			float yDist = (float)std::pow(v.y - this->y, 2);
 			return std::sqrt(xDist + yDist);
 		}
+		Vector2 Normalize() const { return (*this) / Length(); }
 		Vector2 Lerp(Vector2 target, float multiplier, float delta) const {
 			Vector2 temp = Vector2(this->x, this->y);
 			float speed = std::exp(-multiplier * delta);
 			temp.x = target.x + (temp.x - target.x) * speed;
 			temp.y = target.y + (temp.y - target.y) * speed;
 			return temp;
+		}
+		float Dot(const Vector2& v)          const { return (this->x * v.x) + (this->y * v.y); }
+		float Angle()                        const { return std::atan2(this->x, this->y); }
+		float AngleBetween(const Vector2& v) const { return std::acos(Dot(v)); }
+		Vector2 Rotate(const Vector2& v, float radians) {
+			float x = v.x * std::cos(radians) - v.y * std::sin(radians);
+			float y = v.x * std::sin(radians) + v.y * std::cos(radians);
+
+			return { x, y };
 		}
 	};
 }

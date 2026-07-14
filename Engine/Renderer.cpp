@@ -7,8 +7,14 @@
 
 namespace bnhe
 {
+    int Renderer::m_width = 1280;
+    int Renderer::m_height = 720;
+
 	bool Renderer::Initialize(const char* name, int w, int h) {
-        m_window = SDL_CreateWindow(name, w, h, 0);
+        Renderer::m_width = w;
+        Renderer::m_height = h;
+        
+        m_window = SDL_CreateWindow(name, m_width, m_height, 0);
         if (m_window == nullptr) {
             std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
             SDL_Quit();

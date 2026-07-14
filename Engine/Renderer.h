@@ -26,8 +26,14 @@ namespace bnhe
 		void DrawFillRect(float x, float y, float w, float h) const;
 		void DrawFillRect(SDL_FRect rect) const;
 		void DrawFillRect(Vector2 center, Vector2 size) const;
+
+		static int GetWidth()  { return m_width; }
+		static int GetHeight() { return m_height; }
 	private:
 		SDL_Renderer* m_renderer = nullptr;
 		SDL_Window*   m_window   = nullptr;
+
+		static int m_width;
+		static int m_height;
 	};
 }
