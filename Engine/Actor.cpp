@@ -17,7 +17,8 @@ namespace bnhe
 
     void Actor::Draw(const class Renderer& renderer)
     {
-        renderer.SetColor(0, 255, 0);
-        renderer.DrawRect(m_transform.position, m_size * m_transform.scale);
+        //renderer.SetColor(0, 1.f, 0);
+        //renderer.DrawRect(m_transform.position, m_size * m_transform.scale);
+        renderer.DrawModel(m_model, m_transform);
     }
 }

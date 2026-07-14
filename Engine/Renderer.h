@@ -3,6 +3,9 @@
 #include <SDL3/SDL.h>
 #include "Color.h"
 #include "Vector2.h"
+#include "Model.h"
+#include "Mesh.h"
+#include "Transform.h"
 
 namespace bnhe
 {
@@ -15,7 +18,8 @@ namespace bnhe
 		void Clear();
 		void ShutDown();
 
-		void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255) const;
+		//void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255) const;
+		void SetColor(float r, float g, float b, float a = 255) const;
 		void SetColor(Color color) const;
 
 		void DrawPoint(float x, float y) const;
@@ -26,6 +30,7 @@ namespace bnhe
 		void DrawFillRect(float x, float y, float w, float h) const;
 		void DrawFillRect(SDL_FRect rect) const;
 		void DrawFillRect(Vector2 center, Vector2 size) const;
+		void DrawModel(const Model& model, const Transform& transform) const;
 
 		static int GetWidth()  { return m_width; }
 		static int GetHeight() { return m_height; }

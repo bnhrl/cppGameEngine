@@ -1,11 +1,15 @@
 #pragma once
 
 #include "Transform.h"
+#include "Mesh.h"
+#include "Model.h"
 
 namespace bnhe {
     class Actor {
     public:
-        Actor(Transform transform, Vector2 size = Vector2(64, 64)) : m_transform{ transform }, m_size{ size } {}
+        Actor() = default;
+        Actor(const Transform& transform, Vector2 size = Vector2(64, 64)) : m_transform{ transform }, m_size{ size } {}
+        Actor(const Transform& transform, const Model& model) : m_transform{ transform}, m_model{ model } {}
 
         void Update(float delta);
 
@@ -26,5 +30,6 @@ namespace bnhe {
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
         Vector2 m_size;
+        Model m_model;
     };
 }

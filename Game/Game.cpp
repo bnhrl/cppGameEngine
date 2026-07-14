@@ -39,7 +39,10 @@ int main()
     int minDrawDistance = 15;
 
     // Player
-    Actor player{ Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(1.0f)) };
+    Mesh mesh0{ {Vector2(-4,0),Vector2(-2,-4),Vector2(0,-2),Vector2(1,-5),Vector2(2,5),Vector2(3,1),Vector2(7,0)}, Color(0.f, 1.f, 0.f)};
+    Mesh mesh1{ {Vector2(-4,0),Vector2(-2,4),Vector2(0,2),Vector2(1,5),Vector2(2,-5),Vector2(3,-1),Vector2(7,0)}, Color(1.f, 0.f, 1.f) };
+    Model model = { {mesh0, mesh1} };
+    Actor player{ Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(16.0f)), model };
     float speed = 2000.0f;
 
     // Test menu
@@ -107,6 +110,7 @@ int main()
 
         player.SetVelocity(player.GetVelocity() + force * time.GetDeltaTime());
         player.Update(time.GetDeltaTime());
+        player.SetRotation(player.GetTransform().position.AngleBetween(input.GetMousePosition()));
 
         // Test menu
         if (input.GetKeyPressed(SDL_SCANCODE_TAB)) menuOpen = !menuOpen;
@@ -135,11 +139,10 @@ int main()
         }
 
         // Player
-        renderer.SetColor(Color(0, 255, 0));
         player.Draw(renderer);
 
         // Menu
-        renderer.SetColor(0, 0, 255);
+        renderer.SetColor(0, 0, 1.f);
         if (menuOpen) { menuPos = menuPos.Lerp(menuPosOpen, 16.0f, time.GetDeltaTime()); }
         else { menuPos = menuPos.Lerp(menuPosClosed, 16.0f, time.GetDeltaTime());; }
         renderer.DrawRect(menuPos, Vector2(1280, 640));

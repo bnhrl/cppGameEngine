@@ -2,8 +2,11 @@
 #include "Renderer.h"
 
 
-#include <iostream>
 #include "Vector2.h"
+#include "Model.h"
+
+#include <iostream>
+#include <cmath>
 
 namespace bnhe
 {
@@ -56,14 +59,20 @@ namespace bnhe
 
 
     // Color?
-    void Renderer::SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const 
+    /*void Renderer::SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const 
     {
         SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+    }*/
+
+    void Renderer::SetColor(float r, float g, float b, float a) const
+    {
+        SDL_SetRenderDrawColor(m_renderer, r/255, g/255, b/255, a/255);
     }
 
     void Renderer::SetColor(Color color) const
     {
-        SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+        Color temp = color.ToUint8_T();
+        SDL_SetRenderDrawColor(m_renderer, temp.r, temp.g, temp.b, temp.a);
     }
 
 
@@ -107,5 +116,34 @@ namespace bnhe
     {
         SDL_FRect rect{ center.x - size.x / 2.0f, center.y - size.y / 2.0f, size.x, size.y };
         DrawFillRect(rect);
+    }
+
+    void Renderer::DrawModel(const Model& model, const Transform& transform) const {
+
+        for (auto mesh : model.GetMeshes()) {
+            SetColor(mesh.GetColor());
+            const auto points = mesh.GetPoints();
+
+            for (int i = 0; i < points.size() - 1; i++) {
+                // Local space
+                Vector2 v1 = points[i];
+                Vector2 v2 = points[i + 1];
+
+                //// Rotation
+                //v1.x = v1.x * std::cos(transform.rotation) - v1.y * sin(transform.rotation);
+                //v1.y = v1.x * std::sin(transform.rotation) + v1.y * cos(transform.rotation);
+                //v2.x = v2.x * std::cos(transform.rotation) - v2.y * sin(transform.rotation);
+                //v2.y = v2.x * std::sin(transform.rotation) + v2.y * cos(transform.rotation);
+
+                // Convert to world space
+                v1 *= transform.scale;
+                v2 *= transform.scale;
+
+                v1 += transform.position;
+                v2 += transform.position;
+
+                DrawLine(v1.x, v1.y, v2.x, v2.y);
+            }
+        }
     }
 }
