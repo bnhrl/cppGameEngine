@@ -67,11 +67,13 @@ namespace bnhe {
 		float Dot(const Vector2& v)          const { return (this->x * v.x) + (this->y * v.y); }
 		float Angle()                        const { return std::atan2(this->x, this->y); }
 		float AngleBetween(const Vector2& v) const { return std::acos(Dot(v)); }
-		Vector2 Rotate(const Vector2& v, float radians) {
-			float x = v.x * std::cos(radians) - v.y * std::sin(radians);
-			float y = v.x * std::sin(radians) + v.y * std::cos(radians);
+		Vector2 Rotate(float radians) {
+			Vector2 v;
 
-			return { x, y };
+			v.x = x * std::cos(radians) - y * std::sin(radians);
+			v.y = x * std::sin(radians) + y * std::cos(radians);
+			
+			return v;
 		}
 	};
 }

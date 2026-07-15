@@ -14,8 +14,7 @@ namespace bnhe
 		std::copy(keyState, keyState + numKeys, m_keyStates.begin());
 		m_prevKeyStates = m_keyStates;
 
-
-
+		std::cout << "Input initialized!" << "\n";
 		return true;
 	}
 
@@ -39,7 +38,6 @@ namespace bnhe
 		// Mouse
 		m_prevButtonStates = m_buttonStates; // Store previous button states
 		m_buttonStates = SDL_GetMouseState(&m_mousePosition.x, &m_mousePosition.y);
-		
 	}
 
 	uint32_t Input::GetButtonBit(MouseButton button) const

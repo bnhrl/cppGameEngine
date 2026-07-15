@@ -4,7 +4,18 @@
 namespace bnhe::math
 {
 	const float PI = 3.1415927f;
-	const float PI_TWO = PI*2;
+	const float PI_TWO = PI * 2;
+	const float PI_HALF = PI * 0.5;
+
+	template<typename T>
+	T RadToDeg(T value) {
+		return value * (180.0f / PI);
+	}
+
+	template<typename T>
+	T DegToRad(T value) {
+		return value * (PI / 180.0f);
+	}
 
 	template<typename T>
 	T Min(T a, T b) {

@@ -1,12 +1,27 @@
-// Engine.cpp : Defines the functions for the static library.
-//
-
 #include "pch.h"
 #include "framework.h"
+#include "Engine.h"
 
 #include <iostream>
 
-void fnEngine()
+namespace bnhe
 {
-	std::cout << "Welcome to the library\n";
+	Engine engine;
+
+	bool Engine::Initialize(int resolution_x, int resolution_y) {
+		m_input.Initialize();
+		m_renderer.Initialize("Game Engine", resolution_x, resolution_y);
+		Random::SetResolution(resolution_x, resolution_y);
+		return true;
+	}
+
+	void Engine::Shutdown() {
+		m_input.Shutdown();
+		m_renderer.Shutdown();
+	}
+
+	void Engine::Update() {
+		m_input.Update();
+		m_time.Tick();
+	}
 }

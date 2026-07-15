@@ -14,6 +14,7 @@ namespace bnhe
     int Renderer::m_height = 720;
 
 	bool Renderer::Initialize(const char* name, int w, int h) {
+        std::cout << "Renderer initialized!" << "\n";
         Renderer::m_width = w;
         Renderer::m_height = h;
         
@@ -49,7 +50,7 @@ namespace bnhe
         SDL_RenderClear(m_renderer);
     }
 
-    void Renderer::ShutDown()
+    void Renderer::Shutdown()
     {
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyWindow(m_window);
@@ -129,15 +130,12 @@ namespace bnhe
                 Vector2 v1 = points[i];
                 Vector2 v2 = points[i + 1];
 
-                //// Rotation
-                //v1.x = v1.x * std::cos(transform.rotation) - v1.y * sin(transform.rotation);
-                //v1.y = v1.x * std::sin(transform.rotation) + v1.y * cos(transform.rotation);
-                //v2.x = v2.x * std::cos(transform.rotation) - v2.y * sin(transform.rotation);
-                //v2.y = v2.x * std::sin(transform.rotation) + v2.y * cos(transform.rotation);
-
                 // Convert to world space
                 v1 *= transform.scale;
                 v2 *= transform.scale;
+
+                v1 = v1.Rotate(transform.rotation);
+                v2 = v2.Rotate(transform.rotation);
 
                 v1 += transform.position;
                 v2 += transform.position;

@@ -11,4 +11,27 @@
 #include "Input.h"
 #include "Actor.h"
 
-void fnEngine();
+
+namespace bnhe 
+{
+	class Engine {
+	public:
+		Engine() = default;
+
+		bool Initialize(int resolution_x = 1280, int resolution_y = 720);
+		void Shutdown();
+
+		void Update();
+
+		Input& GetInput() { return m_input; }
+		Renderer& GetRenderer() { return m_renderer; }
+		Time& GetTime() { return m_time; }
+
+	private:
+		Input m_input;
+		Renderer m_renderer;
+		Time m_time;
+	};
+
+	extern Engine engine;
+}
