@@ -5,6 +5,10 @@
 #include "Model.h"
 
 namespace bnhe {
+    struct ActorDesc {
+
+    };
+
     class Actor {
     public:
         Actor() = default;
@@ -24,6 +28,8 @@ namespace bnhe {
         void SetVelocity(const Vector2 velocity) { m_velocity = velocity; }
 
     protected:
+        std::string m_name;
+
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
         Model m_model;

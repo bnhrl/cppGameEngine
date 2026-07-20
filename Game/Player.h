@@ -4,7 +4,7 @@
 
 using namespace bnhe;
 
-class Player : Actor {
+class Player : public Actor {
 public:
 	Player() = default;
 	Player(float speed, const Transform& transform, const Model& model) : m_speed{ speed }, Actor { transform, model } {}

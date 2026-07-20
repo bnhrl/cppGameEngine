@@ -12,7 +12,8 @@ void Player::Update(float delta) {
     if (engine.GetInput().GetKeyDown(SDL_SCANCODE_D)) force.x = +speed;
 
     SetVelocity(GetVelocity() + force * engine.GetTime().GetDeltaTime());
-    SetRotation(GetTransform().rotation + delta);
+    float targetRot = GetTransform().position.DirectionTo(engine.GetInput().GetMousePosition());
+    SetRotation(targetRot);
 
     Actor::Update(delta);
 }

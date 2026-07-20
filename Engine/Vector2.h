@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cassert>
 #include <iostream>
+#include "MathUtils.h"
 
 namespace bnhe {
 	struct Vector2 
@@ -64,9 +65,28 @@ namespace bnhe {
 			temp.y = target.y + (temp.y - target.y) * speed;
 			return temp;
 		}
+		float DirectionTo(const Vector2& v)	 const { return -(*this - v).Angle()-math::PI*0.5f; } // May need to remove "-math::PI*0.5f" at some point. As of now, it makes RIGHT the default direction
 		float Dot(const Vector2& v)          const { return (this->x * v.x) + (this->y * v.y); }
 		float Angle()                        const { return std::atan2(this->x, this->y); }
-		float AngleBetween(const Vector2& v) const { return std::acos(Dot(v)); }
+		float AngleBetween(const Vector2& v) const { 
+			float dot = Dot(v);
+			float lenSelf = this->Length();
+			float lenV = v.Length();
+			
+			float theta = math::Clamp(Dot(v) / (this->Length() * v.Length()), -1.0f, 1.0f);
+
+			std::cout << acos(theta) << "\n";
+
+			return acos(theta);
+		}
+		float AngleBetweenSigned(const Vector2& v) const {
+			float angle = this->Angle() - v.Angle();
+
+			if (angle > math::PI) angle -= 2 * math::PI;
+			else if (angle < math::PI) angle += 2 * math::PI;
+
+			return angle;
+		}
 		Vector2 Rotate(float radians) {
 			Vector2 v;
 

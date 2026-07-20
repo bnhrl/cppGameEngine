@@ -1,6 +1,8 @@
 #include <iostream>
-#include <SDL3/SDL.h>
 #include <vector>
+
+#include <SDL3/SDL.h>
+#include <fmod.hpp>
 
 #include "Engine.h"
 #include "Player.h"
@@ -18,7 +20,20 @@ int main()
     ///
     // INITIALIZATION
     ///
+
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
+
+
+
+    ///
+    // AUDIO SYSTEM
+    ///
+
+    FMOD::System* audio;
+    FMOD::System_Create(&audio);
+
+    void* extradriverdata = nullptr;
+    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
 
 
 
@@ -45,6 +60,20 @@ int main()
     Vector2 menuPos = menuPosClosed;
     bool menuOpen = false;
 
+    // Scene
+    Scene scene = Scene();
+    scene.AddActor(&player);
+
+    // Sounds
+    std::vector<FMOD::Sound*> sounds;
+
+    FMOD::Sound* sound = nullptr;
+    audio->createSound("test_0.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("test_1.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("test_2.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
 
 
     ///
@@ -57,6 +86,7 @@ int main()
         ///
         // UPDATE
         ///
+
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
                 quit = true;
@@ -68,7 +98,11 @@ int main()
         ///
         // Engine
         ///
+
         engine.Update();
+        float delta = engine.GetTime().GetDeltaTime();
+        scene.Update(delta);
+
 
 
         /// 
@@ -96,17 +130,15 @@ int main()
             }
         }
 
-        // Player movement
-        player.Update(engine.GetTime().GetDeltaTime());
-
         // Test menu
         if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_TAB)) menuOpen = !menuOpen;
 
 
 
         ///
-        // RENDER
+        // Render
         ///
+
         engine.GetRenderer().SetColor(backgroundColor); // Set render draw color to black
         engine.GetRenderer().Clear();                // Clear the renderer
 
@@ -125,16 +157,35 @@ int main()
             engine.GetRenderer().DrawLine(prev.x, prev.y, points[i].x, points[i].y);
         }
 
-        // Player
-        player.Draw(engine.GetRenderer());
-
         // Menu
         engine.GetRenderer().SetColor(0, 0, 1.f);
-        if (menuOpen) { menuPos = menuPos.Lerp(menuPosOpen, 16.0f, engine.GetTime().GetDeltaTime()); }
-        else { menuPos = menuPos.Lerp(menuPosClosed, 16.0f, engine.GetTime().GetDeltaTime());; }
+        if (menuOpen) { menuPos = menuPos.Lerp(menuPosOpen, 16.0f, delta); }
+        else { menuPos = menuPos.Lerp(menuPosClosed, 16.0f, delta);; }
         engine.GetRenderer().DrawRect(menuPos, Vector2(1280, 640));
 
+        scene.Draw(engine.GetRenderer());
         engine.GetRenderer().Present(); // Render the screen
+
+
+
+        ///
+        // Audio
+        ///
+
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1))
+        {
+            audio->playSound(sounds[0], nullptr, false, nullptr);
+        }
+        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_2))
+        {
+            audio->playSound(sounds[1], nullptr, false, nullptr);
+        }
+        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_3))
+        {
+            audio->playSound(sounds[2], nullptr, false, nullptr);
+        }
+
+        audio->update();
     }
 
 
@@ -142,6 +193,7 @@ int main()
     ///
     // SHUTDOWN
     ///
+
     engine.Shutdown();
 
     return 0;

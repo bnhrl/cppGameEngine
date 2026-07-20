@@ -9,6 +9,7 @@
 #include "GameTime.h"
 #include "Renderer.h"
 #include "Input.h"
+#include "Scene.h"
 #include "Actor.h"
 
 

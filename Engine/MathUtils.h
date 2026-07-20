@@ -40,4 +40,10 @@ namespace bnhe::math
 			   (value > max) ? max : 
 			   value;
 	}
+	
+	template<typename T>
+	T Lerp(T from, T to, float multiplier, float delta) {
+		float speed = std::exp(-multiplier * delta);
+		return (from + (to - from)) * speed;
+	}
 }
