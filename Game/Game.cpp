@@ -18,9 +18,66 @@ using namespace bnhe;
 int main()
 {
     ///
+    // FILESYSTEM
+    ///
+
+    // get current working directory
+    std::cout << "Directory Operations:\n";
+    std::cout << "Working directory: " << GetWorkingDirectory() << "\n";
+
+    // set working directory (current working directory + "Assets")
+    std::cout << "Setting directory to 'Assets'...\n";
+    SetWorkingDirectory("Assets");
+    std::cout << "New directory: " << GetWorkingDirectory() << "\n\n";
+
+    // get filenames in the working directory
+    std::cout << "Files in Directory:\n";
+    auto filenames = GetFilesInDirectory(GetWorkingDirectory());
+    for (const auto& filename : filenames)
+    {
+        std::cout << filename << "\n";
+    }
+    std::cout << "\n";
+
+    // get filename info
+    if (!filenames.empty())
+    {
+        // get filename
+        std::string str = GetFilename(filenames[0]);
+        std::cout << "Filename: " << str << "\n";
+
+        // get extension
+        str = GetFileExtension(filenames[0]);
+        std::cout << "Extension: " << str << "\n";
+
+        // get filename no extension
+        str = GetFilenameNoExtension(filenames[0]);
+        std::cout << "Filename No Extension: " << str << "\n\n";
+    }
+
+    // read and display text file
+    std::cout << "Text File Reading:\n";
+    std::string str;
+    if (ReadTextFile("test.txt", str))
+    {
+        std::cout << str << "\n";
+    }
+
+    // write to text file
+    std::cout << "Text File Writing:\n";
+    WriteTextFile("test.txt", "Hello, World!", true);
+    if (ReadTextFile("test.txt", str))
+    {
+        std::cout << str << "\n";
+    }
+
+
+
+    ///
     // INITIALIZATION
     ///
 
+    Engine& engine = Engine::Get();
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
 
 
@@ -109,29 +166,22 @@ int main()
         // Input
         ///
 
-        // Drawing
-        if (engine.GetInput().GetMouseDown(Input::MouseButton::Left)) {
-            int index = points.size() - 1;
-            if (prevPoint != nullptr) {
-                if (prevPoint->DistanceTo(engine.GetInput().GetMousePosition()) > minDrawDistance) {
-                    points.push_back(engine.GetInput().GetMousePosition());
-                    if (points.size() > 2) prevPoint = &points[index - 1];
-                }
-            }
-            else {
-                points.push_back(engine.GetInput().GetMousePosition());
-                prevPoint = &points[points.size()-1];
-            }
-        }
-
-        if (engine.GetInput().GetMouseDown(Input::MouseButton::Right)) {
-            if (points.size() >= 1) {
-                points.pop_back();
-            }
-        }
-
         // Test menu
         if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_TAB)) menuOpen = !menuOpen;
+
+        // Sounds
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1))
+        {
+            audio->playSound(sounds[0], nullptr, false, nullptr);
+        }
+        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_2))
+        {
+            audio->playSound(sounds[1], nullptr, false, nullptr);
+        }
+        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_3))
+        {
+            audio->playSound(sounds[2], nullptr, false, nullptr);
+        }
 
 
 
@@ -157,7 +207,7 @@ int main()
             engine.GetRenderer().DrawLine(prev.x, prev.y, points[i].x, points[i].y);
         }
 
-        // Menu
+        // Test Menu
         engine.GetRenderer().SetColor(0, 0, 1.f);
         if (menuOpen) { menuPos = menuPos.Lerp(menuPosOpen, 16.0f, delta); }
         else { menuPos = menuPos.Lerp(menuPosClosed, 16.0f, delta);; }
@@ -171,19 +221,6 @@ int main()
         ///
         // Audio
         ///
-
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1))
-        {
-            audio->playSound(sounds[0], nullptr, false, nullptr);
-        }
-        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_2))
-        {
-            audio->playSound(sounds[1], nullptr, false, nullptr);
-        }
-        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_3))
-        {
-            audio->playSound(sounds[2], nullptr, false, nullptr);
-        }
 
         audio->update();
     }

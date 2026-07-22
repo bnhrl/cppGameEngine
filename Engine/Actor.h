@@ -3,11 +3,10 @@
 #include "Transform.h"
 #include "Mesh.h"
 #include "Model.h"
+#
 
 namespace bnhe {
-    struct ActorDesc {
-
-    };
+    class Scene; // Forward declaration
 
     class Actor {
     public:
@@ -27,11 +26,16 @@ namespace bnhe {
 
         void SetVelocity(const Vector2 velocity) { m_velocity = velocity; }
 
+        Scene* GetScene() const { return m_scene; }
+        friend class Scene;
+
     protected:
         std::string m_name;
 
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
         Model m_model;
+
+        Scene* m_scene = nullptr;
     };
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "File.h"
+
 #include "Random.h"
 #include "Vector2.h"
 #include "Vector3.h"
@@ -17,7 +19,7 @@ namespace bnhe
 {
 	class Engine {
 	public:
-		Engine() = default;
+		static Engine& Get() { static Engine engine; return engine; }
 
 		bool Initialize(int resolution_x = 1280, int resolution_y = 720);
 		void Shutdown();
@@ -29,10 +31,10 @@ namespace bnhe
 		Time& GetTime() { return m_time; }
 
 	private:
+		Engine() = default;
+
 		Input m_input;
 		Renderer m_renderer;
 		Time m_time;
 	};
-
-	extern Engine engine;
 }

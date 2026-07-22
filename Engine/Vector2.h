@@ -65,10 +65,11 @@ namespace bnhe {
 			temp.y = target.y + (temp.y - target.y) * speed;
 			return temp;
 		}
-		float DirectionTo(const Vector2& v)	 const { return -(*this - v).Angle()-math::PI*0.5f; } // May need to remove "-math::PI*0.5f" at some point. As of now, it makes RIGHT the default direction
-		float Dot(const Vector2& v)          const { return (this->x * v.x) + (this->y * v.y); }
-		float Angle()                        const { return std::atan2(this->x, this->y); }
-		float AngleBetween(const Vector2& v) const { 
+		Vector2 DirectionTo(const Vector2& v) const { return (*this - v).Normalize(); }
+		float AngleTo(const Vector2& v)	      const { return -DirectionTo(v).Angle() - math::PI*0.5f; } // May need to remove "-math::PI*0.5f" at some point. As of now, it makes RIGHT the default direction
+		float Dot(const Vector2& v)           const { return (this->x * v.x) + (this->y * v.y); }
+		float Angle()                         const { return std::atan2(this->x, this->y); }
+		float AngleBetween(const Vector2& v)  const { 
 			float dot = Dot(v);
 			float lenSelf = this->Length();
 			float lenV = v.Length();

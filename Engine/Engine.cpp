@@ -6,12 +6,11 @@
 
 namespace bnhe
 {
-	Engine engine;
-
 	bool Engine::Initialize(int resolution_x, int resolution_y) {
 		m_input.Initialize();
 		m_renderer.Initialize("Game Engine", resolution_x, resolution_y);
 		Random::SetResolution(resolution_x, resolution_y);
+		std::cout << "Engine initialized!" << "\n";
 		return true;
 	}
 

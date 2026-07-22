@@ -6,13 +6,14 @@ void Player::Update(float delta) {
     
     Vector2 force = Vector2(0, 0);
 
-    if (engine.GetInput().GetKeyDown(SDL_SCANCODE_W)) force.y = -speed;
-    if (engine.GetInput().GetKeyDown(SDL_SCANCODE_A)) force.x = -speed;
-    if (engine.GetInput().GetKeyDown(SDL_SCANCODE_S)) force.y = +speed;
-    if (engine.GetInput().GetKeyDown(SDL_SCANCODE_D)) force.x = +speed;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_W)) force.y = -speed;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_A)) force.x = -speed;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_S)) force.y = +speed;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_D)) force.x = +speed;
 
-    SetVelocity(GetVelocity() + force * engine.GetTime().GetDeltaTime());
-    float targetRot = GetTransform().position.DirectionTo(engine.GetInput().GetMousePosition());
+    SetVelocity(GetVelocity() + force * delta);
+
+    float targetRot = GetTransform().position.AngleTo(Engine::Get().GetInput().GetMousePosition());
     SetRotation(targetRot);
 
     Actor::Update(delta);
