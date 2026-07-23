@@ -6,6 +6,7 @@
 
 #include "Engine.h"
 #include "Player.h"
+#include "Enemy.h"
 
 const int RESOLUTION_X = 1920;
 const int RESOLUTION_Y = 1200;
@@ -98,28 +99,37 @@ int main()
     // Values
     ///
 
+    // Scene
+    Scene scene = Scene();
+
+
     // Player
+    Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(16.0f));
     Mesh mesh0{ {Vector2(-4,0),Vector2(-2,-4),Vector2(0,-2),Vector2(1,-5),Vector2(2,5),Vector2(3,1),Vector2(7,0)}, Color(0.f, 1.f, 0.f) };
     Mesh mesh1{ {Vector2(-4,0),Vector2(-2,4),Vector2(0,2),Vector2(1,5),Vector2(2,-5),Vector2(3,-1),Vector2(7,0)}, Color(1.f, 0.f, 1.f) };
     Model model = { {mesh0, mesh1} };
-    Player player{ 3000.0f, Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(16.0f)), model };
+    Player player{ 3000.0f, pTransform, model };
+    scene.AddActor(&player);
+
+    // Enemies
+    Transform enemyTransform{ Random::PointOnScreen(), 0.0f, Vector2(16.0f) };
+    Mesh enemyMesh0{ {Vector2(4,4),Vector2(-4,-4)}, Color(1,0,0) };
+    Mesh enemyMesh1{ {Vector2(4,-4),Vector2(-4,4)}, Color(1,0.5,0) };
+    Model enemyModel{ {enemyMesh0,enemyMesh1} };
+    std::vector<Enemy> enemies;
+    // TODO Figure out how to put them in a for loop
+    Enemy enemy{ enemyTransform, enemyModel };
+    enemy.SetTarget(&player);
+    scene.AddActor(&enemy);
 
     // Drawing
-    std::vector<Vector2> points;
-    Vector2* prevPoint = nullptr;
     Color backgroundColor = Color(0, 0, 0);
-    Color color = Color();
-    int minDrawDistance = 15;
 
     // Test menu
     Vector2 menuPosOpen = Vector2(RESOLUTION_Xf / 2.0f, RESOLUTION_Yf / 2.0f);
     Vector2 menuPosClosed = Vector2(-RESOLUTION_Xf / 2.0f, RESOLUTION_Yf / 2.0f);
     Vector2 menuPos = menuPosClosed;
     bool menuOpen = false;
-
-    // Scene
-    Scene scene = Scene();
-    scene.AddActor(&player);
 
     // Sounds
     std::vector<FMOD::Sound*> sounds;
@@ -191,21 +201,6 @@ int main()
 
         engine.GetRenderer().SetColor(backgroundColor); // Set render draw color to black
         engine.GetRenderer().Clear();                // Clear the renderer
-
-        // Preview next line
-        if (points.size() >= 1) {
-            engine.GetRenderer().SetColor(Color(125, 125, 125));
-            engine.GetRenderer().DrawLine(points[points.size() - 1].x, points[points.size() - 1].y, engine.GetInput().GetMousePosition().x, engine.GetInput().GetMousePosition().y);
-        }
-
-        // Drawing!
-        for (int i = 0; i < points.size(); i++) {
-            engine.GetRenderer().SetColor(color);
-            Vector2 prev;
-            if (i == 0) prev = points[i];
-            else prev = points[i-1];
-            engine.GetRenderer().DrawLine(prev.x, prev.y, points[i].x, points[i].y);
-        }
 
         // Test Menu
         engine.GetRenderer().SetColor(0, 0, 1.f);

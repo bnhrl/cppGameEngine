@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include "Vector2.h"
 
 namespace bnhe
 {
@@ -21,6 +22,7 @@ namespace bnhe
 
 		static int PointOnScreenX();
 		static int PointOnScreenY();
+		static Vector2 PointOnScreen();
 
 	private:
 		static int m_resolution_x;

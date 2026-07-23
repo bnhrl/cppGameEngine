@@ -47,4 +47,8 @@ namespace bnhe
 	{
 		return Int(m_resolution_y);
 	}
+
+	Vector2 Random::PointOnScreen() {
+		return Vector2(Random::PointOnScreenX(), Random::PointOnScreenY());
+	}
 }
