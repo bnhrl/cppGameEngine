@@ -14,11 +14,13 @@ namespace bnhe {
         Actor(const Transform& transform, const Model& model) : m_transform{ transform }, m_model{ model } {}
 
         virtual void Update(float delta);
-
         virtual void Draw(const class Renderer& renderer) const;
 
         const Transform& GetTransform() { return m_transform; }
         const Vector2 GetVelocity() { return m_velocity; }
+        Scene* GetScene() const { return m_scene; }
+        friend class Scene;
+        Model GetModel() const { return m_model; }
 
         void SetPosition(const Vector2 position) { m_transform.position = position; }
         void SetRotation(float rotation) { m_transform.rotation = rotation; }
@@ -26,9 +28,21 @@ namespace bnhe {
         void SetVelocity(const Vector2 velocity) { m_velocity = velocity; }
         void SetModel(const Model& model) { m_model = model; }
 
-        Scene* GetScene() const { return m_scene; }
-        friend class Scene;
-        Model GetModel() const { return m_model; }
+        bool HasTag(std::string tag) { 
+            auto found = std::find(m_tags.begin(), m_tags.end(), tag);
+
+            if (found != m_tags.end()) { return true; }
+            return false;
+        }
+        void AddTag(std::string tag) { m_tags.push_back(tag); }
+        bool RemoveTag(std::string tag) {
+            if (!HasTag(tag)) return false;
+            std::erase(m_tags, tag);
+        }
+
+        float GetRadius() const;
+        virtual void OnCollision(Actor* actor);
+
 
     protected:
         std::string m_name;
@@ -36,6 +50,8 @@ namespace bnhe {
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
         Model m_model;
+
+        std::vector<std::string> m_tags;
 
         Scene* m_scene = nullptr;
     };

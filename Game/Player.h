@@ -7,7 +7,7 @@ using namespace bnhe;
 class Player : public Actor {
 public:
 	Player() = default;
-	Player(float speed, const Transform& transform, const Model& model) : m_speed{ speed }, Actor { transform, model } {}
+	Player(float speed, const Transform& transform, const Model& model) : m_speed{ speed }, Actor{ transform, model } { AddTag("Player"); }
 
 	virtual void Update(float delta) override;
 	virtual void Draw(const class Renderer& renderer) const;

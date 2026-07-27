@@ -7,12 +7,13 @@ using namespace bnhe;
 class Enemy : public bnhe::Actor {
 public:
 	Enemy() = default;
-	Enemy(const Transform& transform, const Model& model) : Actor{ transform, model } {}
+	Enemy(const Transform& transform, const Model& model) : Actor{ transform, model } { AddTag("Enemy"); }
 
 	virtual void Update(float delta) override;
 	virtual void Draw(const class Renderer& renderer) const;
 
 	void SetTarget(Actor* actor) { m_target = actor; }
+	virtual void OnCollision(Actor* actor) override;
 
 protected:
 	Actor* m_target = nullptr;

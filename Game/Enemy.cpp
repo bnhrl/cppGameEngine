@@ -8,7 +8,8 @@ void Enemy::Update(float delta)
 		force = m_transform.position.DirectionTo(m_target->GetTransform().position) * -m_speed;
 		SetVelocity(GetVelocity() + force * delta);
 
-		SetRotation(m_transform.position.AngleTo(m_target->GetTransform().position));
+		float targetRot = m_transform.position.AngleTo(m_target->GetTransform().position);
+		SetRotation(targetRot);
 	}
 
 	Actor::Update(delta);
@@ -16,4 +17,9 @@ void Enemy::Update(float delta)
 
 void Enemy::Draw(const class Renderer& renderer) const {
 	Actor::Draw(renderer);
+}
+
+void Enemy::OnCollision(Actor* actor)
+{
+	
 }

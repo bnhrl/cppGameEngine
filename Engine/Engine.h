@@ -11,6 +11,7 @@
 #include "GameTime.h"
 #include "Renderer.h"
 #include "Input.h"
+#include "Audio.h"
 #include "Scene.h"
 #include "Actor.h"
 
@@ -25,10 +26,12 @@ namespace bnhe
 		void Shutdown();
 
 		void Update();
+		void UpdateAudio();
 
 		Input& GetInput() { return m_input; }
 		Renderer& GetRenderer() { return m_renderer; }
 		Time& GetTime() { return m_time; }
+		Audio& GetAudio() { return m_audio; }
 
 	private:
 		Engine() = default;
@@ -36,5 +39,6 @@ namespace bnhe
 		Input m_input;
 		Renderer m_renderer;
 		Time m_time;
+		Audio m_audio;
 	};
 }

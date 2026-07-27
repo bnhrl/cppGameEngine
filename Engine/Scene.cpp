@@ -13,4 +13,18 @@ namespace bnhe {
 			actor->Draw(renderer);
 		}
 	}
+
+	void Scene::UpdateCollisions() {
+		for (auto& actorA : m_actors) {
+			for (auto& actorB : m_actors) {
+				if (actorA == actorB) break;
+
+				float distance = (actorA->GetTransform().position.DistanceTo(actorB->GetTransform().position));
+				if (distance <= actorA->GetRadius() + actorB->GetRadius()) {
+					actorA->OnCollision(actorB);
+					actorB->OnCollision(actorA);
+				}
+			}
+		}
+	}
 }

@@ -19,4 +19,12 @@ namespace bnhe
     {
         renderer.DrawModel(m_model, m_transform);
     }
+
+    float Actor::GetRadius() const {
+        return m_model.GetRadius() * m_transform.scale.Length() * 0.9f;
+    }
+
+    void Actor::OnCollision(Actor* actor) {
+
+    }
 }

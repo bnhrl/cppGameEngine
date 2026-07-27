@@ -76,8 +76,6 @@ namespace bnhe {
 			
 			float theta = math::Clamp(Dot(v) / (this->Length() * v.Length()), -1.0f, 1.0f);
 
-			std::cout << acos(theta) << "\n";
-
 			return acos(theta);
 		}
 		float AngleBetweenSigned(const Vector2& v) const {

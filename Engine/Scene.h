@@ -28,6 +28,8 @@ namespace bnhe {
 			return nullptr;
 		}
 
+		void UpdateCollisions();
+
 	private:
 		std::vector<Actor*> m_actors;
 	};
