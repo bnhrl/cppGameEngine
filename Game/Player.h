@@ -12,7 +12,7 @@ public:
 		AddTag("Player"); 
 		m_effect_transform = transform;
 		m_effect_model = Models::PlayerModel();
-		SetSoulMode(ORANGE);
+		SetSoulMode(RED);
 	}
 
 	virtual void Update(float delta) override;
@@ -24,8 +24,15 @@ public:
 	void SetSoulMode(SoulMode mode);
 
 private:
-	int m_ammo = 0;
+	// Stats
+	int m_health = 20;
+	float m_invincibility_time = 0.0f;
 	float m_speed = 10.0f;
+
+	// Visuals
+	Color m_color = Color(1.f, 0.f, 0.f, 1.f);
+
+	// Effects
 	Model m_effect_model;
 	Transform m_effect_transform;
 	bool m_effect_growing = true;

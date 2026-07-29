@@ -61,6 +61,7 @@ namespace bnhe {
 			float speed = std::exp(-multiplier * delta);
 			temp.x = target.x + (temp.x - target.x) * speed;
 			temp.y = target.y + (temp.y - target.y) * speed;
+			temp.z = target.z + (temp.z - target.z) * speed;
 			return temp;
 		}
 	};

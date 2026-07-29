@@ -14,6 +14,7 @@
 #include "Renderer.h"
 #include "Input.h"
 #include "Audio.h"
+#include "ParticleSystem.h"
 #include "Scene.h"
 #include "Actor.h"
 
@@ -34,6 +35,7 @@ namespace bnhe
 		Renderer& GetRenderer() { return m_renderer; }
 		Time& GetTime() { return m_time; }
 		Audio& GetAudio() { return m_audio; }
+		ParticleSystem& GetPS() { return m_particle_system; }
 
 	private:
 		Engine() = default;
@@ -42,5 +44,6 @@ namespace bnhe
 		Renderer m_renderer;
 		Time m_time;
 		Audio m_audio;
+		ParticleSystem m_particle_system;
 	};
 }

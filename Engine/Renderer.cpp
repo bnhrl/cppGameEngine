@@ -66,20 +66,18 @@ namespace bnhe
 
 
     // Color?
-    /*void Renderer::SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const 
-    {
-        SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
-    }*/
-
     void Renderer::SetColor(float r, float g, float b, float a) const
     {
-        SDL_SetRenderDrawColor(m_renderer, r/255, g/255, b/255, a/255);
+        r = math::Clamp(r * 255.f, 0.f, 255.f);
+        g = math::Clamp(g * 255.f, 0.f, 255.f);
+        b = math::Clamp(b * 255.f, 0.f, 255.f);
+        a = math::Clamp(a * 255.f, 0.f, 255.f);
+        SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
     }
 
     void Renderer::SetColor(Color color) const
     {
-        Color temp = color.ToUint8_T();
-        SDL_SetRenderDrawColor(m_renderer, temp.r, temp.g, temp.b, temp.a);
+        SetColor(color.r, color.g, color.b, color.a);
     }
 
 
@@ -88,6 +86,11 @@ namespace bnhe
     void Renderer::DrawPoint(float x, float y) const
     {
         SDL_RenderPoint(m_renderer, x, y);
+    }
+
+    void Renderer::DrawPoint(Vector2 position) const 
+    {
+        SDL_RenderPoint(m_renderer, position.x, position.y);
     }
 
     void Renderer::DrawLine(float x1, float y1, float x2, float y2) const

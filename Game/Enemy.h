@@ -7,7 +7,7 @@ using namespace bnhe;
 class Enemy : public bnhe::Actor {
 public:
 	Enemy() = default;
-	Enemy(const Transform& transform, const Model& model) : Actor{ transform, model } { AddTag("Enemy"); }
+	Enemy(const Transform& transform, const Model& model) : Actor{ transform, model } { AddTag("DamagesPlayer"); }
 
 	virtual void Update(float delta) override;
 	virtual void Draw(const class Renderer& renderer) const;

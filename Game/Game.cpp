@@ -28,10 +28,10 @@ int main()
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
 
     Font* font = new Font();
-    font->Load("Pixelzone.ttf", 96);
+    font->Load("Pixelzone.ttf", 64);
 
     Text* text = new Text(font);
-    text->Create(engine.GetRenderer(), "Hello World", Color{ 1, 1, 1, 1 });
+    text->Create(engine.GetRenderer(), "20 / 20", Color{ 1, 1, 1, 1 });
 
 
 
@@ -109,15 +109,16 @@ int main()
             engine.GetAudio().PlaySound("test_2");
         }
 
-        scene.Draw(engine.GetRenderer());
-        text->Draw(engine.GetRenderer(), 128, 128);
-        engine.GetRenderer().Present(); // Render the screen
-
 
 
         ///
         // Render
         ///
+
+        scene.Draw(engine.GetRenderer());
+        text->Draw(engine.GetRenderer(), RESOLUTION_X * 0.45f, RESOLUTION_Y-96);
+        engine.GetPS().Draw(engine.GetRenderer());
+        engine.GetRenderer().Present(); // Render the screen
 
         engine.GetRenderer().SetColor(backgroundColor); // Set render draw color to black
         engine.GetRenderer().Clear();                // Clear the renderer

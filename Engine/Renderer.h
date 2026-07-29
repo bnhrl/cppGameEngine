@@ -25,6 +25,7 @@ namespace bnhe
 		void SetColor(Color color) const;
 
 		void DrawPoint(float x, float y) const;
+		void DrawPoint(Vector2 position) const;
 		void DrawLine(float x1, float y1, float x2, float y2) const;
 		void DrawRect(float x, float y, float w, float h) const;
 		void DrawRect(SDL_FRect rect) const;
