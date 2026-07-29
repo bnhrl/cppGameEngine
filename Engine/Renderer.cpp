@@ -33,6 +33,11 @@ namespace bnhe
             return false;
         }
 
+        if (!TTF_Init()) {
+            std::cerr << "TTF_Init Error: " << SDL_GetError() << std::endl;
+            return false;
+        }
+
         SDL_SetRenderVSync(m_renderer, 1); 
 
 		return true;
@@ -52,6 +57,7 @@ namespace bnhe
 
     void Renderer::Shutdown()
     {
+        TTF_Quit();
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyWindow(m_window);
         SDL_Quit();

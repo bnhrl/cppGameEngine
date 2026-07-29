@@ -8,9 +8,10 @@
 #include "Engine.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Models.h"
 
-const int RESOLUTION_X = 1920;
-const int RESOLUTION_Y = 1200;
+const int RESOLUTION_X = 640;
+const int RESOLUTION_Y = 480;
 const float RESOLUTION_Xf = RESOLUTION_X;
 const float RESOLUTION_Yf = RESOLUTION_Y;
 
@@ -26,6 +27,12 @@ int main()
     Engine& engine = Engine::Get();
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
 
+    Font* font = new Font();
+    font->Load("Pixelzone.ttf", 96);
+
+    Text* text = new Text(font);
+    text->Create(engine.GetRenderer(), "Hello World", Color{ 1, 1, 1, 1 });
+
 
 
     ///
@@ -37,11 +44,8 @@ int main()
 
 
     // Player
-    Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(16.0f));
-    Mesh mesh0{ {Vector2(-4,0),Vector2(-2,-4),Vector2(0,-2),Vector2(1,-5),Vector2(2,5),Vector2(3,1),Vector2(7,0)}, Color(0.f, 1.f, 0.f) };
-    Mesh mesh1{ {Vector2(-4,0),Vector2(-2,4),Vector2(0,2),Vector2(1,5),Vector2(2,-5),Vector2(3,-1),Vector2(7,0)}, Color(1.f, 0.f, 1.f) };
-    Model model = { {mesh0, mesh1} };
-    Player player{ 3000.0f, pTransform, model };
+    Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(4.0f));
+    Player player{ pTransform};
     scene.AddActor(&player);
 
     // Enemies
@@ -57,12 +61,6 @@ int main()
 
     // Drawing
     Color backgroundColor = Color(0, 0, 0);
-
-    // Test menu
-    Vector2 menuPosOpen = Vector2(RESOLUTION_Xf / 2.0f, RESOLUTION_Yf / 2.0f);
-    Vector2 menuPosClosed = Vector2(-RESOLUTION_Xf / 2.0f, RESOLUTION_Yf / 2.0f);
-    Vector2 menuPos = menuPosClosed;
-    bool menuOpen = false;
 
 
 
@@ -99,9 +97,6 @@ int main()
         // Input
         ///
 
-        // Test menu
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_TAB)) menuOpen = !menuOpen;
-
         // Sounds
         if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1))
         {
@@ -116,13 +111,8 @@ int main()
             engine.GetAudio().PlaySound("test_2");
         }
 
-        // Test Menu
-        engine.GetRenderer().SetColor(0, 0, 1.f);
-        if (menuOpen) { menuPos = menuPos.Lerp(menuPosOpen, 16.0f, delta); }
-        else { menuPos = menuPos.Lerp(menuPosClosed, 16.0f, delta);; }
-        engine.GetRenderer().DrawRect(menuPos, Vector2(1280, 640));
-
         scene.Draw(engine.GetRenderer());
+        text->Draw(engine.GetRenderer(), 128, 128);
         engine.GetRenderer().Present(); // Render the screen
 
 

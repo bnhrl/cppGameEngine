@@ -12,6 +12,7 @@ namespace bnhe {
 
 		void AddMesh(const Mesh& mesh) { m_meshes.push_back(mesh); CalculateRadius(); }
 		void SetMeshes(const std::vector<Mesh>& meshes) { m_meshes = meshes; CalculateRadius(); }
+		void SetMeshColor(const Color& color) { for (auto mesh : m_meshes) { mesh.SetColor(color); } }
 		const std::vector<Mesh>& GetMeshes() const { return m_meshes; }
 
 		float GetRadius() const { return m_radius; }

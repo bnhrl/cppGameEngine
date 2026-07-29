@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
 #include "Color.h"
 #include "Vector2.h"
 #include "Model.h"
@@ -40,5 +42,7 @@ namespace bnhe
 
 		static int m_width;
 		static int m_height;
+
+		friend class Text;
 	};
 }

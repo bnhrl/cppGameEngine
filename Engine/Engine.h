@@ -7,6 +7,8 @@
 #include "Vector3.h"
 #include "Transform.h"
 #include "MathUtils.h"
+#include "Font.h"
+#include "Text.h"
 
 #include "GameTime.h"
 #include "Renderer.h"
