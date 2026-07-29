@@ -8,8 +8,8 @@ void Enemy::Update(float delta)
 		force = m_transform.position.DirectionTo(m_target->GetTransform().position) * -m_speed;
 		SetVelocity(GetVelocity() + force * delta);
 
-		float targetRot = m_transform.position.AngleTo(m_target->GetTransform().position);
-		SetRotation(targetRot);
+		//float targetRot = m_transform.position.AngleTo(m_target->GetTransform().position);
+		//SetRotation(targetRot);
 	}
 
 	Actor::Update(delta);

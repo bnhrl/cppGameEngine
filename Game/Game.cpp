@@ -10,8 +10,8 @@
 #include "Enemy.h"
 #include "Models.h"
 
-const int RESOLUTION_X = 640;
-const int RESOLUTION_Y = 480;
+const int RESOLUTION_X = 1280;
+const int RESOLUTION_Y = 960;
 const float RESOLUTION_Xf = RESOLUTION_X;
 const float RESOLUTION_Yf = RESOLUTION_Y;
 
@@ -49,13 +49,10 @@ int main()
     scene.AddActor(&player);
 
     // Enemies
-    Transform enemyTransform{ Random::PointOnScreen(), 0.0f, Vector2(16.0f) };
-    Mesh enemyMesh0{ {Vector2(4,4),Vector2(-4,-4),Vector2(0,4)}, Color(1,0,0)};
-    Mesh enemyMesh1{ {Vector2(4,-4),Vector2(-4,4),Vector2(0,-4)}, Color(1,0.5,0)};
-    Model enemyModel{ {enemyMesh0,enemyMesh1} };
+    Transform enemyTransform{ Random::PointOnScreen(), 0.0f, Vector2(4.0f) };
     std::vector<Enemy> enemies;
     // TODO Figure out how to put them in a for loop
-    Enemy enemy{ enemyTransform, enemyModel };
+    Enemy enemy{ enemyTransform, Models::PlayerModel() };
     enemy.SetTarget(&player);
     scene.AddActor(&enemy);
 
@@ -90,6 +87,7 @@ int main()
         engine.Update();
         float delta = engine.GetTime().GetDeltaTime();
         scene.Update(delta);
+        scene.UpdateCollisions();
 
 
 

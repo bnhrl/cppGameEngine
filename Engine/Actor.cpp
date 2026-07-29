@@ -24,7 +24,5 @@ namespace bnhe
         return m_model.GetRadius() * m_transform.scale.Length() * 0.9f;
     }
 
-    void Actor::OnCollision(Actor* actor) {
-
-    }
+    void Actor::OnCollision(Actor* actor) {}
 }

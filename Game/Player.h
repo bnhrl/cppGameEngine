@@ -8,14 +8,17 @@ using namespace bnhe;
 class Player : public Actor {
 public:
 	Player() = default;
-	Player(const Transform& transform) : m_speed{ 1000.f }, Actor{ transform, Models::PlayerModel() } {
+	Player(const Transform& transform) : m_speed{ 500 }, Actor{ transform, Models::PlayerModel() } {
 		AddTag("Player"); 
 		m_effect_transform = transform;
 		m_effect_model = Models::PlayerModel();
+		SetSoulMode(ORANGE);
 	}
 
 	virtual void Update(float delta) override;
 	virtual void Draw(const class Renderer& renderer) const;
+
+	virtual void OnCollision(Actor* actor);
 
 	enum SoulMode {RED, ORANGE, YELLOW};
 	void SetSoulMode(SoulMode mode);

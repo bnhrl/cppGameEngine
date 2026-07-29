@@ -9,7 +9,7 @@ namespace bnhe
 		for (const Mesh& mesh : m_meshes) {
 			float radius = mesh.GetRadius();
 
-			if (radius < m_radius) m_radius = radius;
+			if (radius > m_radius) m_radius = radius;
 		}
 
 		return m_radius;

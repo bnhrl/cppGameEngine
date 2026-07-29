@@ -16,11 +16,12 @@ namespace bnhe {
         virtual void Update(float delta);
         virtual void Draw(const class Renderer& renderer) const;
 
+        const std::string GetName() { return m_name; }
         const Transform& GetTransform() { return m_transform; }
         const Vector2 GetVelocity() { return m_velocity; }
+        Model GetModel() const { return m_model; }
         Scene* GetScene() const { return m_scene; }
         friend class Scene;
-        Model GetModel() const { return m_model; }
 
         void SetPosition(const Vector2 position) { m_transform.position = position; }
         void SetRotation(float rotation) { m_transform.rotation = rotation; }

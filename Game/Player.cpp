@@ -14,6 +14,7 @@ void Player::Update(float delta) {
     SetVelocity(Vector2(0.0f));
 
     m_effect_transform.position = GetTransform().position;
+    m_effect_transform.rotation = GetTransform().rotation;
     if (m_effect_growing)
         m_effect_transform.scale = m_effect_transform.scale.Lerp(Vector2(5.f), 4.f, delta);
     else
@@ -28,15 +29,30 @@ void Player::Draw(const class Renderer& renderer) const {
     renderer.DrawModel(m_model, m_effect_transform);
 }
 
+void Player::OnCollision(Actor* actor) {
+    std::cout << actor->GetTransform().rotation << "\n";
+}
+
+
 void Player::SetSoulMode(SoulMode mode)
 {
-    switch (mode) {
-    case RED:
-        m_model.GetMeshes()
-        break;
-    case YELLOW:
-        break;
-    case ORANGE:
-        break;
+    std::cout << "SWAPPING SOUL MODE TO " << mode << "\n";
+    switch (mode) 
+    {
+        case ORANGE:
+            m_model.SetMeshColor(Color(1.f, .5f, 0.f));
+            m_effect_model.SetMeshColor(Color(.75f, .25f, 0.f));
+            m_transform.rotation = -math::PI;
+            break;
+        case YELLOW:
+            m_model.SetMeshColor(Color(1.f, 1.f, 0.f));
+            m_effect_model.SetMeshColor(Color(.75f, .75f, 0.f));
+            m_transform.rotation = -math::PI;
+            break;
+        default:
+            m_model.SetMeshColor(Color(1.f, 0.f, 0.f));
+            m_effect_model.SetMeshColor(Color(.75f, 0.f, 0.f));
+            m_transform.rotation = 0.0f;
+            break;
     }
 }
