@@ -36,14 +36,40 @@ int main()
     // Values
     ///
 
-    // Scene
-    Scene scene = Scene();
+    // Scenes
+    float points = 0.f;
+    // Menu scene
+    Scene* menuScene = new Scene("Menu");
+    Text* textTitle = new Text(engine.GetFontBig()); textTitle->Create(engine.GetRenderer(), "UNNAMED C++ GAME", Color{ 1, 1, 1, 1 });
+    Text* textInstructions = new Text(engine.GetFont()); 
+    textInstructions->Create(engine.GetRenderer(),
+        "[ARROW KEYS] to MOVE. [X] to MOVE SLOWER." 
+        "                                              "
+        "Press [Z] to attack when you have a POWER-UP."
+        "                                              "
+        "Press [C] to FLIP."
+        "                                              "
+        "SURVIVE or DEFEAT ENEMIES to gain POINTs."
+        "                                              "
+        "Press [Z] to START!",
+        Color{ 1, 1, 1, 1 }, 720);
+    Text* textCredits = new Text(engine.GetFont()); textCredits->Create(engine.GetRenderer(), "[heavily inspired by UNDERTALE/deltarune]", Color{ 1, 1, 1, 1 });
+    // Game scene
+    Scene* gameScene = new Scene("Game");
+    Text* textPoints = new Text(engine.GetFont()); textTitle->Create(engine.GetRenderer(), "0 POINTs", Color{ 1, 1, 1, 1 });
+    // Death scene
+    Scene* deathScene = new Scene("Death");
+    // Adding scenes to SceneManager
+    engine.GetSM().AddScene(menuScene);
+    engine.GetSM().AddScene(gameScene);
+    engine.GetSM().AddScene(deathScene);
+    engine.GetSM().SetActiveScene("Menu");
 
 
     // Player
     Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(4.0f));
     Player player{ pTransform};
-    scene.AddActor(&player);
+    gameScene->AddActor(&player);
 
     // Enemies
     std::vector<Enemy*> enemies;
@@ -51,7 +77,7 @@ int main()
         Transform enemyTransform{ Random::PointOnScreen(), 0.0f, Vector2(4.0f) };
         Enemy* enemy = new Enemy(enemyTransform, Models::PlayerModel());
         enemy->SetTarget(&player);
-        scene.AddActor(enemy);
+        gameScene->AddActor(enemy);
         enemies.push_back(enemy);
     }
 
@@ -78,6 +104,29 @@ int main()
         }
 
 
+        ///
+        // Scenes
+        ///
+        if (engine.GetSM().GetActiveScene() == menuScene) 
+        {
+            textTitle->Draw(engine.GetRenderer(), 32, 32);
+            textInstructions->Draw(engine.GetRenderer(), 32, 160);
+            textCredits->Draw(engine.GetRenderer(), 32, RESOLUTION_Y - 82);
+            if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_Z)) engine.GetSM().SetActiveScene("Game");
+        }
+        else if (engine.GetSM().GetActiveScene() == gameScene) {
+            points += engine.GetTime().GetDeltaTime();
+            textPoints->Create(engine.GetRenderer(), std::to_string((int)points) + " POINTs", Color{ 1, 1, 1, 1 });
+            textPoints->Draw(engine.GetRenderer(), RESOLUTION_Xf * 0.45f, 16);
+
+            for (auto enemy : enemies) {
+                if (enemy->IsDestroyed()) {
+                    //TODO: respawning enemies
+                }
+            }
+        }
+
+
 
         ///
         // Engine
@@ -85,8 +134,6 @@ int main()
 
         engine.Update();
         float delta = engine.GetTime().GetDeltaTime();
-        scene.Update(delta);
-        scene.UpdateCollisions();
 
 
 
@@ -94,7 +141,7 @@ int main()
         // Render
         ///
 
-        scene.Draw(engine.GetRenderer());
+        engine.GetSM().GetActiveScene()->Draw(engine.GetRenderer());
         engine.GetPS().Draw(engine.GetRenderer());
         engine.GetRenderer().Present(); // Render the screen
 

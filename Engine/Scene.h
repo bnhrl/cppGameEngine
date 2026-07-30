@@ -7,6 +7,9 @@
 namespace bnhe {
 	class Scene {
 	public:
+		Scene(std::string name) : name{ name } {}
+		std::string name = "Scene";
+
 		void AddActor(Actor* actor) 
 		{ 
 			actor->m_scene = this;

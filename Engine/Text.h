@@ -11,7 +11,7 @@ namespace bnhe {
 		Text(Font* font) : m_font{ font } {}
 		~Text();
 
-		bool Create(Renderer& renderer, const std::string& text, const Color& color);
+		bool Create(Renderer& renderer, const std::string& text, const Color& color, int wrap_length = 0);
 		void Draw(Renderer& renderer, float x, float y);
 
 	private:

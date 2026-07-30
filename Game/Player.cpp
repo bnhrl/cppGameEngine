@@ -20,7 +20,7 @@ void Player::Update(float delta) {
     switch (m_soulmode) {
         case RED:
             break;
-        case YELLOW: // TODO add shooting
+        case YELLOW: // TODO: add shooting
             if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_Z)) { // Charge Shot
                 if ((int)(m_charge * 100) % 13 == 0 && m_charge < .5f) Engine::Get().GetAudio().PlaySound("player_charge");
                 m_charge += delta;
@@ -63,7 +63,7 @@ void Player::Update(float delta) {
 
     // Movement
     if (m_soulmode != RED) SetRotation(m_dir.Angle() + math::PI);
-    else SetRotation(math::PI);
+    else SetRotation(math::PI*2.0);
     SetVelocity(force);
     m_transform.position += m_velocity * delta;
     m_transform.position += m_dash_force * delta;

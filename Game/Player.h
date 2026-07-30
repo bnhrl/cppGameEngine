@@ -37,6 +37,8 @@ public:
 		if (m_health > 20) m_health = 20;
 		else if (m_health < 0) m_health = 0;
 
+		if (m_health <= 0) Destroy();
+
 		UpdateHPText(); 
 	}
 	void Heal() { 

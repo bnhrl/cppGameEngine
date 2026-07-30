@@ -43,6 +43,7 @@ namespace bnhe {
         float GetRadius() const;
         virtual void OnCollision(Actor* actor);
         virtual void Destroy();
+        bool IsDestroyed() { return destroyed; }
 
     protected:
         std::string m_name;

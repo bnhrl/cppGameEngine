@@ -17,6 +17,7 @@
 #include "ParticleSystem.h"
 #include "Scene.h"
 #include "Actor.h"
+#include "SceneManager.h"
 
 
 namespace bnhe 
@@ -37,6 +38,8 @@ namespace bnhe
 		Audio& GetAudio() { return m_audio; }
 		ParticleSystem& GetPS() { return m_particle_system; }
 		Font* GetFont() const { return m_font; }
+		Font* GetFontBig() const { return m_font_big; }
+		SceneManager& GetSM() { return m_scene_manager; }
 
 	private:
 		Engine() = default;
@@ -47,5 +50,7 @@ namespace bnhe
 		Audio m_audio;
 		ParticleSystem m_particle_system;
 		Font* m_font;
+		Font* m_font_big;
+		SceneManager m_scene_manager;
 	};
 }
