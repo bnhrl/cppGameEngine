@@ -31,7 +31,6 @@ namespace bnhe {
 
         bool HasTag(std::string tag) { 
             auto found = std::find(m_tags.begin(), m_tags.end(), tag);
-
             if (found != m_tags.end()) { return true; }
             return false;
         }
@@ -43,7 +42,7 @@ namespace bnhe {
 
         float GetRadius() const;
         virtual void OnCollision(Actor* actor);
-
+        virtual void Destroy();
 
     protected:
         std::string m_name;
@@ -51,6 +50,7 @@ namespace bnhe {
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
         Model m_model;
+        bool destroyed = false;
 
         std::vector<std::string> m_tags;
 

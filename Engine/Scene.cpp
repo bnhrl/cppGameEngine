@@ -17,7 +17,7 @@ namespace bnhe {
 	void Scene::UpdateCollisions() {
 		for (auto& actorA : m_actors) {
 			for (auto& actorB : m_actors) {
-				if (actorA == actorB) break;
+				if (actorA == actorB || actorA->destroyed || actorB->destroyed) break;
 
 				float distance = (actorA->GetTransform().position.DistanceTo(actorB->GetTransform().position));
 				if (distance <= actorA->GetRadius() + actorB->GetRadius()) {

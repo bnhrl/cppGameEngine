@@ -27,11 +27,8 @@ int main()
     Engine& engine = Engine::Get();
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
 
-    Font* font = new Font();
-    font->Load("Pixelzone.ttf", 64);
-
-    Text* text = new Text(font);
-    text->Create(engine.GetRenderer(), "20 / 20", Color{ 1, 1, 1, 1 });
+    //Text* text = new Text(engine.GetFont());
+    //text->Create(engine.GetRenderer(), "20 / 20", Color{ 1, 1, 1, 1 });
 
 
 
@@ -49,12 +46,14 @@ int main()
     scene.AddActor(&player);
 
     // Enemies
-    Transform enemyTransform{ Random::PointOnScreen(), 0.0f, Vector2(4.0f) };
-    std::vector<Enemy> enemies;
-    // TODO Figure out how to put them in a for loop
-    Enemy enemy{ enemyTransform, Models::PlayerModel() };
-    enemy.SetTarget(&player);
-    scene.AddActor(&enemy);
+    std::vector<Enemy*> enemies;
+    for (int i = 0; i < 10; i++) {
+        Transform enemyTransform{ Random::PointOnScreen(), 0.0f, Vector2(4.0f) };
+        Enemy* enemy = new Enemy(enemyTransform, Models::PlayerModel());
+        enemy->SetTarget(&player);
+        scene.AddActor(enemy);
+        enemies.push_back(enemy);
+    }
 
     // Drawing
     Color backgroundColor = Color(0, 0, 0);
@@ -91,32 +90,11 @@ int main()
 
 
 
-        /// 
-        // Input
-        ///
-
-        // Sounds
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1))
-        {
-            engine.GetAudio().PlaySound("test_0");
-        }
-        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_2))
-        {
-            engine.GetAudio().PlaySound("test_1");
-        }
-        else if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_3))
-        {
-            engine.GetAudio().PlaySound("test_2");
-        }
-
-
-
         ///
         // Render
         ///
 
         scene.Draw(engine.GetRenderer());
-        text->Draw(engine.GetRenderer(), RESOLUTION_X * 0.45f, RESOLUTION_Y-96);
         engine.GetPS().Draw(engine.GetRenderer());
         engine.GetRenderer().Present(); // Render the screen
 

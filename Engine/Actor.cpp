@@ -8,6 +8,8 @@ namespace bnhe
 {
     void Actor::Update(float delta)
     {
+        if (destroyed) return;
+
         m_transform.position += (m_velocity * delta);
         m_velocity = m_velocity.Lerp(Vector2(0, 0), 6.7f, delta);
 
@@ -17,6 +19,7 @@ namespace bnhe
 
     void Actor::Draw(const class Renderer& renderer) const
     {
+        if (destroyed) return;
         renderer.DrawModel(m_model, m_transform);
     }
 
@@ -25,4 +28,6 @@ namespace bnhe
     }
 
     void Actor::OnCollision(Actor* actor) {}
+
+    void Actor::Destroy() { destroyed = true; }
 }

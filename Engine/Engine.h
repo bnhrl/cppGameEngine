@@ -36,6 +36,7 @@ namespace bnhe
 		Time& GetTime() { return m_time; }
 		Audio& GetAudio() { return m_audio; }
 		ParticleSystem& GetPS() { return m_particle_system; }
+		Font* GetFont() const { return m_font; }
 
 	private:
 		Engine() = default;
@@ -45,5 +46,6 @@ namespace bnhe
 		Time m_time;
 		Audio m_audio;
 		ParticleSystem m_particle_system;
+		Font* m_font;
 	};
 }

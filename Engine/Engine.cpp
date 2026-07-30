@@ -10,11 +10,16 @@ namespace bnhe
 	bool Engine::Initialize(int resolution_x, int resolution_y) {
 		SetWorkingDirectory("Assets");
 		std::cout << "Set working directory to " << GetWorkingDirectory() << "\n";
+
 		m_input.Initialize();
 		m_renderer.Initialize("Game Engine", resolution_x, resolution_y);
 		m_audio.Initialize();
 		m_particle_system.Initialize(5000);
+
 		Random::SetResolution(resolution_x, resolution_y);
+		m_font = new Font();
+		m_font->Load("Pixelzone.ttf", 64);
+
 		std::cout << "Engine initialized!" << "\n";
 		return true;
 	}
