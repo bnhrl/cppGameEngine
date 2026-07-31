@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "MathUtils.h"
+#include "Scene.h"
 
 namespace bnhe
 {
@@ -13,8 +14,11 @@ namespace bnhe
         m_transform.position += (m_velocity * delta);
         m_velocity = m_velocity.Lerp(Vector2(0, 0), 6.7f, delta);
 
-        m_transform.position.x = math::Wrap(m_transform.position.x, 0.0f, (float)Renderer::GetWidth());
-        m_transform.position.y = math::Wrap(m_transform.position.y, 0.0f, (float)Renderer::GetHeight());
+        //m_transform.position.x = math::Wrap(m_transform.position.x, 0.0f, (float)Renderer::GetWidth());
+        //m_transform.position.y = math::Wrap(m_transform.position.y, 0.0f, (float)Renderer::GetHeight());
+
+        if (m_transform.position.x < -16.f || m_transform.position.x > Renderer::GetWidth()+16.f) { Destroy(); }
+        else if (m_transform.position.y < -16.f || m_transform.position.y > Renderer::GetHeight()+16.f) { Destroy(); }
     }
 
     void Actor::Draw(const class Renderer& renderer) const
@@ -29,5 +33,8 @@ namespace bnhe
 
     void Actor::OnCollision(Actor* actor) {}
 
-    void Actor::Destroy() { destroyed = true; }
+    void Actor::Destroy() 
+    { 
+        destroyed = true;
+    }
 }

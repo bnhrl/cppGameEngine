@@ -3,9 +3,19 @@
 
 namespace bnhe {
 	void Scene::Update(float delta) {
-		for (auto actor : m_actors) {
-			actor->Update(delta);
+		std::vector<Actor*> removeThese;
+		for (auto* actor : m_actors) {
+			if (actor->IsDestroyed())
+				removeThese.push_back(actor);
+			else
+				actor->Update(delta);
 		}
+
+		for (auto* actor : removeThese) {
+			RemoveActor(actor);
+		}
+
+		AddPendingActors();
 	}
 
 	void Scene::Draw(const class Renderer& renderer) {

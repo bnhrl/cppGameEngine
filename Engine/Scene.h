@@ -13,7 +13,22 @@ namespace bnhe {
 		void AddActor(Actor* actor) 
 		{ 
 			actor->m_scene = this;
-			m_actors.push_back(actor); 
+			m_pending_actors.push_back(actor);
+		}
+
+		void RemoveActor(Actor* actor)
+		{
+			std::erase(m_actors, actor);
+			delete actor;
+			actor = nullptr;
+		}
+
+		void Clear() {
+			for (auto actor : m_actors) {
+				delete actor;
+				actor = nullptr;
+			}
+			m_actors.clear();
 		}
 
 		void Update(float delta);
@@ -35,5 +50,13 @@ namespace bnhe {
 
 	private:
 		std::vector<Actor*> m_actors;
+
+		std::vector<Actor*> m_pending_actors;
+		void AddPendingActors() {
+			for (auto* actor : m_pending_actors) {
+				m_actors.push_back(actor);
+			}
+			m_pending_actors.clear();
+		}
 	};
 }

@@ -25,7 +25,7 @@ void Enemy::OnCollision(Actor* actor)
 {
 	if (destroyed) { return; }
 
-	if (actor->HasTag("DamagesEnemy")) 
+	if (actor->HasTag("DamagesEnemy") || actor->HasTag("DamagesEverything"))
 	{
 		Color color = m_model.GetMeshes()[0].GetColor();
 		for (int i = 0; i < 10; i++)

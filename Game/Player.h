@@ -15,7 +15,7 @@ public:
 		m_effect_transform = transform;
 		m_effect_model = Models::PlayerModel();
 
-		SetSoulMode(ORANGE);
+		SetSoulMode(RED);
 
 		m_hp_text = new Text(Engine::Get().GetFont());
 		UpdateHPText();
@@ -33,16 +33,18 @@ public:
 	{ 
 		m_health -= 4; 
 		m_invincibility_time += 1.25f; 
+		Engine::Get().GetAudio().PlaySound("player_hurt");
 
 		if (m_health > 20) m_health = 20;
 		else if (m_health < 0) m_health = 0;
 
-		if (m_health <= 0) Destroy();
+		UpdateHPText();
 
-		UpdateHPText(); 
+		if (m_health <= 0) Destroy();
 	}
 	void Heal() { 
-		m_health += 4; 
+		m_health += 1; 
+		//Engine::Get().GetAudio().PlaySound("player_heal");
 
 		if (m_health > 20) m_health = 20;
 		else if (m_health < 0) m_health = 0;

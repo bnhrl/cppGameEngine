@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Bullet.h"
 
 void Player::Update(float delta) {
     // Input
@@ -15,22 +16,31 @@ void Player::Update(float delta) {
 
     if (m_sm_time_left <= 0.f && m_soulmode != RED) {
         SetSoulMode(RED);
-    } else m_sm_time_left -= delta;
+    } else if (m_sm_time_left > 0.f) m_sm_time_left -= delta;
 
     switch (m_soulmode) {
         case RED:
+            m_charge = 0.f;
             break;
-        case YELLOW: // TODO: add shooting
+        case YELLOW:
             if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_Z)) { // Charge Shot
                 if ((int)(m_charge * 100) % 13 == 0 && m_charge < .5f) Engine::Get().GetAudio().PlaySound("player_charge");
                 m_charge += delta;
             }
-            else if (Engine::Get().GetInput().GetKeyReleased(SDL_SCANCODE_Z)) {
-                if (m_charge >= .5f) {
-                    // Big Shot
+            else if (Engine::Get().GetInput().GetKeyReleased(SDL_SCANCODE_Z)) { 
+                if (m_charge >= .5f) { // Normal Shot
+                    Engine::Get().GetAudio().PlaySound("player_shoot_big");
+                    Transform transform{ m_transform.position, 0.f, Vector2(8.f) };
+                    Bullet* bullet = new Bullet(transform, "Enemy", m_dir, 1000.f, m_color, 3);
+                    m_scene->AddActor(bullet);
+                    m_charge = 0.f;
                 }
-                else {
-                    // Normal Shot
+                else { // Big Shot
+                    Engine::Get().GetAudio().PlaySound("player_shoot");
+                    Transform transform{ m_transform.position, 0.f, Vector2(4.f) };
+                    Bullet* bullet = new Bullet(transform, "Enemy", m_dir, 1000.f, m_color, 1);
+                    m_scene->AddActor(bullet);
+                    m_charge = 0.f;
                 }
             }
             break;
@@ -69,6 +79,10 @@ void Player::Update(float delta) {
     m_transform.position += m_dash_force * delta;
     SetVelocity(Vector2(0.0f));
     m_dash_force = m_dash_force.Lerp(Vector2(0.f), 24.f, delta);
+    if (m_transform.position.x < 0.f) m_transform.position.x = 0.f;
+    else if (m_transform.position.x > Engine::Get().GetRenderer().GetWidth()) m_transform.position.x = Engine::Get().GetRenderer().GetWidth();
+    if (m_transform.position.y < 0.f) m_transform.position.y = 0.f;
+    else if (m_transform.position.y > Engine::Get().GetRenderer().GetHeight()) m_transform.position.y = Engine::Get().GetRenderer().GetHeight();
 
 
     // Rotation
@@ -101,17 +115,28 @@ void Player::Update(float delta) {
 void Player::Draw(const class Renderer& renderer) const {
     renderer.DrawModel(m_effect_model, m_effect_transform);
     Actor::Draw(renderer);
-    if (m_charge > 0.f) renderer.DrawModel(m_model, m_charge_transform);
+    if (m_charge > 0.1f) renderer.DrawModel(m_model, m_charge_transform);
     m_hp_text->Draw(Engine::Get().GetRenderer(), renderer.GetWidth() * 0.45f, renderer.GetHeight() - 96);
 }
 
 void Player::OnCollision(Actor* actor) {
-    if (m_invincibility_time > 0.0f) return;
 
-    if (actor->HasTag("DamagesPlayer") && !HasTag("DamagesEnemy")) {
-        Engine::Get().GetAudio().PlaySound("player_hurt");
+    if ((actor->HasTag("DamagesPlayer") && !HasTag("DamagesEnemy")) || (actor->HasTag("DamagesEverything"))) {
+        if (m_invincibility_time > 0.0f) return;
+
         Damage();
         std::cout << "Player hit! Health remaining: " << m_health << "\n";
+    }
+
+    if (actor->HasTag("PowerUpYellow")) {
+        Heal();
+        SetSoulMode(YELLOW);
+        actor->Destroy();
+    }
+    else if (actor->HasTag("PowerUpOrange")) {
+        Heal();
+        SetSoulMode(ORANGE);
+        actor->Destroy();
     }
 }
 
@@ -123,9 +148,11 @@ void Player::SetSoulMode(SoulMode mode)
     switch (m_soulmode)
     {
         case ORANGE:
+            m_sm_time_left = 10.f;
             m_color = (Color(1.f, .5f, 0.f));
             break;
         case YELLOW:
+            m_sm_time_left = 7.5f;
             m_color = (Color(1.f, 1.f, 0.f));
             break;
         default:

@@ -10,14 +10,19 @@ public:
 		return Model( {mesh0} );
 	}
 
-	static Model CloverModel() {
-		Mesh mesh0{ {Vector2(-5,-2), Vector2(-3,-5), Vector2(0,0), Vector2(2,-5), Vector2(5, -3), Vector2(0, 0), Vector2(-5,2), Vector2(-3,5), Vector2(0,0), Vector2(2,5), Vector2(5, 3), Vector2(0, 0)}, Color(0.f, 1.f, 0.f)};
-		return Model( {mesh0} );
+	static Model BulletModel() {
+		Mesh mesh0 { {Vector2{ -1, -1 }, Vector2{ -1, 1 }, Vector2{ 1, 1 }, Vector2{ 1, -1 }, Vector2{ -1, -1 } }, Color{ 1.0f, 1.0f, 1.0f }};
+		return Model{ {mesh0} };
 	}
 
-	static Model BulletMesh() {
-		Mesh mesh0 { {Vector2{ -1, -1 }, Vector2{ 1, 0 }, Vector2{ -1, 1 }, Vector2{ -1, -1 }, }, Color{ 1.0f, 0.0f, 0.0f }};
-		return Model{ {mesh0} };
+	static Model CloverModel() {
+		Mesh mesh0{ {Vector2(-5,-2), Vector2(-3,-5), Vector2(0,0), Vector2(2,-5), Vector2(5, -3), Vector2(0, 0), Vector2(-5,2), Vector2(-3,5), Vector2(0,0), Vector2(2,5), Vector2(5, 3), Vector2(0, 0)}, Color(0.f, 1.f, 0.f) };
+		return Model({ mesh0 });
+	}
+
+	static Model ThumbsModel() {
+		Mesh mesh0{ {Vector2(-4,-2), Vector2(-2,-2), Vector2(-1,-6), Vector2(1,-3), Vector2(5,-2), Vector2(4,2), Vector2(-2,3), Vector2(-4,-2), Vector2(-2,-2)}, Color(0.f, 1.f, 0.f) };
+		return Model({ mesh0 });
 	}
 
 	/*static Model Model() {

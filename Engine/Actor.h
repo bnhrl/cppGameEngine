@@ -3,7 +3,6 @@
 #include "Transform.h"
 #include "Mesh.h"
 #include "Model.h"
-#
 
 namespace bnhe {
     class Scene; // Forward declaration
@@ -30,6 +29,7 @@ namespace bnhe {
         void SetModel(const Model& model) { m_model = model; }
 
         bool HasTag(std::string tag) { 
+            if (m_tags.size() <= 0) return false;
             auto found = std::find(m_tags.begin(), m_tags.end(), tag);
             if (found != m_tags.end()) { return true; }
             return false;
