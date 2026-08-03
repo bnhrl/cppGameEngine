@@ -72,7 +72,7 @@ namespace bnhe
         g = math::Clamp(g * 255.f, 0.f, 255.f);
         b = math::Clamp(b * 255.f, 0.f, 255.f);
         a = math::Clamp(a * 255.f, 0.f, 255.f);
-        SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+        SDL_SetRenderDrawColor(m_renderer, (Uint8)r, (Uint8)g, (Uint8)b, (Uint8)a);
     }
 
     void Renderer::SetColor(Color color) const

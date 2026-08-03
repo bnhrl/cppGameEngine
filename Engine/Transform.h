@@ -5,7 +5,7 @@ namespace bnhe
 {
     struct Transform {
         Vector2 position;
-        float rotation;
+        float rotation = 0.f;
         Vector2 scale;
     };
 }

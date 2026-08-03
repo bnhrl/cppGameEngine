@@ -3,36 +3,32 @@
 
 namespace bnhe {
 	void Scene::Update(float delta) {
-		std::vector<Actor*> removeThese;
-		for (auto* actor : m_actors) {
-			if (actor->IsDestroyed())
-				removeThese.push_back(actor);
-			else
-				actor->Update(delta);
+		for (const auto& actor : m_actors) {
+			if (!actor || actor.get()->IsDestroyed()) continue;
+			actor.get()->Update(delta);
 		}
 
-		for (auto* actor : removeThese) {
-			RemoveActor(actor);
-		}
+		// Remove destroyed actors
+		std::erase_if(m_actors, [](auto& actor) { return actor->IsDestroyed(); });
 
 		AddPendingActors();
 	}
 
 	void Scene::Draw(const class Renderer& renderer) {
-		for (auto actor : m_actors) {
-			actor->Draw(renderer);
+		for (const auto& actor : m_actors) {
+			if (actor)  actor->Draw(renderer);
 		}
 	}
 
 	void Scene::UpdateCollisions() {
-		for (auto& actorA : m_actors) {
-			for (auto& actorB : m_actors) {
+		for (const auto& actorA : m_actors) {
+			for (const auto& actorB : m_actors) {
 				if (actorA == actorB || actorA->destroyed || actorB->destroyed) break;
 
 				float distance = (actorA->GetTransform().position.DistanceTo(actorB->GetTransform().position));
 				if (distance <= actorA->GetRadius() + actorB->GetRadius()) {
-					actorA->OnCollision(actorB);
-					actorB->OnCollision(actorA);
+					actorA->OnCollision(actorB.get());
+					actorB->OnCollision(actorA.get());
 				}
 			}
 		}

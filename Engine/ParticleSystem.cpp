@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ParticleSystem.h"
 
-#include "Renderer.h";
+#include "Renderer.h"
 
 namespace bnhe {
 	bool ParticleSystem::Initialize(size_t size)

@@ -49,8 +49,8 @@ namespace bnhe
 		Time m_time;
 		Audio m_audio;
 		ParticleSystem m_particle_system;
-		Font* m_font;
-		Font* m_font_big;
+		Font* m_font = nullptr;
+		Font* m_font_big = nullptr;
 		SceneManager m_scene_manager;
 	};
 }

@@ -31,15 +31,15 @@ void Player::Update(float delta) {
                 if (m_charge >= .5f) { // Normal Shot
                     Engine::Get().GetAudio().PlaySound("player_shoot_big");
                     Transform transform{ m_transform.position, 0.f, Vector2(8.f) };
-                    Bullet* bullet = new Bullet(transform, "Enemy", m_dir, 1000.f, m_color, 3);
-                    m_scene->AddActor(bullet);
+                    std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 3);
+                    m_scene->AddActor(std::move(bullet));
                     m_charge = 0.f;
                 }
                 else { // Big Shot
                     Engine::Get().GetAudio().PlaySound("player_shoot");
                     Transform transform{ m_transform.position, 0.f, Vector2(4.f) };
-                    Bullet* bullet = new Bullet(transform, "Enemy", m_dir, 1000.f, m_color, 1);
-                    m_scene->AddActor(bullet);
+                    std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 1);
+                    m_scene->AddActor(std::move(bullet));
                     m_charge = 0.f;
                 }
             }
@@ -61,7 +61,7 @@ void Player::Update(float delta) {
     if (m_charge > 0.f) {
         m_charge_transform.position = m_transform.position;
         m_charge_transform.rotation = m_transform.rotation;
-        m_charge_transform.scale = m_transform.scale * math::Clamp(0.5 - m_charge, 0.0, 0.5) * 3.f + m_transform.scale;
+        m_charge_transform.scale = m_transform.scale * (float)math::Clamp(0.5 - m_charge, 0.0, 0.5) * 3.f + m_transform.scale;
     }
     // Damaging when dashing
     if (m_dash_force.Length() > 1.0f) {
@@ -80,9 +80,9 @@ void Player::Update(float delta) {
     SetVelocity(Vector2(0.0f));
     m_dash_force = m_dash_force.Lerp(Vector2(0.f), 24.f, delta);
     if (m_transform.position.x < 0.f) m_transform.position.x = 0.f;
-    else if (m_transform.position.x > Engine::Get().GetRenderer().GetWidth()) m_transform.position.x = Engine::Get().GetRenderer().GetWidth();
+    else if (m_transform.position.x > (float)Engine::Get().GetRenderer().GetWidth()) m_transform.position.x = (float)Engine::Get().GetRenderer().GetWidth();
     if (m_transform.position.y < 0.f) m_transform.position.y = 0.f;
-    else if (m_transform.position.y > Engine::Get().GetRenderer().GetHeight()) m_transform.position.y = Engine::Get().GetRenderer().GetHeight();
+    else if (m_transform.position.y > (float)Engine::Get().GetRenderer().GetHeight()) m_transform.position.y = (float)Engine::Get().GetRenderer().GetHeight();
 
 
     // Rotation
@@ -116,7 +116,7 @@ void Player::Draw(const class Renderer& renderer) const {
     renderer.DrawModel(m_effect_model, m_effect_transform);
     Actor::Draw(renderer);
     if (m_charge > 0.1f) renderer.DrawModel(m_model, m_charge_transform);
-    m_hp_text->Draw(Engine::Get().GetRenderer(), renderer.GetWidth() * 0.45f, renderer.GetHeight() - 96);
+    m_hp_text->Draw(Engine::Get().GetRenderer(), renderer.GetWidth() * 0.45f, (float)renderer.GetHeight() - 96);
 }
 
 void Player::OnCollision(Actor* actor) {

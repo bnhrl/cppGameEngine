@@ -3,9 +3,9 @@
 
 namespace bnhe::math
 {
-	const float PI = 3.1415927f;
-	const float PI_TWO = PI * 2;
-	const float PI_HALF = PI * 0.5;
+	const static float PI = 3.1415927f;
+	const static float PI_TWO = PI * 2;
+	const static float PI_HALF = PI * 0.5;
 
 	template<typename T>
 	T RadToDeg(T value) {

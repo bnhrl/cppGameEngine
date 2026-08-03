@@ -38,6 +38,7 @@ namespace bnhe {
         bool RemoveTag(std::string tag) {
             if (!HasTag(tag)) return false;
             std::erase(m_tags, tag);
+            return true;
         }
 
         float GetRadius() const;

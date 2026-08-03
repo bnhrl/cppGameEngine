@@ -49,6 +49,6 @@ namespace bnhe
 	}
 
 	Vector2 Random::PointOnScreen() {
-		return Vector2(Random::PointOnScreenX(), Random::PointOnScreenY());
+		return Vector2((float)Random::PointOnScreenX(), (float)Random::PointOnScreenY());
 	}
 }
