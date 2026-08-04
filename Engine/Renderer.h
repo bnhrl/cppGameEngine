@@ -2,11 +2,14 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_image/SDL_image.h>
+
 
 #include "Color.h"
 #include "Vector2.h"
 #include "Model.h"
 #include "Mesh.h"
+#include "Texture.h"
 #include "Transform.h"
 
 namespace bnhe
@@ -34,6 +37,7 @@ namespace bnhe
 		void DrawFillRect(SDL_FRect rect) const;
 		void DrawFillRect(Vector2 center, Vector2 size) const;
 		void DrawModel(const Model& model, const Transform& transform) const;
+		void DrawTexture(Texture* texture, float x, float y);
 
 		static int GetWidth()  { return m_width; }
 		static int GetHeight() { return m_height; }
@@ -45,5 +49,6 @@ namespace bnhe
 		static int m_height;
 
 		friend class Text;
+		friend class Texture;
 	};
 }

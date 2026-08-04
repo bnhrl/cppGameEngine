@@ -126,7 +126,7 @@ int main()
         delete objectA;
         delete objectB;
     }
-    std::cout << "=============== smart pointers ===============\n";
+    std::cout << "=============== unique pointers ===============\n";
     {
         std::unique_ptr<Object> objectA = std::make_unique<Object>();
         std::cout << objectA.get() << "\n";
@@ -136,7 +136,21 @@ int main()
         
         objectB.reset();
     }
+    std::shared_ptr<Object> objectC;
+    std::cout << "=============== shared pointers ===============\n";
+    {
+        auto objectA = std::make_shared<Object>(); // auto here is the same as std::shared_ptr<Object>
+        std::cout << objectA.get() << "\n";
+        std::cout << objectA.use_count() << "\n";
+        auto objectB = objectA;
+        std::cout << objectB.get() << "\n";
+        std::cout << objectB.use_count() << "\n";
+        objectC = objectA;
+    }
+    std::cout << objectC.get() << "\n";
+    std::cout << objectC.use_count() << "\n";
 
+    std::cout << "\n\n";
 
 
     ///
@@ -153,6 +167,11 @@ int main()
     ///
 
     Color backgroundColor = Color(0, 0, 0);
+
+    // create texture, using shared_ptr so texture can be shared
+    std::shared_ptr<Texture> texture = std::make_shared<Texture>();
+    texture->Load("flea.png", engine.GetRenderer());
+
 
 
 
@@ -297,6 +316,8 @@ int main()
         ///
         // Render
         ///
+
+        engine.GetRenderer().DrawTexture(texture.get(), 30, 30);
 
         engine.GetSM().GetActiveScene()->Draw(engine.GetRenderer());
         engine.GetPS().Draw(engine.GetRenderer());

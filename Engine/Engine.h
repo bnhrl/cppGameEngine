@@ -9,6 +9,7 @@
 #include "MathUtils.h"
 #include "Font.h"
 #include "Text.h"
+#include "Texture.h"
 
 #include "GameTime.h"
 #include "Renderer.h"
