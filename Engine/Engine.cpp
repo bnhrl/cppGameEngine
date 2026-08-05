@@ -17,10 +17,6 @@ namespace bnhe
 		m_particle_system.Initialize(5000);
 
 		Random::SetResolution(resolution_x, resolution_y);
-		m_font = new Font();
-		m_font->Load("Pixelzone.ttf", 64);
-		m_font_big = new Font();
-		m_font_big->Load("Pixelzone.ttf", 128);
 
 		std::cout << "Engine initialized!" << "\n";
 		return true;

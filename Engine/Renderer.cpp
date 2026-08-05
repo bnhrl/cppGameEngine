@@ -154,9 +154,9 @@ namespace bnhe
         }
     }
 
-    void Renderer::DrawTexture(Texture* texture, float x, float y)
+    void Renderer::DrawTexture(const Texture& texture, float x, float y, float rotationDegrees, Vector2 scale, bool flipH)
     {
-        Vector2 size = texture->GetSize();
+        Vector2 size = texture.GetSize();
 
         SDL_FRect destRect;
         destRect.x = x;
@@ -165,7 +165,10 @@ namespace bnhe
         destRect.h = x + size.y;
 
         // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-        SDL_RenderTexture(m_renderer, texture->m_texture, NULL, &destRect);
+        if (flipH)
+            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, rotationDegrees, NULL, SDL_FLIP_HORIZONTAL);
+        else 
+            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, rotationDegrees, NULL, SDL_FLIP_NONE);
     }
 
 }

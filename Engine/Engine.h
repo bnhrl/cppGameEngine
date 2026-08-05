@@ -18,7 +18,9 @@
 #include "ParticleSystem.h"
 #include "Scene.h"
 #include "Actor.h"
+
 #include "SceneManager.h"
+#include "ResourceManager.h"
 
 
 namespace bnhe 
@@ -38,9 +40,9 @@ namespace bnhe
 		Time& GetTime() { return m_time; }
 		Audio& GetAudio() { return m_audio; }
 		ParticleSystem& GetPS() { return m_particle_system; }
-		Font* GetFont() const { return m_font; }
-		Font* GetFontBig() const { return m_font_big; }
 		SceneManager& GetSM() { return m_scene_manager; }
+		res_t<Font> GetFont()    const { return Resources().GetWithID<Font>("Font", "Pixelzone.ttf", 64); }
+		res_t<Font> GetFontBig() const { return Resources().GetWithID<Font>("FontLarge", "Pixelzone.ttf", 128); }
 
 	private:
 		Engine() = default;
@@ -50,8 +52,6 @@ namespace bnhe
 		Time m_time;
 		Audio m_audio;
 		ParticleSystem m_particle_system;
-		Font* m_font = nullptr;
-		Font* m_font_big = nullptr;
 		SceneManager m_scene_manager;
 	};
 }

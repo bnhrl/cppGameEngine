@@ -37,7 +37,7 @@ namespace bnhe
 		void DrawFillRect(SDL_FRect rect) const;
 		void DrawFillRect(Vector2 center, Vector2 size) const;
 		void DrawModel(const Model& model, const Transform& transform) const;
-		void DrawTexture(Texture* texture, float x, float y);
+		void DrawTexture(const Texture& texture, float x, float y, float rotationDegrees = 0.f, Vector2 scale = Vector2(1.f), bool flipH = false);
 
 		static int GetWidth()  { return m_width; }
 		static int GetHeight() { return m_height; }

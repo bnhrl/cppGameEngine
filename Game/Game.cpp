@@ -169,8 +169,7 @@ int main()
     Color backgroundColor = Color(0, 0, 0);
 
     // create texture, using shared_ptr so texture can be shared
-    std::shared_ptr<Texture> texture = std::make_shared<Texture>();
-    texture->Load("flea.png", engine.GetRenderer());
+    res_t<Texture> texture = Resources().Get<Texture>("flea.png", engine.GetRenderer());
 
 
 
@@ -317,7 +316,7 @@ int main()
         // Render
         ///
 
-        engine.GetRenderer().DrawTexture(texture.get(), 30, 30);
+        engine.GetRenderer().DrawTexture(*texture.get(), 30, 30);
 
         engine.GetSM().GetActiveScene()->Draw(engine.GetRenderer());
         engine.GetPS().Draw(engine.GetRenderer());
