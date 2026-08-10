@@ -110,82 +110,6 @@ int main()
     Engine& engine = Engine::Get();
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
 
-    {
-        // Read file (output file)
-        std::ifstream file("Data/text.txt");
-        if (file.is_open()) {
-            std::string str;
-            while (std::getline(file, str))
-                std::cout << str << std::endl;
-        }
-        else std::cout << "Could not load!" << std::endl;
-        file.close();
-    }
-
-    {
-        // Write file (output file)
-        std::ofstream file("Data/text.txt", std::ios::app);
-        if (file.is_open()) {
-            file << "\n" << "I am flooding your file!";
-        }
-        file.close();
-    }
-
-    {
-        // Read / Write  | (input/output file)
-        std::fstream file("Data/text.txt", std::ios::in | std::ios::out | std::ios::app);
-        if (file.is_open()) {
-            file << "\n" << "I am doing it again!";
-            file.seekg(0);
-            std::string str;
-            while (std::getline(file, str))
-                std::cout << str << std::endl;
-        }
-        file.close();
-    }
-    
-
-    // Save game 
-    std::string name = "";
-    int score        = 0;
-    bool isAlive     = true;
-
-    bool save = false;
-    if (save) {
-        name = "John";
-        score = 67;
-        isAlive = true;
-
-        // Save game data
-        std::ofstream file("Data/save.txt");
-        if (file.is_open()) {
-            file << name << "\n";
-            file << score << "\n";
-            file << isAlive << "\n";
-        }
-        file.close();
-    }
-
-    // Load game data
-    bool load = true;
-    if (load)
-    {
-        std::ifstream file("Data/save.txt");
-        if (file.is_open()) {
-            std::getline(file, name);
-            file >> score;
-            file >> isAlive;
-        }
-        else std::cout << "Could not load!" << std::endl;
-        file.close();
-    }
-
-    std::cout << name << std::endl;
-    std::cout << score << std::endl;
-    std::cout << std::boolalpha << isAlive << std::endl;
-
-    return 0;
-
 
 
     ///
@@ -290,7 +214,6 @@ int main()
             if (timeUntilEnemy <= 0.f) {
                 timeUntilEnemy = MAX_timeUntilEnemy;
                 CreateEnemy(gameScene, player);
-
             }
             else timeUntilEnemy -= delta;
 

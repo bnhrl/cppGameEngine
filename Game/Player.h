@@ -13,7 +13,6 @@ public:
 		AddTag("Player"); 
 
 		m_effect_transform = transform;
-		m_effect_model = Models::PlayerModel();
 
 		SetSoulMode(RED);
 
@@ -69,7 +68,6 @@ private:
 	void UpdateHPText() { m_hp_text->Create(Engine::Get().GetRenderer(), std::to_string(m_health) + " / 20", Color{ 1, 1, 1, 1 }); }
 
 	// Effects
-	Model m_effect_model;
 	Transform m_effect_transform;
 	bool m_effect_growing = true;
 	Transform m_charge_transform;

@@ -12,7 +12,7 @@ namespace bnhe {
 		~Text();
 
 		bool Create(Renderer& renderer, const std::string& text, const Color& color, int wrap_length = 0);
-		void Draw(Renderer& renderer, float x, float y);
+		const void Draw(const Renderer& renderer, float x, float y) const;
 
 	private:
 		res_t<Font> m_font{ nullptr };

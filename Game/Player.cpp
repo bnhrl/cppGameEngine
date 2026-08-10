@@ -84,7 +84,6 @@ void Player::Update(float delta) {
     if (m_transform.position.y < 0.f) m_transform.position.y = 0.f;
     else if (m_transform.position.y > (float)Engine::Get().GetRenderer().GetHeight()) m_transform.position.y = (float)Engine::Get().GetRenderer().GetHeight();
 
-
     // Rotation
     if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_C)) m_dir.x *= -1;
 
@@ -103,24 +102,28 @@ void Player::Update(float delta) {
     if (m_invincibility_time > 0.f) {
         m_invincibility_time -= delta;
         // Flashing
-        Color color = m_color - sin(m_invincibility_time * 24.f) * 2.f;
+        Color color = Color(m_color.r, m_color.g, m_color.b, m_color.a - sin(m_invincibility_time * 12.f) * 1.f);
         m_modulate = (color);
     }
-    m_effect_model.SetMeshColor(m_color * 0.75f);
-    m_modulate = m_color;
-    m_modulate.a = 0.5f;
+    else {
+        m_modulate = m_color;
+    }
 }
 
 void Player::Draw(const class Renderer& renderer) const {
-    renderer.DrawModel(m_effect_model, m_effect_transform);
     Actor::Draw(renderer);
-    if (m_charge > 0.1f) renderer.DrawModel(m_model, m_charge_transform);
-    m_hp_text->Draw(Engine::Get().GetRenderer(), renderer.GetWidth() * 0.45f, (float)renderer.GetHeight() - 96);
+    if (m_charge > 0.1f) {
+        Color color = m_modulate;
+        color.a -= 0.5;
+        renderer.DrawTexture(*m_texture, m_charge_transform, color);
+    }
+
+    m_hp_text->Draw(renderer, renderer.GetWidth() * 0.45f, (float)renderer.GetHeight() - 96);
 }
 
 void Player::OnCollision(Actor* actor) {
 
-    if ((actor->HasTag("DamagesPlayer") && !HasTag("DamagesEnemy")) || (actor->HasTag("DamagesEverything"))) {
+    if ((actor->HasTag("DamagesPlayer") && !this->HasTag("DamagesEnemy")) || (actor->HasTag("DamagesEverything"))) {
         if (m_invincibility_time > 0.0f) return;
 
         Damage();

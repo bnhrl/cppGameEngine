@@ -190,6 +190,8 @@ namespace bnhe
 
         Color color = modulate.ToUint8_T();
         SDL_SetTextureColorMod(texture.m_texture, color.r, color.g, color.b);
+        SDL_SetTextureBlendMode(texture.m_texture, SDL_BLENDMODE_BLEND);
+        SDL_SetTextureAlphaMod(texture.m_texture, color.a);
 
         // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
         if (flipH)
