@@ -6,7 +6,7 @@ using namespace bnhe;
 
 class PowerUp : public Actor {
 public:
-	PowerUp(const Transform& transform, const Model& model, std::string type) : Actor{ transform, model } { AddTag("PowerUp"+type); }
+	PowerUp(const Transform& transform, const res_t<Texture> texture, std::string type) : Actor{ transform, texture } { AddTag("PowerUp"+type); }
 
 	virtual void Update(float delta) override;
 	virtual void OnCollision(Actor* actor) override;

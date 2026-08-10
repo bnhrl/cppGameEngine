@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include <map>
 
 #include <SDL3/SDL.h>
@@ -21,9 +22,9 @@ using namespace bnhe;
 
 void CreateEnemy(Scene* scene, Player* player) {
     Transform transform;
-    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(4.0f) };
-    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(4.0f) };
-    std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(Enemy(transform, Models::PlayerModel()));
+    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(Enemy(transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())));
     enemy->SetTarget(player);
     scene->AddActor(std::move(enemy));
 }
@@ -31,8 +32,8 @@ void CreateEnemy(Scene* scene, Player* player) {
 void CreateBullet(Scene* scene) {
     Transform transform;
     Vector2 direction;
-    if (Random::Int(1)) { transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(4.0f) }; direction = Vector2(1.f, 0.f); }
-    else { transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(4.0f) }; direction = Vector2(-1.f, 0.f); }
+    if (Random::Int(1)) { transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(1.f, 0.f); }
+    else { transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(-1.f, 0.f); }
     std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Everything", direction, 1200.f, Color(0.f, 1.f, 1.f), 3);
     scene->AddActor(std::move(bullet));
 }
@@ -40,19 +41,19 @@ void CreateBullet(Scene* scene) {
 void CreatePowerUp(Scene* scene, Player* player) {
     std::unique_ptr<PowerUp> powerUp;
     Transform transform;
-    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(4.0f) };
-    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(4.0f) };
-    Player::SoulMode type = (Player::SoulMode)Random::Int(1, 2);
-    if (type == Player::YELLOW)
-        powerUp = std::make_unique<PowerUp>(transform, Models::CloverModel(), "Yellow");
+    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    Player::SoulMode type = (Player::SoulMode)Random::Bool();
+    if (type == Player::ORANGE)
+        powerUp = std::make_unique<PowerUp>(transform, Resources().Get<Texture>("Textures/powerup_thumbs.png", Engine::Get().GetRenderer()), "Orange");
     else
-        powerUp = std::make_unique<PowerUp>(transform, Models::ThumbsModel(), "Orange");
+        powerUp = std::make_unique<PowerUp>(transform, Resources().Get<Texture>("Textures/powerup_clover.png", Engine::Get().GetRenderer()), "Yellow");
     powerUp->SetVelocity(transform.position.DirectionTo(player->GetTransform().position) * -200.f);
     scene->AddActor(std::move(powerUp));
 }
 
 Player* CreatePlayer(Scene* scene) {
-    Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(4.0f));
+    Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(1.0f));
     std::unique_ptr<Player> player = std::make_unique<Player>((pTransform));
     Player* ptr = player.get();
     scene->AddActor(std::move(player));
@@ -93,72 +94,97 @@ void StartGame(Scene* scene, Player*& player) {
 
 
 
-// Testing stuff from class
-class Object {
-public:
-    Object() { std::cout << "constructor\n"; }
-    ~Object() { std::cout << "destructor\n"; }
+uint32_t seed = 1234;
 
-    Object(const Object& object) { std::cout << "copy\n"; }
-    Object& operator = (const Object& object) { std::cout << "assignemnt\n"; return *this; }
-
-};
-
-
+uint32_t RNG() {
+    seed = (seed*11032315245) + 12345;
+    return seed;
+}
 
 int main()
 {
-    std::cout << "=============== object ===============\n";
-    {
-        Object objectA;
-        Object objectB(objectA);
-        Object objectC;
-        objectC = objectA;
-    }
-    std::cout << "=============== raw pointers ===============\n";
-    {
-        Object* objectA = new Object();
-        std::cout << objectA << "\n";
-        Object* objectB = new Object(*objectA);
-        std::cout << objectB << "\n";
-        Object* objectC = nullptr;
-
-        delete objectA;
-        delete objectB;
-    }
-    std::cout << "=============== unique pointers ===============\n";
-    {
-        std::unique_ptr<Object> objectA = std::make_unique<Object>();
-        std::cout << objectA.get() << "\n";
-        std::unique_ptr<Object> objectB;
-        objectB = std::move(objectA);
-        std::cout << objectB.get() << "\n";
-        
-        objectB.reset();
-    }
-    std::shared_ptr<Object> objectC;
-    std::cout << "=============== shared pointers ===============\n";
-    {
-        auto objectA = std::make_shared<Object>(); // auto here is the same as std::shared_ptr<Object>
-        std::cout << objectA.get() << "\n";
-        std::cout << objectA.use_count() << "\n";
-        auto objectB = objectA;
-        std::cout << objectB.get() << "\n";
-        std::cout << objectB.use_count() << "\n";
-        objectC = objectA;
-    }
-    std::cout << objectC.get() << "\n";
-    std::cout << objectC.use_count() << "\n";
-
-    std::cout << "\n\n";
-
-
     ///
     // INITIALIZATION
     ///
 
     Engine& engine = Engine::Get();
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
+
+    {
+        // Read file (output file)
+        std::ifstream file("Data/text.txt");
+        if (file.is_open()) {
+            std::string str;
+            while (std::getline(file, str))
+                std::cout << str << std::endl;
+        }
+        else std::cout << "Could not load!" << std::endl;
+        file.close();
+    }
+
+    {
+        // Write file (output file)
+        std::ofstream file("Data/text.txt", std::ios::app);
+        if (file.is_open()) {
+            file << "\n" << "I am flooding your file!";
+        }
+        file.close();
+    }
+
+    {
+        // Read / Write  | (input/output file)
+        std::fstream file("Data/text.txt", std::ios::in | std::ios::out | std::ios::app);
+        if (file.is_open()) {
+            file << "\n" << "I am doing it again!";
+            file.seekg(0);
+            std::string str;
+            while (std::getline(file, str))
+                std::cout << str << std::endl;
+        }
+        file.close();
+    }
+    
+
+    // Save game 
+    std::string name = "";
+    int score        = 0;
+    bool isAlive     = true;
+
+    bool save = false;
+    if (save) {
+        name = "John";
+        score = 67;
+        isAlive = true;
+
+        // Save game data
+        std::ofstream file("Data/save.txt");
+        if (file.is_open()) {
+            file << name << "\n";
+            file << score << "\n";
+            file << isAlive << "\n";
+        }
+        file.close();
+    }
+
+    // Load game data
+    bool load = true;
+    if (load)
+    {
+        std::ifstream file("Data/save.txt");
+        if (file.is_open()) {
+            std::getline(file, name);
+            file >> score;
+            file >> isAlive;
+        }
+        else std::cout << "Could not load!" << std::endl;
+        file.close();
+    }
+
+    std::cout << name << std::endl;
+    std::cout << score << std::endl;
+    std::cout << std::boolalpha << isAlive << std::endl;
+
+    return 0;
 
 
 
@@ -167,10 +193,6 @@ int main()
     ///
 
     Color backgroundColor = Color(0, 0, 0);
-
-    // create texture, using shared_ptr so texture can be shared
-    res_t<Texture> texture = Resources().Get<Texture>("flea.png", engine.GetRenderer());
-
 
 
 
@@ -316,14 +338,12 @@ int main()
         // Render
         ///
 
-        engine.GetRenderer().DrawTexture(*texture.get(), 30, 30);
-
         engine.GetSM().GetActiveScene()->Draw(engine.GetRenderer());
         engine.GetPS().Draw(engine.GetRenderer());
         engine.GetRenderer().Present(); // Render the screen
 
         engine.GetRenderer().SetColor(backgroundColor); // Set render draw color to black
-        engine.GetRenderer().Clear();                // Clear the renderer
+        engine.GetRenderer().Clear();                   // Clear the renderer
         engine.UpdateAudio();
     }
 

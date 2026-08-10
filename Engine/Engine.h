@@ -41,8 +41,8 @@ namespace bnhe
 		Audio& GetAudio() { return m_audio; }
 		ParticleSystem& GetPS() { return m_particle_system; }
 		SceneManager& GetSM() { return m_scene_manager; }
-		res_t<Font> GetFont()    const { return Resources().GetWithID<Font>("Font", "Pixelzone.ttf", 64); }
-		res_t<Font> GetFontBig() const { return Resources().GetWithID<Font>("FontLarge", "Pixelzone.ttf", 128); }
+		res_t<Font> GetFont()    const { return Resources().GetWithID<Font>("Font", "Fonts/Pixelzone.ttf", 64); }
+		res_t<Font> GetFontBig() const { return Resources().GetWithID<Font>("FontLarge", "Fonts/Pixelzone.ttf", 128); }
 
 	private:
 		Engine() = default;

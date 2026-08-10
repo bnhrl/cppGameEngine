@@ -25,9 +25,18 @@ namespace bnhe
     {
         if (destroyed) return;
         renderer.DrawModel(m_model, m_transform);
+
+        if (m_texture) {
+            renderer.DrawTexture(*m_texture, m_transform, m_modulate);
+        }
     }
 
     float Actor::GetRadius() const {
+
+        if (m_texture) {
+            return (m_texture->GetSize().Length() * 0.5f) * 0.5 * (m_transform.scale.x+m_transform.scale.y) * 0.5f;
+        }
+        
         return m_model.GetRadius() * m_transform.scale.Length() * 0.9f;
     }
 

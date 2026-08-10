@@ -9,7 +9,7 @@ using namespace bnhe;
 class Player : public Actor {
 public:
 	Player() = default;
-	Player(const Transform& transform) : m_speed{ 500 }, Actor{ transform, Models::PlayerModel() } {
+	Player(const Transform& transform) : m_speed{ 500 }, Actor{ transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())} {
 		AddTag("Player"); 
 
 		m_effect_transform = transform;
@@ -31,8 +31,8 @@ public:
 
 	void Damage() 
 	{ 
-		m_health -= 4; 
-		m_invincibility_time += 1.25f; 
+		m_health -= 4;
+		m_invincibility_time += 1.25f;
 		Engine::Get().GetAudio().PlaySound("player_hurt");
 
 		if (m_health > 20) m_health = 20;

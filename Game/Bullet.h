@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Actor.h"
-#include "Models.h"
+#include "Engine.h"
 
 using namespace bnhe;
 
 class Bullet : public Actor
 {
 public:
-	Bullet(const Transform& transform, std::string damagesTag, Vector2 direction, float speed, Color color, int pierces = 2) : Actor{transform, Models::BulletModel()}
+	Bullet(const Transform& transform, std::string damagesTag, Vector2 direction, float speed, Color color, int pierces = 2) : Actor{transform, Resources().Get<Texture>("Textures/bullet.png", Engine::Get().GetRenderer()) }
 	{ 
 		m_pierces = pierces;
 		AddTag("Damages"+damagesTag);
 		SetVelocity(direction * speed);
-		m_model.SetMeshColor(color);
+		m_modulate = color;
 	}
 
 	virtual void Update(float delta) override;

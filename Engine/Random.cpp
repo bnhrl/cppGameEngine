@@ -16,26 +16,40 @@ namespace bnhe
 
 	int Random::Int(int max)
 	{
-		return rand() % (max + 1);
+		std::uniform_int_distribution<> dist(0, max - 1);
+		return dist(Generator());
 	}
 
 	int Random::Int(int min, int max)
 	{
-		return Int(max - min) + min;
+		if (min > max) std::swap(min, max);
+
+		std::uniform_int_distribution<> dist(min, max - 1);
+		return dist(Generator());
 	}
 
 	float Random::Float() {
-		return rand() / (float)RAND_MAX;
+		static std::uniform_real_distribution<float> dist(0.f, 1.f);
+		return dist(Generator());
 	}
 
 	float Random::Float(float max)
 	{
-		return Float() * max;
+		std::uniform_real_distribution<float> dist(0.f, max);
+		return dist(Generator());
 	}
 
 	float Random::Float(float min, float max)
 	{
-		return min + Float() * (max - min);
+		if (min > max) std::swap(min, max);
+
+		std::uniform_real_distribution<float> dist(min, max);
+		return dist(Generator());
+	}
+
+	bool Random::Bool() {
+		std::bernoulli_distribution dist(0.5f);
+		return dist(Generator());
 	}
 
 	int Random::PointOnScreenX()

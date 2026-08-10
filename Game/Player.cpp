@@ -28,16 +28,16 @@ void Player::Update(float delta) {
                 m_charge += delta;
             }
             else if (Engine::Get().GetInput().GetKeyReleased(SDL_SCANCODE_Z)) { 
-                if (m_charge >= .5f) { // Normal Shot
+                if (m_charge >= .5f) { // Big Shot
                     Engine::Get().GetAudio().PlaySound("player_shoot_big");
-                    Transform transform{ m_transform.position, 0.f, Vector2(8.f) };
+                    Transform transform{ m_transform.position, 0.f, Vector2(.75f) };
                     std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 3);
                     m_scene->AddActor(std::move(bullet));
                     m_charge = 0.f;
                 }
-                else { // Big Shot
+                else { // Normal Shot
                     Engine::Get().GetAudio().PlaySound("player_shoot");
-                    Transform transform{ m_transform.position, 0.f, Vector2(4.f) };
+                    Transform transform{ m_transform.position, 0.f, Vector2(.33f) };
                     std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 1);
                     m_scene->AddActor(std::move(bullet));
                     m_charge = 0.f;
@@ -104,12 +104,11 @@ void Player::Update(float delta) {
         m_invincibility_time -= delta;
         // Flashing
         Color color = m_color - sin(m_invincibility_time * 24.f) * 2.f;
-        m_model.SetMeshColor(color);
-    }
-    else {
-        m_model.SetMeshColor(m_color);
+        m_modulate = (color);
     }
     m_effect_model.SetMeshColor(m_color * 0.75f);
+    m_modulate = m_color;
+    m_modulate.a = 0.5f;
 }
 
 void Player::Draw(const class Renderer& renderer) const {

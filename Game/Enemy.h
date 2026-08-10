@@ -8,7 +8,7 @@ using namespace bnhe;
 class Enemy : public bnhe::Actor {
 public:
 	Enemy() = default;
-	Enemy(const Transform& transform, const Model& model) : Actor{ transform, model } { AddTag("DamagesPlayer"); AddTag("Enemy"); m_speed = Random::Float(2000.f, 3150.f); }
+	Enemy(const Transform& transform, const res_t<Texture> texture) : Actor{ transform, texture } { AddTag("DamagesPlayer"); AddTag("Enemy"); m_speed = Random::Float(2000.f, 3150.f); }
 
 	virtual void Update(float delta) override;
 	virtual void Draw(const class Renderer& renderer) const;

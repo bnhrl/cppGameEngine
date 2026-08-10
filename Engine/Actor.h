@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "Mesh.h"
 #include "Model.h"
+#include "Texture.h"
 
 namespace bnhe {
     class Scene; // Forward declaration
@@ -11,6 +12,7 @@ namespace bnhe {
     public:
         Actor() = default;
         Actor(const Transform& transform, const Model& model) : m_transform{ transform }, m_model{ model } {}
+        Actor(const Transform& transform, const res_t<Texture> texture) : m_transform{ transform }, m_texture{ texture } {}
 
         virtual void Update(float delta);
         virtual void Draw(const class Renderer& renderer) const;
@@ -52,6 +54,8 @@ namespace bnhe {
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
         Model m_model;
+        res_t<Texture> m_texture;
+        Color m_modulate = Color(1.f);
         bool destroyed = false;
 
         std::vector<std::string> m_tags;

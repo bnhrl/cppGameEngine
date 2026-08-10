@@ -154,21 +154,48 @@ namespace bnhe
         }
     }
 
-    void Renderer::DrawTexture(const Texture& texture, float x, float y, float rotationDegrees, Vector2 scale, bool flipH)
+    void Renderer::DrawTexture(const Texture& texture, float x, float y, float rotation, Vector2 scale, Color modulate, bool flipH) const
     {
         Vector2 size = texture.GetSize();
 
         SDL_FRect destRect;
-        destRect.x = x;
-        destRect.y = y;
-        destRect.w = x + size.x;
-        destRect.h = x + size.y;
+        destRect.w = size.x * scale.x;
+        destRect.h = size.y * scale.y;
+
+        destRect.x = x - (destRect.w * 0.5f);
+        destRect.y = y - (destRect.h * 0.5f);
+
+        Color color = modulate.ToUint8_T();
+        SDL_SetTextureColorMod(texture.m_texture, color.r, color.g, color.b);
+        SDL_SetTextureBlendMode(texture.m_texture, SDL_BLENDMODE_BLEND);
+        SDL_SetTextureAlphaMod(texture.m_texture, color.a);
 
         // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
         if (flipH)
-            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, rotationDegrees, NULL, SDL_FLIP_HORIZONTAL);
+            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, math::RadToDeg(rotation), NULL, SDL_FLIP_HORIZONTAL);
         else 
-            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, rotationDegrees, NULL, SDL_FLIP_NONE);
+            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, math::RadToDeg(rotation), NULL, SDL_FLIP_NONE);
+    }
+
+    void Renderer::DrawTexture(const Texture& texture, const Transform& transform, Color modulate, bool flipH) const
+    {
+        Vector2 size = texture.GetSize();
+
+        SDL_FRect destRect;
+        destRect.w = size.x * transform.scale.x;
+        destRect.h = size.y * transform.scale.y;
+
+        destRect.x = transform.position.x - (destRect.w * 0.5f);
+        destRect.y = transform.position.y - (destRect.h * 0.5f);
+
+        Color color = modulate.ToUint8_T();
+        SDL_SetTextureColorMod(texture.m_texture, color.r, color.g, color.b);
+
+        // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
+        if (flipH)
+            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, math::RadToDeg(transform.rotation), NULL, SDL_FLIP_HORIZONTAL);
+        else
+            SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, math::RadToDeg(transform.rotation), NULL, SDL_FLIP_NONE);
     }
 
 }

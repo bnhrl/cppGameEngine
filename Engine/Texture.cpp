@@ -27,6 +27,7 @@ namespace bnhe {
 
         // create texture from surface, texture is a friend class of renderer
         m_texture = SDL_CreateTextureFromSurface(renderer.m_renderer, surface);
+        std::cout << SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
         // once texture is created, surface can be freed up
         SDL_DestroySurface(surface);
         if (!m_texture)
