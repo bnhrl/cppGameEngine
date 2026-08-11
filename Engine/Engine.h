@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Object.h"
+#include "Factory.h"
 #include "File.h"
 
 #include "Random.h"
@@ -7,6 +9,7 @@
 #include "Vector3.h"
 #include "Transform.h"
 #include "MathUtils.h"
+#include "Json.h"
 #include "Font.h"
 #include "Text.h"
 #include "Texture.h"

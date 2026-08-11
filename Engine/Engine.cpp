@@ -32,8 +32,10 @@ namespace bnhe
 		m_input.Update();
 		m_time.Tick();
 		m_particle_system.Update(m_time.GetDeltaTime());
-		m_scene_manager.GetActiveScene()->Update(m_time.GetDeltaTime());
-		m_scene_manager.GetActiveScene()->UpdateCollisions();
+		if (m_scene_manager.GetActiveScene()) {
+			m_scene_manager.GetActiveScene()->Update(m_time.GetDeltaTime());
+			m_scene_manager.GetActiveScene()->UpdateCollisions();
+		}
 	}
 
 	void Engine::UpdateAudio() {

@@ -36,8 +36,14 @@ namespace bnhe {
 		{
 			if (particle.active)
 			{
-				renderer.SetColor(particle.color);
-				renderer.DrawPoint(particle.position);
+				if (particle.texture) {
+					Transform transform{ particle.position, 0.f, Vector2(0.5f) };
+					renderer.DrawTexture(*particle.texture, transform, particle.color);
+				}
+				else {
+					renderer.SetColor(particle.color);
+					renderer.DrawPoint(particle.position);
+				}
 			}
 		}
 	}

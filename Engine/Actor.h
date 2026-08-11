@@ -1,4 +1,5 @@
 #pragma once
+#include "Object.h"
 
 #include "Transform.h"
 #include "Mesh.h"
@@ -8,7 +9,7 @@
 namespace bnhe {
     class Scene; // Forward declaration
 
-    class Actor {
+    class Actor : public Object {
     public:
         Actor() = default;
         Actor(const Transform& transform, const Model& model) : m_transform{ transform }, m_model{ model } {}
@@ -17,7 +18,6 @@ namespace bnhe {
         virtual void Update(float delta);
         virtual void Draw(const class Renderer& renderer) const;
 
-        const std::string GetName() { return m_name; }
         const Transform& GetTransform() { return m_transform; }
         const Vector2 GetVelocity() { return m_velocity; }
         Model GetModel() const { return m_model; }
@@ -49,8 +49,6 @@ namespace bnhe {
         bool IsDestroyed() { return destroyed; }
 
     protected:
-        std::string m_name;
-
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
         Model m_model;

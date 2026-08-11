@@ -4,6 +4,7 @@
 
 #include "Color.h"
 #include "Vector2.h"
+#include "Texture.h"
 
 namespace bnhe {
 	struct Particle
@@ -15,6 +16,7 @@ namespace bnhe {
 		Vector2 velocity{ 0, 0 };
 		Color targetColor{ 1, 1, 1, 1 };
 		Color color{ 1, 1, 1, 1 };
+		res_t<Texture> texture;
 	};
 
 	class ParticleSystem {
