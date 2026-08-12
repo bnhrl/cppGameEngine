@@ -44,6 +44,7 @@ namespace bnhe {
             std::cerr << "Object already registered: " << name << std::endl;
             return;
         }
+
         m_registry[lowerName] = std::make_unique<Creator<T>>();
     }
 
@@ -57,13 +58,17 @@ namespace bnhe {
             return std::unique_ptr<T>();
         }
         
-        auto creator = m_registry[name];
-        auto object = creator->Create();
+        auto iter = m_registry.find(lowerName);
 
+        // Create unique ptr to object
+        auto object = iter->second->Create();
+
+        // Check if object is derived from T
         T* derived = dynamic_cast<T*>(object.get());
         if (derived) {
+            // Release unique ptr ownership
             object.release();
-
+            // Create new unique ptr with derived ptr
             return std::unique_ptr<T>(derived);
         }
         else {

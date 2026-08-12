@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <cassert>
 
 namespace bnhe
 {
@@ -10,6 +11,8 @@ namespace bnhe
 		float r, g, b, a;
 
 		// Operators
+		float operator [] (unsigned int i) const { assert(i < 4); return (&r)[i]; }
+		float& operator [] (unsigned int i) { assert(i < 4); return (&r)[i]; }
 
 		Color operator + (const Color& v) const { return Color(this->r + v.r, this->g + v.g, this->b + v.b); }
 		Color operator - (const Color& v) const { return Color(this->r - v.r, this->g - v.g, this->b - v.b); }

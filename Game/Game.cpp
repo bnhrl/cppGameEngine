@@ -20,83 +20,12 @@ using namespace bnhe;
 
 
 
-class Animal {
-public:
-    virtual void speak() { std::cout << "aaa"; }
-};
-
-class Cat : public Animal {
-    void speak() override { std::cout << "meow"; }
-};
-
-class Dog : public Animal {
-    void speak() override { std::cout << "BARK!!"; }
-};
-
-class Bird : public Animal {
-    void speak() override { std::cout << "squawk"; }
-};
-
-enum class Type {
-    Cat  = 1, 
-    Dog  = 2, 
-    Bird = 3
-};
-
-Animal* AnimalFactory(Type id) {
-    Animal* animal = nullptr;
-    switch (id) {
-    case Type::Cat:
-        animal = new Cat;
-        break;
-    case Type::Dog:
-        animal = new Dog;
-        break;
-    case Type::Bird:
-        animal = new Bird;
-        break;
-    }
-    return animal;
-}
-
-Animal* AnimalFactory(const std::string& id) {
-    Animal* animal = nullptr;
-    if      (id == "Cat")  animal = new Cat;
-    else if (id == "Dog")  animal = new Dog;
-    else if (id == "Bird") animal = new Bird;
-    return animal;
-}
-
-
 std::map<std::string, std::unique_ptr<ICreator>> registry;
 
 
 
 int main()
 {
-    //Factory::Instance().Register<Actor>("Actor");
-    //auto actor =
-
-
-    /*registry["Cat"] = std::make_unique<Creator<Cat>>();
-    registry["Dog"] = std::make_unique<Creator<Dog>>();
-
-    auto animal = registry["Dog"]->Create();
-
-    return 0;
-
-
-    std::string selection = "";
-    std::cout << "Select animal: ";
-    std::cin >> selection;
-
-    auto animal = AnimalFactory(selection);
-    if (animal) animal->speak();
-
-    return 0;*/
-
-
-
     ///
     // INITIALIZATION
     ///
@@ -104,6 +33,24 @@ int main()
     Engine& engine = Engine::Get();
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
 
+    ///
+    // Factory Testing
+    ///
+
+   /* Factory::Instance().Register<Actor>("Actor");
+    Factory::Instance().Register<Object>("Object");
+
+    auto actor = Factory::Instance().Create<Actor>("Actor");
+    std::cout << actor->IsActive() << std::endl;
+
+    auto object = Factory::Instance().Create<Object>("Object");
+    std::cout << object->IsActive() << std::endl;
+
+    json::document_t document;
+    if (json::Load("data/scene.json", document)) {
+        object->Read(document);
+        std::cout << object->GetName();
+    }*/
 
     ///
     // JSON Testing
@@ -117,14 +64,32 @@ int main()
         std::cout << buffer << std::endl;
 
         // create json document from the json file contents
-        rapidjson::Document document;
+        json::document_t document;
         if (json::Load("data/data.json", document))
         {
             // read the age data (int) from the json
             int age;
-            json::Read(document, "age", age);
-            // show the age data
-            std::cout << age << std::endl;
+            std::string name;
+            float speed;
+            bool isAwake;
+            Vector2 position;
+            Color color;
+
+            // read the data
+            JSON_READ(document, age);
+            JSON_READ(document, name);
+            JSON_READ(document, speed);
+            JSON_READ(document, isAwake);
+            JSON_READ(document, position);
+            JSON_READ(document, color);
+
+            // show the data
+            std::cout << "age: " << age << std::endl;
+            std::cout << "name: " << name << std::endl;
+            std::cout << "speed: " << speed << std::endl;
+            std::cout << "isAwake: " << isAwake << std::endl;
+            std::cout << "position: " << position.x << " " << position.y << std::endl;
+            std::cout << "color: " << color.r << " " << color.g << " " << color.b << " " << color.a << std::endl;
         }
     }
 
