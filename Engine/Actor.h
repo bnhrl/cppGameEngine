@@ -15,11 +15,25 @@ namespace bnhe {
         Actor(const Transform& transform, const Model& model) : m_transform{ transform }, m_model{ model } {}
         Actor(const Transform& transform, const res_t<Texture> texture) : m_transform{ transform }, m_texture{ texture } {}
 
+        virtual void Read(const json::value_t& value) {
+            Object::Read(value);
+
+            // JSON_HAS and JSON_GET macros are just. Not Working! Cool!
+            if (JSON_HAS_NAME(value, "transform")) {
+                m_transform.Read(value["transform"]);
+            }
+
+            JSON_READ_NAME(value, "velocity", m_velocity);
+            JSON_READ_NAME(value, "modulate", m_modulate);
+            //JSON_READ_NAME(value, "tags", m_tags); // TODO: add vector/array reading
+        }
+
         virtual void Update(float delta);
         virtual void Draw(const class Renderer& renderer) const;
 
         const Transform& GetTransform() { return m_transform; }
         const Vector2 GetVelocity() { return m_velocity; }
+        const Color GetModulate() { return m_modulate; }
         Model GetModel() const { return m_model; }
         Scene* GetScene() const { return m_scene; }
         friend class Scene;
