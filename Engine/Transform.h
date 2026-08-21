@@ -14,7 +14,6 @@ namespace bnhe
             JSON_READ(value, position);
             JSON_READ(value, rotation);
             JSON_READ(value, scale);
-            std::cout << rotation << std::endl;
         }
     };
 }

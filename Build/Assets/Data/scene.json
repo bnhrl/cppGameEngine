@@ -4,11 +4,11 @@
       "name": "PlayerPrototype",
       "prototype": true,
       "type": "Player",
-      "tags": [ "Player" ],
+      "tags": "Player",
       "active": true,
       "velocity": [
-        4,
-        4
+        0,
+        0
       ],
       "transform": {
         "position": [
@@ -18,7 +18,37 @@
         "rotation": 0.0,
         "scale": 1.0
       },
-      "speed": 500,
+      "speed": 400.0,
+      "components": [
+        {
+          "type": "SpriteRendererComponent",
+          "texture": "Textures/player.png"
+        },
+        {
+          "type": "CircleColliderComponent",
+          "radius": 64
+        }
+      ]
+    },
+    {
+      "name": "EnemyPrototype",
+      "prototype": true,
+      "type": "Enemy",
+      "tags": "DamagesPlayer",
+      "active": true,
+      "velocity": [
+        0,
+        0
+      ],
+      "transform": {
+        "position": [
+          0.0,
+          0.0
+        ],
+        "rotation": 0.0,
+        "scale": 1.0
+      },
+      "speed": 350.0,
       "components": [
         {
           "type": "SpriteRendererComponent",

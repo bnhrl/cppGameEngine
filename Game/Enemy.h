@@ -7,6 +7,8 @@ using namespace bnhe;
 
 class Enemy : public bnhe::Actor {
 public:
+	CLASS_PROTOTYPE(Enemy)
+
 	Enemy() = default;
 	Enemy(const Transform& transform, const res_t<Texture> texture) : Actor{ transform, texture } { AddTag("DamagesPlayer"); AddTag("Enemy"); m_speed = Random::Float(2000.f, 3150.f); }
 

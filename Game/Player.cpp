@@ -1,7 +1,13 @@
 #include "Player.h"
 #include "Bullet.h"
+#include <SpriteRendererComponent.h>
 
 FACTORY_REGISTER(Player)
+
+void Player::Read(const json::value_t& value) {
+    Actor::Read(value);
+    if (JSON_HAS_NAME(value, "speed")) JSON_READ_NAME(value, "speed", m_speed);
+}
 
 void Player::Update(float delta) {
     // Input
@@ -122,7 +128,6 @@ void Player::Draw(const class Renderer& renderer) const {
     if (m_charge > 0.1f) {
         Color color = m_modulate;
         color.a -= 0.5;
-        //renderer.DrawTexture(*m_texture, m_charge_transform, color);
     }
 
     m_hp_text->Draw(renderer, renderer.GetWidth() * 0.45f, (float)renderer.GetHeight() - 96);

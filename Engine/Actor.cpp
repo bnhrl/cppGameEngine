@@ -32,7 +32,11 @@ namespace bnhe
         if (JSON_HAS_NAME(value, "transform")) m_transform.Read(value["transform"]);
         if (JSON_HAS_NAME(value, "velocity")) JSON_READ_NAME(value, "velocity", m_velocity);
         if (JSON_HAS_NAME(value, "modulate")) JSON_READ_NAME(value, "modulate", m_modulate);
-        //JSON_READ_NAME(value, "tags", m_tags); // TODO: add vector/array reading
+        if (JSON_HAS_NAME(value, "tags")) { // TODO: Add array reading
+            std::string str;
+            JSON_READ_NAME(value, "tags", str);
+            m_tags.push_back(str);
+        }
 
         if (JSON_HAS_NAME(value, "components")) {
             for (auto& componentValue : JSON_GET_NAME(value, "components").GetArray()) {
@@ -47,9 +51,12 @@ namespace bnhe
                     AddComponent(std::move(component));
                 }
             }
-
-
         }
+
+        // Debug
+        for (const auto& component : m_components) {
+            std::cout << component.get();
+        } std::cout << std::endl;
     }
 
     void Actor::Update(float delta)
@@ -62,9 +69,9 @@ namespace bnhe
         //m_transform.position.x = math::Wrap(m_transform.position.x, 0.0f, (float)Renderer::GetWidth());
         //m_transform.position.y = math::Wrap(m_transform.position.y, 0.0f, (float)Renderer::GetHeight());
 
-        for (auto& component : m_components) {
+        /*for (auto& component : m_components) {
             component->Update(delta);
-        }
+        }*/
 
         if (m_transform.position.x < -16.f || m_transform.position.x > Renderer::GetWidth()+16.f) { Destroy(); }
         else if (m_transform.position.y < -16.f || m_transform.position.y > Renderer::GetHeight()+16.f) { Destroy(); }
@@ -74,7 +81,7 @@ namespace bnhe
     {
         if (destroyed) return;
 
-        for (auto& component : m_components) {
+        for (const auto& component : m_components) {
             // Check if component is a renderer component
             auto rendererComponent = dynamic_cast<RendererComponent*>(component.get());
             if (rendererComponent)
@@ -85,6 +92,7 @@ namespace bnhe
     void Actor::AddComponent(std::unique_ptr<Component> component)
     {
         component->SetOwner(this);
+        std::cout << "Added component: " << component.get() << std::endl;
         m_components.push_back(std::move(component));
     }
 

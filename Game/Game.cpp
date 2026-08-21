@@ -27,7 +27,9 @@ void CreateEnemy(Scene* scene, Player* player) {
     Transform transform;
     if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
     else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
-    std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(Enemy(transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())));
+    //std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(Enemy(transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())));
+    std::unique_ptr<Enemy> enemy = Factory::Instance().Create<Enemy>("EnemyPrototype");
+    enemy->SetPosition(transform.position);
     enemy->SetTarget(player);
     scene->AddActor(std::move(enemy));
 }
@@ -56,8 +58,7 @@ void CreatePowerUp(Scene* scene, Player* player) {
 }
 
 Player* CreatePlayer(Scene* scene) {
-    Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(1.0f));
-    std::unique_ptr<Player> player = std::make_unique<Player>((pTransform));
+    std::unique_ptr<Player> player = Factory::Instance().Create<Player>("PlayerPrototype");
     Player* ptr = player.get();
     scene->AddActor(std::move(player));
     return ptr;
@@ -112,7 +113,7 @@ int main()
     // Factory Testing
     ///
 
-    auto actor = Factory::Instance().Create<Actor>("Actor");
+    /*auto actor = Factory::Instance().Create<Actor>("Actor");
     std::cout << actor->IsActive() << std::endl;
 
     json::document_t document;
@@ -123,7 +124,7 @@ int main()
         std::cout << "velocity: " << actor->GetVelocity().x << " " << actor->GetVelocity().y << std::endl;
         std::cout << "rotation: " << actor->GetTransform().rotation << std::endl;
         std::cout << "modulate: " << actor->GetModulate().r << " " << actor->GetModulate().g << " " << actor->GetModulate().b << " " << actor->GetModulate().a << std::endl;
-    }
+    }*/
 
 
 
@@ -139,7 +140,6 @@ int main()
     // Scenes
     ///
     Scene* menuScene = new Scene("Menu");
-    menuScene->Load("Data/scene.json");
 
     Text* textTitle = new Text(engine.GetFontBig()); textTitle->Create(engine.GetRenderer(), "UNNAMED C++ GAME", Color{ 1, 1, 1, 1 });
     Text* textInstructions = new Text(engine.GetFont());
@@ -160,6 +160,7 @@ int main()
 
     // Game scene
     Scene* gameScene = new Scene("Game");
+    gameScene->Load("Data/scene.json");
     Text* textPoints = new Text(engine.GetFont()); textTitle->Create(engine.GetRenderer(), "0 POINTs", Color{ 1, 1, 1, 1 });
     // Player
     Player* player = nullptr;

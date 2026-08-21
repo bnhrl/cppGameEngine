@@ -8,18 +8,21 @@ using namespace bnhe;
 
 class Player : public Actor {
 public:
-	Player() = default;
-	Player(const Transform& transform) : m_speed{ 500 }, Actor{ transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())} {
+	CLASS_PROTOTYPE(Player)
+
+	Player() { m_hp_text = new Text(Engine::Get().GetFont()); UpdateHPText(); };
+	/*Player(const Transform& transform) : m_speed{ 500 }, Actor{ transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())} {
 		m_effect_transform = transform;
 
 		SetSoulMode(RED);
 
 		m_hp_text = new Text(Engine::Get().GetFont());
 		UpdateHPText();
-	}
+	}*/
 
+	virtual void Read(const json::value_t& value) override;
 	virtual void Update(float delta) override;
-	virtual void Draw(const class Renderer& renderer) const;
+	virtual void Draw(const class Renderer& renderer) const override;
 
 	virtual void OnCollision(Actor* actor);
 
@@ -62,7 +65,7 @@ private:
 
 	// Visuals
 	Color m_color = Color(1.f, 0.f, 0.f, 1.f);
-	Text* m_hp_text;
+	Text* m_hp_text = nullptr;
 	void UpdateHPText() { m_hp_text->Create(Engine::Get().GetRenderer(), std::to_string(m_health) + " / 20", Color{ 1, 1, 1, 1 }); }
 
 	// Effects
