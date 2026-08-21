@@ -70,7 +70,7 @@ namespace bnhe::json
         }
 
         // get the data
-        data = value[name.c_str()].IsFloat();
+        data = value[name.c_str()].GetFloat();
 
         return true;
     }
@@ -98,7 +98,7 @@ namespace bnhe::json
         }
 
         // get the data
-        data = value[name.c_str()].IsString();
+        data = value[name.c_str()].GetString();
 
         return true;
     }

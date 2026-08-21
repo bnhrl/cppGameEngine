@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <rapidjson/document.h>
 #include <string>
@@ -7,17 +7,17 @@
 #include "Vector2.h" 
 #include "Vector3.h"
 
-#define JSON_READ(value, data)					bnhe::json::Read(value, #data, data)
-#define JSON_READ_NAME(value, name, data)		bnhe::json::Read(value, name, data)
+#define JSON_READ(value, data)				bnhe::json::Read(value, #data, data)
+#define JSON_READ_NAME(value, name, data)	bnhe::json::Read(value, name, data)
 
-#define JSON_READ_REQ(value, data)				bnhe::json::Read(value, #data, data, true)
-#define JSON_READ_NAME_REQ(value, name, data)	bnhe::json::Read(value, name, data, true)
+#define JSON_READ_REQ(value, data)			bnhe::json::Read(value, #data, data, true)
+#define JSON_READ_NAME_REQ(value,			name, data) bnhe::json::Read(value, name, data, true)
 
-#define JSON_HAS(value, data)					value.HasMember(#data)
-#define JSON_HAS_NAME(value, name)				value.HasMember(name)
+#define JSON_HAS(value, data)				value.HasMember(#data)
+#define JSON_HAS_NAME(value, name)			value.HasMember(name)
 
-#define JSON_GET(value, data)					value[#data]
-#define JSON_GET_NAME(value, name)				value[name]
+#define JSON_GET(value, data)               value[#data]
+#define JSON_GET_NAME(value, name)          value[name]
 
 
 namespace bnhe::json

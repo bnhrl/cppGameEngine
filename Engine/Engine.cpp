@@ -3,6 +3,9 @@
 
 #include "framework.h"
 
+#include "SpriteRendererComponent.h"
+#include "CircleColliderComponent.h"
+
 #include <iostream>
 
 namespace bnhe
@@ -10,6 +13,10 @@ namespace bnhe
 	bool Engine::Initialize(int resolution_x, int resolution_y) {
 		SetWorkingDirectory("Assets");
 		std::cout << "Set working directory to " << GetWorkingDirectory() << "\n";
+
+		// Register static library
+		Factory::Instance().Register<SpriteRendererComponent>("SpriteRendererComponent");
+		Factory::Instance().Register<CircleColliderComponent>("CircleColliderComponent");
 
 		m_input.Initialize();
 		m_renderer.Initialize("Game Engine", resolution_x, resolution_y);

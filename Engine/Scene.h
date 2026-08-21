@@ -11,6 +11,8 @@ namespace bnhe {
 		Scene(std::string name) : name{ name } {}
 		std::string name = "Scene";
 
+		bool Load(const std::string& sceneName);
+
 		void AddActor(std::unique_ptr<Actor> actor)
 		{ 
 			actor->m_scene = this;

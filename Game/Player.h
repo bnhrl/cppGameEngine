@@ -10,8 +10,6 @@ class Player : public Actor {
 public:
 	Player() = default;
 	Player(const Transform& transform) : m_speed{ 500 }, Actor{ transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())} {
-		AddTag("Player"); 
-
 		m_effect_transform = transform;
 
 		SetSoulMode(RED);

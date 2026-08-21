@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Bullet.h"
 
+FACTORY_REGISTER(Player)
+
 void Player::Update(float delta) {
     // Input
     Vector2 force = Vector2(0, 0);
@@ -31,7 +33,12 @@ void Player::Update(float delta) {
                 if (m_charge >= .5f) { // Big Shot
                     Engine::Get().GetAudio().PlaySound("player_shoot_big");
                     Transform transform{ m_transform.position, 0.f, Vector2(.75f) };
-                    std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 3);
+
+                    auto bullet = bnhe::Factory().Instance().Create<Bullet>("BulletPrototype");
+                    bullet->SetTransform(m_transform);
+                    bullet->AddTag("DamagesEnemy");
+                    //std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 3);
+
                     m_scene->AddActor(std::move(bullet));
                     m_charge = 0.f;
                 }
@@ -115,7 +122,7 @@ void Player::Draw(const class Renderer& renderer) const {
     if (m_charge > 0.1f) {
         Color color = m_modulate;
         color.a -= 0.5;
-        renderer.DrawTexture(*m_texture, m_charge_transform, color);
+        //renderer.DrawTexture(*m_texture, m_charge_transform, color);
     }
 
     m_hp_text->Draw(renderer, renderer.GetWidth() * 0.45f, (float)renderer.GetHeight() - 96);

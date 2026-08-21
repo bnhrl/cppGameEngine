@@ -3,6 +3,8 @@
 
 #include "Renderer.h"
 
+FACTORY_REGISTER(Bullet)
+
 void Bullet::Update(float delta)
 {
     if (destroyed) return;

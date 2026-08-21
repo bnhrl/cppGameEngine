@@ -5,6 +5,9 @@
 #include "Mesh.h"
 #include "Model.h"
 #include "Texture.h"
+#include "ResourceManager.h"
+#include "Resource.h"
+#include "Component.h"
 
 namespace bnhe {
     class Scene; // Forward declaration
@@ -12,37 +15,28 @@ namespace bnhe {
     class Actor : public Object {
     public:
         Actor() = default;
-        Actor(const Transform& transform, const Model& model) : m_transform{ transform }, m_model{ model } {}
-        Actor(const Transform& transform, const res_t<Texture> texture) : m_transform{ transform }, m_texture{ texture } {}
+        Actor(const Transform& transform, const Model& model) : m_transform{ transform } {}
+        Actor(const Transform& transform, const res_t<Texture> texture) : m_transform{ transform } {}
+        Actor(const Actor& other);
 
-        virtual void Read(const json::value_t& value) {
-            Object::Read(value);
-
-            // JSON_HAS and JSON_GET macros are just. Not Working! Cool!
-            if (JSON_HAS_NAME(value, "transform")) {
-                m_transform.Read(value["transform"]);
-            }
-
-            JSON_READ_NAME(value, "velocity", m_velocity);
-            JSON_READ_NAME(value, "modulate", m_modulate);
-            //JSON_READ_NAME(value, "tags", m_tags); // TODO: add vector/array reading
-        }
+        virtual void Read(const json::value_t& value);
 
         virtual void Update(float delta);
         virtual void Draw(const class Renderer& renderer) const;
 
+        void AddComponent(std::unique_ptr<Component> component);
+
         const Transform& GetTransform() { return m_transform; }
         const Vector2 GetVelocity() { return m_velocity; }
         const Color GetModulate() { return m_modulate; }
-        Model GetModel() const { return m_model; }
         Scene* GetScene() const { return m_scene; }
         friend class Scene;
 
+        void SetTransform(const Transform transform) { m_transform = transform; }
         void SetPosition(const Vector2 position) { m_transform.position = position; }
         void SetRotation(float rotation) { m_transform.rotation = rotation; }
         void SetScale(const Vector2 scale) { m_transform.scale = scale; }
         void SetVelocity(const Vector2 velocity) { m_velocity = velocity; }
-        void SetModel(const Model& model) { m_model = model; }
 
         bool HasTag(std::string tag) { 
             if (m_tags.size() <= 0) return false;
@@ -62,16 +56,28 @@ namespace bnhe {
         virtual void Destroy();
         bool IsDestroyed() { return destroyed; }
 
+        template<std::derived_from<Component> T>
+        T* GetComponent();
+
     protected:
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
-        Model m_model;
-        res_t<Texture> m_texture;
         Color m_modulate = Color(1.f);
         bool destroyed = false;
 
         std::vector<std::string> m_tags;
+        std::vector<std::unique_ptr<Component>> m_components;
 
         Scene* m_scene = nullptr;
     };
+
+    template<std::derived_from<Component> T>
+    inline T* Actor::GetComponent()
+    {
+        for (auto& component : m_components) {
+            auto result = dynamic_cast<T*>(component.get());
+            if (result) return result;
+        }
+        return nullptr;
+    }
 }

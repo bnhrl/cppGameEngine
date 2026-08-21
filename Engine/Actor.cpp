@@ -1,12 +1,57 @@
 #include "pch.h"
 #include "Actor.h"
 
+#include "Factory.h"
 #include "Renderer.h"
 #include "MathUtils.h"
-#include "Scene.h"
+#include "Scene.h"                
+#include "RendererComponent.h"
 
 namespace bnhe
 {
+    FACTORY_REGISTER(Actor);
+   
+    Actor::Actor(const Actor& other) :
+        Object{ other },
+        m_transform{other.m_transform },
+        m_velocity{other.m_velocity },
+        m_modulate{other.m_modulate },
+        destroyed{other.destroyed },
+        m_tags{other.m_tags}
+    {
+        for (const auto& component : other.m_components) {
+            auto clone = std::unique_ptr<Component>(dynamic_cast<Component*>((component->Clone().release())));
+            AddComponent(std::move(clone));
+        }
+    }
+
+    void Actor::Read(const json::value_t& value)
+    {
+        Object::Read(value);
+
+        if (JSON_HAS_NAME(value, "transform")) m_transform.Read(value["transform"]);
+        if (JSON_HAS_NAME(value, "velocity")) JSON_READ_NAME(value, "velocity", m_velocity);
+        if (JSON_HAS_NAME(value, "modulate")) JSON_READ_NAME(value, "modulate", m_modulate);
+        //JSON_READ_NAME(value, "tags", m_tags); // TODO: add vector/array reading
+
+        if (JSON_HAS_NAME(value, "components")) {
+            for (auto& componentValue : JSON_GET_NAME(value, "components").GetArray()) {
+                std::string typeName;
+                JSON_READ_NAME(componentValue, "type", typeName);
+
+                std::cout << "Loading component type: " << typeName << std::endl;
+
+                std::unique_ptr<Component> component = Factory::Instance().Create<Component>(typeName);
+                if (component) {
+                    component->Read(componentValue);
+                    AddComponent(std::move(component));
+                }
+            }
+
+
+        }
+    }
+
     void Actor::Update(float delta)
     {
         if (destroyed) return;
@@ -17,6 +62,10 @@ namespace bnhe
         //m_transform.position.x = math::Wrap(m_transform.position.x, 0.0f, (float)Renderer::GetWidth());
         //m_transform.position.y = math::Wrap(m_transform.position.y, 0.0f, (float)Renderer::GetHeight());
 
+        for (auto& component : m_components) {
+            component->Update(delta);
+        }
+
         if (m_transform.position.x < -16.f || m_transform.position.x > Renderer::GetWidth()+16.f) { Destroy(); }
         else if (m_transform.position.y < -16.f || m_transform.position.y > Renderer::GetHeight()+16.f) { Destroy(); }
     }
@@ -24,20 +73,19 @@ namespace bnhe
     void Actor::Draw(const class Renderer& renderer) const
     {
         if (destroyed) return;
-        renderer.DrawModel(m_model, m_transform);
 
-        if (m_texture) {
-            renderer.DrawTexture(*m_texture, m_transform, m_modulate);
+        for (auto& component : m_components) {
+            // Check if component is a renderer component
+            auto rendererComponent = dynamic_cast<RendererComponent*>(component.get());
+            if (rendererComponent)
+                rendererComponent->Draw(renderer);
         }
     }
 
-    float Actor::GetRadius() const {
-
-        if (m_texture) {
-            return (m_texture->GetSize().Length() * 0.5f) * 0.5 * (m_transform.scale.x+m_transform.scale.y) * 0.5f;
-        }
-        
-        return m_model.GetRadius() * m_transform.scale.Length() * 0.9f;
+    void Actor::AddComponent(std::unique_ptr<Component> component)
+    {
+        component->SetOwner(this);
+        m_components.push_back(std::move(component));
     }
 
     void Actor::OnCollision(Actor* actor) {}

@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "Engine.h"
 
+FACTORY_REGISTER(Enemy)
+
 void Enemy::Update(float delta)
 {
 	if (destroyed) return;
@@ -27,7 +29,7 @@ void Enemy::OnCollision(Actor* actor)
 
 	if (actor->HasTag("DamagesEnemy") || actor->HasTag("DamagesEverything"))
 	{
-		if (m_texture) {
+		/*if (m_texture) {
 			for (int i = 0; i < 10; i++)
 			{
 				Particle particle{ true, 1.0f, m_transform.position, Vector2(Random::Float(-1, 1) * 600.f, Random::Float(-1, 1) * 400.f), Color(1.f, 1.f, 1.f)};
@@ -44,7 +46,7 @@ void Enemy::OnCollision(Actor* actor)
 			Particle particle{ true, 1.0f, m_transform.position, Vector2(Random::Float(-1, 1) * 600.f, Random::Float(-1, 1) * 400.f), color };
 			Engine::Get().GetPS().AddParticle(particle);
 		}
-		Engine::Get().GetAudio().PlaySound("enemy_death");
+		Engine::Get().GetAudio().PlaySound("enemy_death"); */
 		Destroy();
 	}
 }

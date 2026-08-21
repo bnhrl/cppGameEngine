@@ -8,8 +8,11 @@
 
 #include "Engine.h"
 
-#include "Player.h"
 #include "Models.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "PowerUp.h"
+#include "Bullet.h"
 
 const int RESOLUTION_X = 1280;
 const int RESOLUTION_Y = 960;
@@ -20,7 +23,77 @@ using namespace bnhe;
 
 
 
-std::map<std::string, std::unique_ptr<ICreator>> registry;
+void CreateEnemy(Scene* scene, Player* player) {
+    Transform transform;
+    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(Enemy(transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())));
+    enemy->SetTarget(player);
+    scene->AddActor(std::move(enemy));
+}
+
+void CreateBullet(Scene* scene) {
+    Transform transform;
+    Vector2 direction;
+    if (Random::Int(1)) { transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(1.f, 0.f); }
+    else { transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(-1.f, 0.f); }
+    std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Everything", direction, 1200.f, Color(0.f, 1.f, 1.f), 3);
+    scene->AddActor(std::move(bullet));
+}
+
+void CreatePowerUp(Scene* scene, Player* player) {
+    std::unique_ptr<PowerUp> powerUp;
+    Transform transform;
+    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    Player::SoulMode type = (Player::SoulMode)Random::Bool();
+    if (type == Player::ORANGE)
+        powerUp = std::make_unique<PowerUp>(transform, Resources().Get<Texture>("Textures/powerup_thumbs.png", Engine::Get().GetRenderer()), "Orange");
+    else
+        powerUp = std::make_unique<PowerUp>(transform, Resources().Get<Texture>("Textures/powerup_clover.png", Engine::Get().GetRenderer()), "Yellow");
+    powerUp->SetVelocity(transform.position.DirectionTo(player->GetTransform().position) * -200.f);
+    scene->AddActor(std::move(powerUp));
+}
+
+Player* CreatePlayer(Scene* scene) {
+    Transform pTransform = Transform(Vector2(RESOLUTION_X / 2.0f, RESOLUTION_Y / 2.0f), 0.0f, Vector2(1.0f));
+    std::unique_ptr<Player> player = std::make_unique<Player>((pTransform));
+    Player* ptr = player.get();
+    scene->AddActor(std::move(player));
+    return ptr;
+}
+
+float points = 0.f;
+const float MAX_TIME_UNTIL_ENEMY = 5.f;
+const float MAX_TIME_UNTIL_BULLET = 5.f;
+const float MAX_TIME_UNTIL_POWER_UP = 8.f;
+float MAX_timeUntilEnemy = MAX_TIME_UNTIL_ENEMY;
+float MAX_timeUntilBullet = MAX_TIME_UNTIL_BULLET;
+float MAX_timeUntilPowerUp = MAX_TIME_UNTIL_POWER_UP;
+float timeUntilEnemy = MAX_timeUntilEnemy;
+float timeUntilBullet = MAX_timeUntilBullet;
+float timeUntilPowerUp = MAX_timeUntilPowerUp;
+
+
+void StartGame(Scene* scene, Player*& player) {
+    scene->Clear(); // Cleaning up scene
+
+    // Resetting Values
+    points = 0.f;
+    MAX_timeUntilEnemy = MAX_TIME_UNTIL_ENEMY;
+    MAX_timeUntilBullet = MAX_TIME_UNTIL_BULLET;
+    MAX_timeUntilPowerUp = MAX_TIME_UNTIL_POWER_UP;
+    timeUntilEnemy = MAX_timeUntilEnemy;
+    timeUntilBullet = MAX_timeUntilBullet;
+    timeUntilPowerUp = MAX_timeUntilPowerUp;
+
+    // Resetting player. Should already be deleted, but just in case, Kill Them
+    //if (player) delete player;
+    player = CreatePlayer(scene);
+
+    // Swap Scene
+    Engine::Get().GetSM().SetActiveScene("Game");
+}
 
 
 
@@ -39,8 +112,6 @@ int main()
     // Factory Testing
     ///
 
-    Factory::Instance().Register<Actor>("Actor");
-
     auto actor = Factory::Instance().Create<Actor>("Actor");
     std::cout << actor->IsActive() << std::endl;
 
@@ -53,50 +124,6 @@ int main()
         std::cout << "rotation: " << actor->GetTransform().rotation << std::endl;
         std::cout << "modulate: " << actor->GetModulate().r << " " << actor->GetModulate().g << " " << actor->GetModulate().b << " " << actor->GetModulate().a << std::endl;
     }
-    
-    return 0;
-
-
-    ///
-    // JSON Testing
-    ///
-
-    // load the json data from a file
-    //std::string buffer;
-    //if (ReadTextFile("data/data.json", buffer))
-    //{
-    //    // show the contents of the json file (debug)
-    //    std::cout << buffer << std::endl;
-
-    //    // create json document from the json file contents
-    //    json::document_t document;
-    //    if (json::Load("data/data.json", document))
-    //    {
-    //        // read the age data (int) from the json
-    //        int age;
-    //        std::string name;
-    //        float speed;
-    //        bool isAwake;
-    //        Vector2 position;
-    //        Color color;
-
-    //        // read the data
-    //        JSON_READ(document, age);
-    //        JSON_READ(document, name);
-    //        JSON_READ(document, speed);
-    //        JSON_READ(document, isAwake);
-    //        JSON_READ(document, position);
-    //        JSON_READ(document, color);
-
-    //        // show the data
-    //        std::cout << "age: " << age << std::endl;
-    //        std::cout << "name: " << name << std::endl;
-    //        std::cout << "speed: " << speed << std::endl;
-    //        std::cout << "isAwake: " << isAwake << std::endl;
-    //        std::cout << "position: " << position.x << " " << position.y << std::endl;
-    //        std::cout << "color: " << color.r << " " << color.g << " " << color.b << " " << color.a << std::endl;
-    //    }
-    //}
 
 
 
@@ -112,6 +139,39 @@ int main()
     // Scenes
     ///
     Scene* menuScene = new Scene("Menu");
+    menuScene->Load("Data/scene.json");
+
+    Text* textTitle = new Text(engine.GetFontBig()); textTitle->Create(engine.GetRenderer(), "UNNAMED C++ GAME", Color{ 1, 1, 1, 1 });
+    Text* textInstructions = new Text(engine.GetFont());
+    textInstructions->Create(engine.GetRenderer(),
+        "[ARROW KEYS] to MOVE. [X] to MOVE SLOWER."
+        "                                              "
+        "Press [Z] to attack when you have a POWER-UP."
+        "                                              "
+        "Press [C] to FLIP."
+        "                                              "
+        "SURVIVE to gain POINTs."
+        "                                              "
+        "THINGs will gradually get MORE INTENSE."
+        "                                              "
+        "Press [Z] to START!",
+        Color{ 1, 1, 1, 1 }, 720);
+    Text* textCredits = new Text(engine.GetFont()); textCredits->Create(engine.GetRenderer(), "[heavily inspired by UNDERTALE/deltarune]", Color{ 1, 1, 1, 1 });
+
+    // Game scene
+    Scene* gameScene = new Scene("Game");
+    Text* textPoints = new Text(engine.GetFont()); textTitle->Create(engine.GetRenderer(), "0 POINTs", Color{ 1, 1, 1, 1 });
+    // Player
+    Player* player = nullptr;
+
+    // Death scene
+    Scene* deathScene = new Scene("Death");
+
+    // Adding scenes to SceneManager
+    engine.GetSM().AddScene(menuScene);
+    engine.GetSM().AddScene(gameScene);
+    engine.GetSM().AddScene(deathScene);
+    engine.GetSM().SetActiveScene("Menu");
 
 
 
@@ -146,6 +206,71 @@ int main()
         ///
         // Scenes
         ///
+
+        if (engine.GetSM().GetActiveScene() == menuScene)
+        {
+            textTitle->Draw(engine.GetRenderer(), 32, 32);
+            textInstructions->Draw(engine.GetRenderer(), 32, 160);
+            textCredits->Draw(engine.GetRenderer(), 32, RESOLUTION_Y - 82);
+            if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_Z)) {
+                StartGame(gameScene, player);
+            }
+        }
+        else if (engine.GetSM().GetActiveScene() == gameScene) {
+            // POINTs
+            points += delta;
+            textPoints->Create(engine.GetRenderer(), std::to_string((int)points) + " POINTs", Color{ 1, 1, 1, 1 });
+            textPoints->Draw(engine.GetRenderer(), RESOLUTION_Xf * 0.45f, 16);
+
+            // Spawn Timers
+            if (MAX_timeUntilBullet > 0.75f) MAX_timeUntilBullet -= delta * 0.075f;
+            if (MAX_timeUntilEnemy > 0.75f) MAX_timeUntilEnemy -= delta * 0.075f;
+            if (MAX_timeUntilPowerUp > 3.75f) MAX_timeUntilPowerUp -= delta * 0.1f;
+
+            // Spawning Enemies
+            if (timeUntilEnemy <= 0.f) {
+                timeUntilEnemy = MAX_timeUntilEnemy;
+                CreateEnemy(gameScene, player);
+            }
+            else timeUntilEnemy -= delta;
+
+            // Spawning Power-Ups
+            if (timeUntilPowerUp <= 0.f) {
+                timeUntilPowerUp = MAX_timeUntilPowerUp;
+                CreatePowerUp(gameScene, player);
+
+            }
+            else timeUntilPowerUp -= delta;
+
+            // TODO: Spawning Bullets
+            if (timeUntilBullet <= 0.f) {
+                timeUntilBullet = MAX_timeUntilBullet;
+                CreateBullet(gameScene);
+
+            }
+            else timeUntilBullet -= delta;
+
+            // Death
+            if (player == nullptr || player->IsDestroyed()) {
+                engine.GetSM().SetActiveScene("Death");
+            }
+        }
+        else if (engine.GetSM().GetActiveScene() == deathScene) {
+            textTitle->Create(engine.GetRenderer(), "YOU HAVE REACHED AN END. CONTINUE?", Color{ 1, 1, 1, 1 });
+            textTitle->Draw(engine.GetRenderer(), 32, 32);
+            textInstructions->Create(engine.GetRenderer(),
+                "[Z] Retry"
+                "                                              "
+                "[X] Exit",
+                Color{ 1, 1, 1, 1 }, 400);
+            textInstructions->Draw(engine.GetRenderer(), 32, 160);
+            textCredits->Create(engine.GetRenderer(), std::to_string((int)points) + " POINTs acquired last run", Color{ 1, 1, 1, 1 });
+            textCredits->Draw(engine.GetRenderer(), 32, RESOLUTION_Y - 82);
+            // Restarting
+            if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_Z)) {
+                StartGame(gameScene, player);
+            }
+        }
 
 
 
