@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "Renderer.h"
 
-
-#include "Vector2.h"
+#include "Math/Vector2.h"
 #include "Model.h"
 
-#include <iostream>
 #include <cmath>
 
 namespace bnhe
@@ -198,6 +196,11 @@ namespace bnhe
             SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, math::RadToDeg(transform.rotation), NULL, SDL_FLIP_HORIZONTAL);
         else
             SDL_RenderTextureRotated(m_renderer, texture.m_texture, NULL, &destRect, math::RadToDeg(transform.rotation), NULL, SDL_FLIP_NONE);
+    }
+
+    void Renderer::DrawTexture(const Texture& texture, const Transform& transform, const Rect rect, Color modulate, bool flipH) const
+    {
+
     }
 
 }

@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <random>
 
-#include "Vector2.h"
+#include "Math/Vector2.h"
 
 namespace bnhe
 {

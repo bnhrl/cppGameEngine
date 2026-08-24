@@ -179,7 +179,6 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
-    <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Factory.h" />
@@ -189,13 +188,19 @@
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Json.h" />
-    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="Math\Color.h" />
+    <ClInclude Include="Math\MathUtils.h" />
+    <ClInclude Include="Math\Random.h" />
+    <ClInclude Include="Math\Rect.h" />
+    <ClInclude Include="Math\Transform.h" />
+    <ClInclude Include="Math\Transform3D.h" />
+    <ClInclude Include="Math\Vector2.h" />
+    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererComponent.h" />
     <ClInclude Include="Resource.h" />
@@ -207,10 +212,6 @@
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Transform3D.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
@@ -222,6 +223,7 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Json.cpp" />
+    <ClCompile Include="Math\Random.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
@@ -231,7 +233,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
     <ClCompile Include="Scene.cpp" />

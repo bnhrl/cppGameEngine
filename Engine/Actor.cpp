@@ -3,7 +3,7 @@
 
 #include "Factory.h"
 #include "Renderer.h"
-#include "MathUtils.h"
+#include "Math/MathUtils.h"
 #include "Scene.h"                
 #include "RendererComponent.h"
 
@@ -43,7 +43,7 @@ namespace bnhe
                 std::string typeName;
                 JSON_READ_NAME(componentValue, "type", typeName);
 
-                std::cout << "Loading component type: " << typeName << std::endl;
+                //std::cout << "Loading component type: " << typeName << std::endl;
 
                 std::unique_ptr<Component> component = Factory::Instance().Create<Component>(typeName);
                 if (component) {
@@ -53,10 +53,10 @@ namespace bnhe
             }
         }
 
-        // Debug
-        for (const auto& component : m_components) {
-            std::cout << component.get();
-        } std::cout << std::endl;
+        //// Debug
+        //for (const auto& component : m_components) {
+        //    std::cout << component.get();
+        //} std::cout << std::endl;
     }
 
     void Actor::Update(float delta)
@@ -92,7 +92,6 @@ namespace bnhe
     void Actor::AddComponent(std::unique_ptr<Component> component)
     {
         component->SetOwner(this);
-        std::cout << "Added component: " << component.get() << std::endl;
         m_components.push_back(std::move(component));
     }
 

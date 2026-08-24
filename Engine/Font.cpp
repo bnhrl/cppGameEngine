@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Font.h"
 
-#include <iostream>
-
 namespace bnhe {
 	Font::~Font() {
 		if (m_ttfFont != nullptr) {

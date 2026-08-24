@@ -1,12 +1,8 @@
 #include "pch.h"
 #include "Engine.h"
 
-#include "framework.h"
-
 #include "SpriteRendererComponent.h"
 #include "CircleColliderComponent.h"
-
-#include <iostream>
 
 namespace bnhe
 {

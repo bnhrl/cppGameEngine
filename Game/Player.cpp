@@ -39,20 +39,23 @@ void Player::Update(float delta) {
                 if (m_charge >= .5f) { // Big Shot
                     Engine::Get().GetAudio().PlaySound("player_shoot_big");
                     Transform transform{ m_transform.position, 0.f, Vector2(.75f) };
-
                     auto bullet = bnhe::Factory().Instance().Create<Bullet>("BulletPrototype");
-                    bullet->SetTransform(m_transform);
-                    bullet->AddTag("DamagesEnemy");
-                    //std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 3);
 
+                    bullet->AddTag("DamagesEnemy");
+                    bullet->SetTransform(transform);
                     m_scene->AddActor(std::move(bullet));
+
                     m_charge = 0.f;
                 }
                 else { // Normal Shot
                     Engine::Get().GetAudio().PlaySound("player_shoot");
                     Transform transform{ m_transform.position, 0.f, Vector2(.33f) };
-                    std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Enemy", m_dir, 1000.f, m_color, 1);
+                    auto bullet = bnhe::Factory().Instance().Create<Bullet>("BulletPrototype");
+
+                    bullet->AddTag("DamagesEnemy");
+                    bullet->SetTransform(transform);
                     m_scene->AddActor(std::move(bullet));
+
                     m_charge = 0.f;
                 }
             }
