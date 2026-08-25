@@ -5,6 +5,8 @@
 #include "Core/Factory.h"
 
 namespace bnhe {
+	FACTORY_REGISTER(SpriteRendererComponent)
+
 	void SpriteRendererComponent::Draw(const Renderer& renderer)
 	{
 		renderer.DrawTexture(*m_texture, GetOwner()->GetTransform(), GetOwner()->GetModulate());

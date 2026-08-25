@@ -33,7 +33,7 @@ namespace bnhe
 		JSON_READ_NAME(document, "columns", m_numColumns);
 		JSON_READ_NAME(document, "rows", m_numRows);
 		JSON_READ_NAME(document, "start_frame", m_startFrame);
-		JSON_READ_NAME(document, "total_frame", m_totalFrames);
+		JSON_READ_NAME(document, "total_frames", m_totalFrames);
 
 		if (m_numColumns <= 0) m_numColumns = 1;
 		if (m_numRows <= 0) m_numRows = 1;
@@ -45,16 +45,15 @@ namespace bnhe
 	}
 
 	Rect TextureFrames::GetFrameRect(int frame) {
-		if (frame < 0 && frame > m_totalFrames) 
+		if (frame >= m_totalFrames) 
 		{
-			std::cerr << "Invalid frame number" << std::endl;
+			std::cerr << "Invalid frame number: " << frame << " / " << m_totalFrames << std::endl;
 			return Rect();
 		}
 		int currentFrame = m_startFrame * frame;
 
 		float column = frame % m_numColumns;
 		float row = frame / m_numColumns;
-
 		float x = column * m_frameSize.x;
 		float y = row * m_frameSize.y;
 

@@ -1,0 +1,80 @@
+#include "pch.h"
+#include "RigidBodyPhysicsComponent.h"
+
+#include "Core/Factory.h"
+#include "Framework/Actor.h"
+
+namespace bnhe {
+    FACTORY_REGISTER(RigidBodyPhysicsComponent)
+
+    void RigidBodyPhysicsComponent::Update(float delta)
+    {
+        // Velocity & Position
+        m_velocity += m_acceleration * delta;
+        m_velocity *= 1.0f / ((1.0f) + m_damping * delta);
+
+        Vector2 position = GetOwner()->GetTransform().position;
+        position += m_velocity * delta;
+        GetOwner()->SetPosition(position);
+
+        m_acceleration = Vector2(0.f);
+
+        // Angular Velocity & Rotation
+        m_angularVelocity += m_angularAcceleration * delta;
+        m_angularVelocity *= 1.0f / ((1.0f) + m_angularDamping * delta);
+
+        float rotation = GetOwner()->GetTransform().rotation;
+        rotation += m_angularVelocity;
+        GetOwner()->SetRotation(rotation);
+
+        m_angularVelocity = 0.f;
+    }
+
+
+    void RigidBodyPhysicsComponent::ApplyForce(const Vector2& force)
+    {
+        m_acceleration += force / m_mass;
+    }
+
+    void RigidBodyPhysicsComponent::SetVelocity(const Vector2& velocity)
+    {
+        m_velocity = velocity;
+    }
+
+    Vector2 RigidBodyPhysicsComponent::GetVelocity()
+    {
+        return m_velocity;
+    }
+
+    void RigidBodyPhysicsComponent::ApplyTorque(float torque)
+    {
+        m_angularAcceleration += torque / m_mass;
+    }
+
+    void RigidBodyPhysicsComponent::SetAngularVelocity(float angularVelocity)
+    {
+        m_angularVelocity = angularVelocity;
+    }
+
+    float RigidBodyPhysicsComponent::GetAngularVelocity() const
+    {
+        return m_angularVelocity;
+    }
+
+    void RigidBodyPhysicsComponent::SetPosition(const Vector2& position)
+    {
+        GetOwner()->SetPosition(position);
+    }
+
+    Vector2 RigidBodyPhysicsComponent::GetPosition() const
+    {
+        return GetOwner()->GetTransform().position;
+    }
+    void RigidBodyPhysicsComponent::Read(const json::value_t& value)
+    {
+        PhysicsComponent::Read(value);
+
+        JSON_READ_NAME(value, "velocity", m_velocity);
+        JSON_READ_NAME(value, "angular_velocity", m_angularVelocity);
+    }
+}

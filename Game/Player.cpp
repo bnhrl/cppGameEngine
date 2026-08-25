@@ -9,6 +9,10 @@ void Player::Read(const json::value_t& value) {
 }
 
 void Player::Update(float delta) {
+    for (auto& component : m_components) {
+        component->Update(delta);
+    }
+
     // Input
     Vector2 force = Vector2(0, 0);
 

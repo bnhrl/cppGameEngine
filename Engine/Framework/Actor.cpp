@@ -69,9 +69,9 @@ namespace bnhe
         //m_transform.position.x = math::Wrap(m_transform.position.x, 0.0f, (float)Renderer::GetWidth());
         //m_transform.position.y = math::Wrap(m_transform.position.y, 0.0f, (float)Renderer::GetHeight());
 
-        /*for (auto& component : m_components) {
+        for (auto& component : m_components) {
             component->Update(delta);
-        }*/
+        }
 
         if (m_transform.position.x < -16.f || m_transform.position.x > Renderer::GetWidth()+16.f) { Destroy(); }
         else if (m_transform.position.y < -16.f || m_transform.position.y > Renderer::GetHeight()+16.f) { Destroy(); }

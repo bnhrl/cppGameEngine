@@ -17,8 +17,8 @@ using namespace bnhe;
 
 void CreateEnemy(Scene* scene, Player* player) {
     Transform transform;
-    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
-    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    if (Random::Int(1)) transform = { Vector2(0.f, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    else                transform = { Vector2(RESOLUTION_Xf, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
     //std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(Enemy(transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())));
     std::unique_ptr<Enemy> enemy = Factory::Instance().Create<Enemy>("EnemyPrototype");
     enemy->SetTransform(transform);
@@ -30,8 +30,8 @@ void CreateEnemy(Scene* scene, Player* player) {
 void CreateBullet(Scene* scene) {
     Transform transform;
     Vector2 direction;
-    if (Random::Int(1)) { transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(1.f, 0.f); }
-    else { transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(-1.f, 0.f); }
+    if (Random::Int(1)) { transform = { Vector2(0.f, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(1.f, 0.f); }
+    else { transform = { Vector2(RESOLUTION_Xf, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(-1.f, 0.f); }
     //std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Everything", direction, 1200.f, Color(0.f, 1.f, 1.f), 3);
     std::unique_ptr<Bullet> bullet = Factory::Instance().Create<Bullet>("WildBulletPrototype");
     bullet->SetTransform(transform);
@@ -44,8 +44,8 @@ void CreateBullet(Scene* scene) {
 void CreatePowerUp(Scene* scene, Player* player) {
     std::unique_ptr<PowerUp> powerUp;
     Transform transform;
-    if (Random::Int(1)) transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
-    else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    if (Random::Int(1)) transform = { Vector2(0.f, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
+    else                transform = { Vector2(RESOLUTION_Xf, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
     Player::SoulMode type = (Player::SoulMode)Random::Bool();
     if (type == Player::ORANGE)
         powerUp = std::make_unique<PowerUp>(transform, Resources().Get<Texture>("Textures/powerup_thumbs.png", Engine::Get().GetRenderer()), "Orange");

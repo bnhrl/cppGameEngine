@@ -12,6 +12,6 @@ namespace bnhe {
 
 		float GetRadius() const { return m_radius; }
 	protected:
-		bool m_radius;
+		float m_radius;
 	};
 }

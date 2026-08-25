@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "PowerUp.h"
 
+#include "Core/Factory.h"
+
 using namespace bnhe;
+
+FACTORY_REGISTER(PowerUp)
 
 void PowerUp::Update(float delta) {
     if (destroyed) return;

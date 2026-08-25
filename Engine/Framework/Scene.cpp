@@ -68,7 +68,7 @@ namespace bnhe {
 				if (actorA == actorB || actorA->destroyed || actorB->destroyed) continue;
 
 				auto colliderA = actorA->GetComponent<ColliderComponent>();
-				auto colliderB = actorA->GetComponent<ColliderComponent>();
+				auto colliderB = actorB->GetComponent<ColliderComponent>();
 				
 				if (!colliderA || !colliderB) continue;
 
