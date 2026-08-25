@@ -7,6 +7,8 @@ using namespace bnhe;
 class Bullet : public Actor
 {
 public:
+	CLASS_PROTOTYPE(Bullet)
+
 	Bullet() = default;
 	Bullet(const Transform& transform, std::string damagesTag, Vector2 direction, float speed, Color color, int pierces = 2) : Actor{transform, Resources().Get<Texture>("Textures/bullet.png", Engine::Get().GetRenderer()) }
 	{ 
@@ -21,5 +23,5 @@ public:
 	virtual void OnCollision(Actor* actor) override;
 
 private:
-	int m_pierces;
+	int m_pierces = -1;
 };

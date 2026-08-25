@@ -37,6 +37,7 @@ namespace bnhe {
         void SetRotation(float rotation) { m_transform.rotation = rotation; }
         void SetScale(const Vector2 scale) { m_transform.scale = scale; }
         void SetVelocity(const Vector2 velocity) { m_velocity = velocity; }
+        void SetModulate(const Color color) { m_modulate = color; }
 
         bool HasTag(std::string tag) { 
             if (m_tags.size() <= 0) return false;

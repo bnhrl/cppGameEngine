@@ -18,6 +18,7 @@ namespace bnhe
 		m_renderer.Initialize("Game Engine", resolution_x, resolution_y);
 		m_audio.Initialize();
 		m_particle_system.Initialize(5000);
+		m_physics.Initialize();
 
 		Random::SetResolution(resolution_x, resolution_y);
 
@@ -29,6 +30,7 @@ namespace bnhe
 		m_input.Shutdown();
 		m_renderer.Shutdown();
 		m_particle_system.Shutdown();
+		m_physics.Shutdown();
 	}
 
 	void Engine::Update() {
@@ -39,6 +41,7 @@ namespace bnhe
 			m_scene_manager.GetActiveScene()->Update(m_time.GetDeltaTime());
 			m_scene_manager.GetActiveScene()->UpdateCollisions();
 		}
+		m_physics.Update(m_time.GetDeltaTime());
 	}
 
 	void Engine::UpdateAudio() {

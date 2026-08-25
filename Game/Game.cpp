@@ -21,8 +21,9 @@ void CreateEnemy(Scene* scene, Player* player) {
     else                transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
     //std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(Enemy(transform, Resources().Get<Texture>("Textures/player.png", Engine::Get().GetRenderer())));
     std::unique_ptr<Enemy> enemy = Factory::Instance().Create<Enemy>("EnemyPrototype");
-    enemy->SetPosition(transform.position);
+    enemy->SetTransform(transform);
     enemy->SetTarget(player);
+    enemy->AddTag("DamagesPlayer");
     scene->AddActor(std::move(enemy));
 }
 
@@ -31,7 +32,12 @@ void CreateBullet(Scene* scene) {
     Vector2 direction;
     if (Random::Int(1)) { transform = { Vector2(0, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(1.f, 0.f); }
     else { transform = { Vector2(RESOLUTION_X, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(-1.f, 0.f); }
-    std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Everything", direction, 1200.f, Color(0.f, 1.f, 1.f), 3);
+    //std::unique_ptr<Bullet> bullet = std::make_unique<Bullet>(transform, "Everything", direction, 1200.f, Color(0.f, 1.f, 1.f), 3);
+    std::unique_ptr<Bullet> bullet = Factory::Instance().Create<Bullet>("WildBulletPrototype");
+    bullet->SetTransform(transform);
+    bullet->SetModulate(Color(0.f, 1.f, 1.f));
+    bullet->AddTag("DamagesEnemies");
+    bullet->SetVelocity(direction * 1200.f);
     scene->AddActor(std::move(bullet));
 }
 

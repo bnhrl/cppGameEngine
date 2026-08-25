@@ -1,6 +1,5 @@
 #include "Player.h"
 #include "Bullet.h"
-#include <SpriteRendererComponent.h>
 
 FACTORY_REGISTER(Player)
 
