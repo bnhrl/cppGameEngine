@@ -1,30 +1,30 @@
 #pragma once
 
-#include "Object.h"
-#include "Factory.h"
-#include "File.h"
+#include "Framework/Object.h"
+#include "Core/Factory.h"
+#include "Core/File.h"
 
 #include "Math/Random.h"
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
 #include "Math/Transform.h"
 #include "Math/MathUtils.h"
-#include "Json.h"
-#include "Font.h"
-#include "Text.h"
-#include "Texture.h"
+#include "Serialization/Json.h"
+#include "Renderer/Font.h"
+#include "Renderer/Text.h"
+#include "Renderer/Texture.h"
 
 #include "Physics/Physics.h"
-#include "GameTime.h"
-#include "Renderer.h"
-#include "Input.h"
-#include "Audio.h"
-#include "ParticleSystem.h"
-#include "Scene.h"
-#include "Actor.h"
+#include "Core/GameTime.h"
+#include "Renderer/Renderer.h"
+#include "Input/Input.h"
+#include "Audio/Audio.h"
+#include "Renderer/ParticleSystem.h"
+#include "Framework/Scene.h"
+#include "Framework/Actor.h"
 
-#include "SceneManager.h"
-#include "ResourceManager.h"
+#include "Framework/SceneManager.h"
+#include "Resources/ResourceManager.h"
 
 
 namespace bnhe 

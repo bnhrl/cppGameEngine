@@ -1,9 +1,9 @@
 #pragma once
-#include "Resource.h"
+#include "Resources/Resource.h"
 
 #include <string>
 
-#include "Renderer.h"
+#include "Renderer/Renderer.h"
 #include "Math/Rect.h"
 
 namespace bnhe 

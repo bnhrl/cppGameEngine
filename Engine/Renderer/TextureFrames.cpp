@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "TextureFrames.h"
 
-#include "Json.h"
-#include "ResourceManager.h"
+#include "Serialization/Json.h"
+#include "Resources/ResourceManager.h"
 
 namespace bnhe
 {
