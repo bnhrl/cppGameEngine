@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Bullet.h"
 
+#include "Components/PhysicsComponent.h"
+
 FACTORY_REGISTER(Player)
 
 void Player::Read(const json::value_t& value) {
@@ -14,17 +16,14 @@ void Player::Update(float delta) {
     }
 
     // Input
-    Vector2 force = Vector2(0, 0);
+    float thrust = 0.f;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_UP)) thrust = m_speed;
+    float rotate = 0.f;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_LEFT)) rotate = -3.0;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_RIGHT)) rotate = 3.0;
 
-    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_UP)) force.y = -m_speed;
-    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_LEFT)) force.x = -m_speed;
-    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_DOWN)) force.y = +m_speed;
-    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_RIGHT)) force.x = +m_speed;
-
-    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_X)) force *= 0.5f;
 
     // Soul Modes
-
     if (m_sm_time_left <= 0.f && m_soulmode != RED) {
         SetSoulMode(RED);
     } else if (m_sm_time_left > 0.f) m_sm_time_left -= delta;
@@ -91,20 +90,29 @@ void Player::Update(float delta) {
     }
 
     // Movement
-    if (m_soulmode != RED) SetRotation(m_dir.Angle() + math::PI);
-    else SetRotation(math::PI*2.0);
-    SetVelocity(force);
-    m_transform.position += m_velocity * delta;
-    m_transform.position += m_dash_force * delta;
-    SetVelocity(Vector2(0.0f));
-    m_dash_force = m_dash_force.Lerp(Vector2(0.f), 24.f, delta);
+    auto physicsComponent = GetComponent<PhysicsComponent>();
+    if (physicsComponent) {
+        Vector2 forward{ 0,-1 };
+        Vector2 force = forward.Rotate(m_transform.rotation) * thrust;
+
+        physicsComponent->ApplyForce(force);
+        physicsComponent->ApplyTorque(rotate * delta);
+    }
+
+    //if (m_soulmode != RED) SetRotation(m_dir.Angle() + math::PI);
+    //else SetRotation(math::PI*2.0);
+    //SetVelocity(force);
+    //m_transform.position += m_velocity * delta;
+    //m_transform.position += m_dash_force * delta;
+    //SetVelocity(Vector2(0.0f));
+    //m_dash_force = m_dash_force.Lerp(Vector2(0.f), 24.f, delta);
     if (m_transform.position.x < 0.f) m_transform.position.x = 0.f;
     else if (m_transform.position.x > (float)Engine::Get().GetRenderer().GetWidth()) m_transform.position.x = (float)Engine::Get().GetRenderer().GetWidth();
     if (m_transform.position.y < 0.f) m_transform.position.y = 0.f;
     else if (m_transform.position.y > (float)Engine::Get().GetRenderer().GetHeight()) m_transform.position.y = (float)Engine::Get().GetRenderer().GetHeight();
 
-    // Rotation
-    if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_C)) m_dir.x *= -1;
+    //// Rotation
+    //if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_C)) m_dir.x *= -1;
 
     // Effect
     m_effect_transform.position = GetTransform().position;

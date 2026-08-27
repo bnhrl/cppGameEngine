@@ -1,18 +1,25 @@
 #pragma once
 #include "PhysicsComponent.h"
 
+#include "Physics/PhysicsBody.h"
+
 namespace bnhe
 {
-	class RigidBodyPhysicsComponent : public PhysicsComponent {
+	class Box2DPhysicsComponent : public PhysicsComponent
+	{
 	public:
-		CLASS_PROTOTYPE(RigidBodyPhysicsComponent)
+		Box2DPhysicsComponent() = default;
+		Box2DPhysicsComponent(const Box2DPhysicsComponent& other);
 
+		CLASS_PROTOTYPE(Box2DPhysicsComponent)
+
+		void OnStart() override;
 		void Update(float delta) override;
+		void Read(const json::value_t& value) override;
 
 		void ApplyForce(const Vector2& force) override;
 		void SetVelocity(const Vector2& velocity) override;
 		Vector2 GetVelocity() override;
-
 		void ApplyTorque(float torque) override;
 		void SetAngularVelocity(float angularVelocity) override;
 		float GetAngularVelocity() const override;
@@ -21,15 +28,13 @@ namespace bnhe
 		Vector2 GetPosition() const override;
 
 		void SetRotation(float rotation) override;
-		virtual float GetRotation() const;
-
-		void Read(const json::value_t& value) override;
+		float GetRotation() const override;
 
 	private:
-		Vector2 m_acceleration{ 0.f, 0.f };
-		float m_angularAcceleration = 0.f;
+		Vector2 m_size{ 0.f, 0.f };
+		Vector2 m_scale{ 1.f,1.f };
 
-		Vector2 m_velocity{ 0.f, 0.f };
-		float m_angularVelocity = 0.f;
+		PhysicsBody::PhysicsBodyDef m_bodyDef;
+		std::unique_ptr<PhysicsBody> m_physicsBody;
 	};
 }

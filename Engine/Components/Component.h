@@ -11,8 +11,8 @@ namespace bnhe {
 
 		virtual void Read(const json::value_t& value) {};
 
-		virtual void Start() {}
-		virtual void Destroyed() {}
+		virtual void OnStart() {}
+		virtual void OnDestroy() {}
 
 		virtual void Update(float delta) {}
 

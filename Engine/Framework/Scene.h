@@ -31,18 +31,6 @@ namespace bnhe {
 		void Update(float delta);
 		void Draw(const class Renderer& renderer);
 
-		/*template<typename T>
-		inline T* GetActorByName(const std::string& name) {
-			for (auto actor& : m_actors) {
-				T* actorT = dynamic_cast<T*>(actor.get());
-				if (actorT && actorT->m_name == name) {
-					return actorT;
-				}
-			}
-			
-			return nullptr;
-		}*/
-
 		void UpdateCollisions();
 
 	private:
@@ -51,6 +39,7 @@ namespace bnhe {
 		std::vector<std::unique_ptr<Actor>> m_pending_actors;
 		void AddPendingActors() {
 			for (auto& actor : m_pending_actors) {
+				actor->OnStart();
 				m_actors.push_back(std::move(actor));
 			}
 			m_pending_actors.clear();

@@ -18,12 +18,19 @@
         "rotation": 0.0,
         "scale": 1.0
       },
-      "speed": 400.0,
+      "speed": 2000.0,
       "components": [
         {
           "type": "SpriteAnimationRendererComponent",
           "texture_frames": "Animations/player_idle.json",
           "fps": 7.0
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "linear_damping": 2.0,
+          "angular_damping": 2.0,
+          "size": [ 48.0, 48.0 ],
+          "gravity_scale": 0.0
         },
         {
           "type": "CircleColliderComponent",
@@ -49,11 +56,18 @@
         "rotation": 0.0,
         "scale": 1.0
       },
-      "speed": 350.0,
+      "speed": 200.0,
       "components": [
         {
           "type": "SpriteRendererComponent",
           "texture": "Textures/player.png"
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "linear_damping": 2.0,
+          "angular_damping": 2.0,
+          "size": [ 48.0, 48.0 ],
+          "gravity_scale": 0.0
         },
         {
           "type": "CircleColliderComponent",

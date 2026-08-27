@@ -95,6 +95,20 @@ namespace bnhe
         m_components.push_back(std::move(component));
     }
 
+    void Actor::OnStart() 
+    {
+        for (auto& component : m_components) {
+            component->OnStart();
+        }
+    }
+
+    void Actor::OnDestroy() 
+    {
+        for (auto& component : m_components) {
+            component->OnDestroy();
+        }
+    }
+
     void Actor::OnCollision(Actor* actor) {}
 
     void Actor::Destroy() 

@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "Engine.h"
 
+#include "Components/PhysicsComponent.h"
+
 FACTORY_REGISTER(Enemy)
 
 void Enemy::Update(float delta)
@@ -8,12 +10,20 @@ void Enemy::Update(float delta)
 	if (destroyed) return;
 
 	if (m_target != nullptr) {
-		Vector2 force = Vector2(0, 0);
-		force = m_transform.position.DirectionTo(m_target->GetTransform().position) * -m_speed;
-		SetVelocity(GetVelocity() + force * delta);
 
-		//float targetRot = m_transform.position.AngleTo(m_target->GetTransform().position);
-		//SetRotation(targetRot);
+		auto physicsComponent = GetComponent<PhysicsComponent>();
+		if (physicsComponent) {
+			Vector2 direction = m_transform.position.DirectionTo(m_target->GetTransform().position);
+			float thrust = direction.Length() * m_speed;
+			//float rotate = 0.f;
+			physicsComponent->SetRotation(-direction.Angle());
+
+			Vector2 forward{ 0,-1 };
+			Vector2 force = forward.Rotate(m_transform.rotation) * thrust;
+
+			physicsComponent->ApplyForce(force);
+			//physicsComponent->ApplyTorque(rotate * delta);
+		}
 	}
 
 	Actor::Update(delta);

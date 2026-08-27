@@ -24,6 +24,9 @@ namespace bnhe {
         virtual void Update(float delta);
         virtual void Draw(const class Renderer& renderer) const;
 
+        virtual void OnStart();
+        virtual void OnDestroy();
+
         void AddComponent(std::unique_ptr<Component> component);
 
         const Transform& GetTransform() { return m_transform; }
@@ -31,6 +34,10 @@ namespace bnhe {
         const Color GetModulate() { return m_modulate; }
         Scene* GetScene() const { return m_scene; }
         friend class Scene;
+
+        virtual void OnCollision(Actor* actor);
+        virtual void Destroy();
+        bool IsDestroyed() { return destroyed; }
 
         void SetTransform(const Transform transform) { m_transform = transform; }
         void SetPosition(const Vector2 position) { m_transform.position = position; }
@@ -53,9 +60,6 @@ namespace bnhe {
         }
 
         float GetRadius() const;
-        virtual void OnCollision(Actor* actor);
-        virtual void Destroy();
-        bool IsDestroyed() { return destroyed; }
 
         template<std::derived_from<Component> T>
         T* GetComponent();

@@ -51,6 +51,8 @@ namespace bnhe {
 		}
 
 		// Remove destroyed actors
+		for (auto& actor : m_actors) 
+			if (actor->IsDestroyed()) actor->OnDestroy();
 		std::erase_if(m_actors, [](auto& actor) { return actor->IsDestroyed(); });
 
 		AddPendingActors();
