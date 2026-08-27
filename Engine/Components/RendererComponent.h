@@ -9,6 +9,6 @@ namespace bnhe {
 
 		virtual void Draw(const Renderer& renderer) {}
 
-		virtual void Read(const json::value_t& value) override {};
+		virtual void Read(const json::value_t& value) override {}
 	};
 }

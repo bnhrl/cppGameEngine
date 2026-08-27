@@ -44,6 +44,11 @@ namespace bnhe {
 		return true;
 	}
 
+	void Scene::RemoveAllActors(bool force)
+	{
+		std::erase_if(m_actors, [force](auto& actor) { return !actor->GetPersistent() || force; });
+	}
+
 	void Scene::Update(float delta) {
 		for (const auto& actor : m_actors) {
 			if (!actor || actor.get()->IsDestroyed()) continue;

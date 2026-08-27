@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Physics.h"
 
+#include "Framework/Actor.h"
+
 namespace bnhe
 {
 	float Physics::m_pixelsPerUnit = 48.f;
@@ -22,5 +24,46 @@ namespace bnhe
 	void Physics::Update(float dt)
 	{
 		b2World_Step(m_worldId, 1.0f / 60.0f, 4);
+		ProcessCollisionEvents();
+	}
+	void Physics::ProcessCollisionEvents()
+	{
+		// Contacts
+		auto contactEvents = b2World_GetContactEvents(m_worldId);
+		for (int i = 0; i < contactEvents.beginCount; i++) 
+		{
+			auto contactEvent = contactEvents.beginEvents + i;
+			if (!b2Shape_IsValid(contactEvent->shapeIdA) || !b2Shape_IsValid(contactEvent->shapeIdB)) continue;
+
+			b2BodyId bodyA = b2Shape_GetBody(contactEvent->shapeIdA);
+			b2BodyId bodyB = b2Shape_GetBody(contactEvent->shapeIdB);
+
+			Actor* actorA = (Actor*)b2Body_GetUserData(bodyA);
+			if (actorA == nullptr || actorA->IsDestroyed() || !actorA->IsActive()) continue;
+			Actor* actorB = (Actor*)b2Body_GetUserData(bodyB);
+			if (actorB == nullptr || actorB->IsDestroyed() || !actorB->IsActive()) continue;
+
+			actorA->OnCollision(actorB);
+			actorB->OnCollision(actorA);
+		}
+
+		// Sensors
+		auto sensorEvents = b2World_GetSensorEvents(m_worldId);
+		for (int i = 0; i < sensorEvents.beginCount; i++)
+		{
+			auto sensorEvent = sensorEvents.beginEvents + i;
+			if (!b2Shape_IsValid(sensorEvent->sensorShapeId) || !b2Shape_IsValid(sensorEvent->visitorShapeId)) continue;
+
+			b2BodyId sensor = b2Shape_GetBody(sensorEvent->sensorShapeId);
+			b2BodyId visitor = b2Shape_GetBody(sensorEvent->visitorShapeId);
+
+			Actor* actorA = (Actor*)b2Body_GetUserData(sensor);
+			if (actorA == nullptr || actorA->IsDestroyed() || !actorA->IsActive()) continue;
+			Actor* actorB = (Actor*)b2Body_GetUserData(visitor);
+			if (actorB == nullptr || actorB->IsDestroyed() || !actorB->IsActive()) continue;
+
+			actorA->OnCollision(actorB);
+			actorB->OnCollision(actorA);
+		}
 	}
 }

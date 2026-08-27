@@ -39,6 +39,8 @@ namespace bnhe {
         virtual void Destroy();
         bool IsDestroyed() { return destroyed; }
 
+        float GetPersistent() { return m_persistent; }
+
         void SetTransform(const Transform transform) { m_transform = transform; }
         void SetPosition(const Vector2 position) { m_transform.position = position; }
         void SetRotation(float rotation) { m_transform.rotation = rotation; }
@@ -69,6 +71,7 @@ namespace bnhe {
         Vector2 m_velocity{ 0, 0 };
         Color m_modulate = Color(1.f);
         bool destroyed = false;
+        float m_persistent = 0.f;
 
         std::vector<std::string> m_tags;
         std::vector<std::unique_ptr<Component>> m_components;

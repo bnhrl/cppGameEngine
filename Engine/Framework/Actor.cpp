@@ -32,11 +32,8 @@ namespace bnhe
         if (JSON_HAS_NAME(value, "transform")) m_transform.Read(value["transform"]);
         if (JSON_HAS_NAME(value, "velocity")) JSON_READ_NAME(value, "velocity", m_velocity);
         if (JSON_HAS_NAME(value, "modulate")) JSON_READ_NAME(value, "modulate", m_modulate);
-        if (JSON_HAS_NAME(value, "tags")) { // TODO: Add array reading
-            std::string str;
-            JSON_READ_NAME(value, "tags", str);
-            m_tags.push_back(str);
-        }
+        if (JSON_HAS_NAME(value, "persistent")) JSON_READ_NAME(value, "persistent", m_persistent);
+        //if (JSON_HAS_NAME(value, "tags")) { JSON_READ_NAME(value, "tags", m_tags); } // TODO: fix this later
 
         if (JSON_HAS_NAME(value, "components")) {
             for (auto& componentValue : JSON_GET_NAME(value, "components").GetArray()) {

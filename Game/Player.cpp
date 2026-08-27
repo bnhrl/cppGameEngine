@@ -18,9 +18,10 @@ void Player::Update(float delta) {
     // Input
     float thrust = 0.f;
     if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_UP)) thrust = m_speed;
+    else if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_DOWN)) thrust = -m_speed;
     float rotate = 0.f;
-    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_LEFT)) rotate = -3.0;
-    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_RIGHT)) rotate = 3.0;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_LEFT)) rotate = -32.0;
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_RIGHT)) rotate = 32.0;
 
 
     // Soul Modes

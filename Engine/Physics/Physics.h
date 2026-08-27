@@ -26,5 +26,7 @@ namespace bnhe
 
 	private:
 		b2WorldId m_worldId;
+
+		void ProcessCollisionEvents();
 	};
 }

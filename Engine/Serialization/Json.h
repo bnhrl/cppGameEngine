@@ -2,6 +2,7 @@
 
 #include <rapidjson/document.h>
 #include <string>
+#include <vector>
 
 #include "Math/Color.h"
 #include "Math/Vector2.h" 
@@ -29,12 +30,15 @@ namespace bnhe::json
 	bool Load(const std::string& filename, document_t& document);
 
 	// read json data
-	bool Read(const value_t& value, const std::string& name, unsigned int& data,bool required = false);
 	bool Read(const value_t& value, const std::string& name, int& data,			bool required = false);
+	bool Read(const value_t& value, const std::string& name, unsigned int& data,bool required = false);
 	bool Read(const value_t& value, const std::string& name, float& data,		bool required = false);
 	bool Read(const value_t& value, const std::string& name, bool& data,		bool required = false);
 	bool Read(const value_t& value, const std::string& name, std::string& data, bool required = false);
 	bool Read(const value_t& value, const std::string& name, Vector2& data,		bool required = false);
 	bool Read(const value_t& value, const std::string& name, Vector3& data,		bool required = false);
 	bool Read(const value_t& value, const std::string& name, Color& data,		bool required = false);
+
+	bool Read(const value_t& value, const std::string& name, std::vector<int> data,         bool required = false);
+	bool Read(const value_t& value, const std::string& name, std::vector<std::string> data, bool required = false);
 }

@@ -41,7 +41,7 @@ namespace bnhe
 		m_particle_system.Update(m_time.GetDeltaTime());
 		if (m_scene_manager.GetActiveScene()) {
 			m_scene_manager.GetActiveScene()->Update(m_time.GetDeltaTime());
-			m_scene_manager.GetActiveScene()->UpdateCollisions();
+			//m_scene_manager.GetActiveScene()->UpdateCollisions();
 		}
 		m_physics.Update(m_time.GetDeltaTime());
 	}

@@ -1,10 +1,29 @@
 {
   "actors": [
     {
+      "type": "Actor",
+      "prototype": false,
+      "name": "Tilemap",
+      "tags": [ "Ground" ],
+      "active": true,
+      "persistent": true,
+      "transform": {
+        "position": [ 0.0, 0.0 ],
+        "rotation": 0.0,
+        "scale": 1.0
+      },
+      "components": [
+        {
+          "type": "TilemapRendererComponent",
+          "tilemap_name": "Tilemaps/world.json"
+        }
+      ]
+    },
+    {
       "name": "PlayerPrototype",
       "prototype": true,
       "type": "Player",
-      "tags": "Player",
+      "tags": [ "Player" ],
       "active": true,
       "velocity": [
         0,
@@ -31,10 +50,6 @@
           "angular_damping": 2.0,
           "size": [ 48.0, 48.0 ],
           "gravity_scale": 0.0
-        },
-        {
-          "type": "CircleColliderComponent",
-          "radius": 16.0
         }
       ]
     },
@@ -42,7 +57,7 @@
       "name": "EnemyPrototype",
       "prototype": true,
       "type": "Enemy",
-      "tags": "Enemy",
+      "tags": ["Enemy"],
       "active": true,
       "velocity": [
         0,
@@ -68,10 +83,6 @@
           "angular_damping": 2.0,
           "size": [ 48.0, 48.0 ],
           "gravity_scale": 0.0
-        },
-        {
-          "type": "CircleColliderComponent",
-          "radius": 16.0
         }
       ]
     },
@@ -79,7 +90,7 @@
       "name": "PowerUpOrangePrototype",
       "prototype": true,
       "type": "PowerUp",
-      "tags": "PowerUpOrange",
+      "tags": [ "PowerUpOrange" ],
       "active": true,
       "velocity": [
         0,
@@ -98,10 +109,6 @@
         {
           "type": "SpriteRendererComponent",
           "texture": "Textures/powerup_clover.png"
-        },
-        {
-          "type": "CircleColliderComponent",
-          "radius": 8.0
         }
       ]
     },
@@ -109,7 +116,7 @@
       "name": "WildBulletPrototype",
       "prototype": true,
       "type": "Bullet",
-      "tags": "DamagesPlayer",
+      "tags": [ "DamagesPlayer" ],
       "active": true,
       "velocity": [
         0,
@@ -130,8 +137,12 @@
           "texture": "Textures/bullet.png"
         },
         {
-          "type": "CircleColliderComponent",
-          "radius": 8.0
+          "type": "Box2DPhysicsComponent",
+          "linear_damping": 2.0,
+          "angular_damping": 2.0,
+          "size": [ 48.0, 48.0 ],
+          "gravity_scale": 0.0,
+          "is_sensor": true
         }
       ]
     }

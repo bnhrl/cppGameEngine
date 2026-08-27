@@ -24,6 +24,8 @@ namespace bnhe {
 			std::erase(m_actors, actor);
 		}
 
+		void RemoveAllActors(bool force = false);
+
 		void Clear() {
 			m_actors.clear();
 		}

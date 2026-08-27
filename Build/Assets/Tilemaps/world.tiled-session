@@ -1,0 +1,34 @@
+{
+    "activeFile": "world.json",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Tilemap0.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "world.json": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 828.6666666666665,
+                "y": 463.33333333333337
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/Neumont/2026/Q3/GAT150/GameEngine/Build/Assets/Tilemaps",
+    "last.imagePath": "C:/Neumont/2026/Q3/GAT150/GameEngine/Build/Assets/Textures",
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "json",
+    "openFiles": [
+        "world.json",
+        "Tilemap0.tsx"
+    ],
+    "project": "world.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "Tilemap0.tsx",
+        "world.json"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
