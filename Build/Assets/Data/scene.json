@@ -19,6 +19,8 @@
         }
       ]
     },
+
+
     {
       "name": "PlayerPrototype",
       "prototype": true,
@@ -115,6 +117,7 @@
     {
       "name": "WildBulletPrototype",
       "prototype": true,
+      "lifespan": 5.0,
       "type": "Bullet",
       "tags": [ "DamagesPlayer" ],
       "active": true,

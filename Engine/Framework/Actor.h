@@ -72,6 +72,7 @@ namespace bnhe {
         Color m_modulate = Color(1.f);
         bool destroyed = false;
         float m_persistent = 0.f;
+        float m_lifespan = -1.f;
 
         std::vector<std::string> m_tags;
         std::vector<std::unique_ptr<Component>> m_components;

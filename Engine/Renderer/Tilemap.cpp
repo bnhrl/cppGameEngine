@@ -1,15 +1,16 @@
 #include "pch.h"
 #include "Tilemap.h"
 
-#include "Renderer.h"
 #include "Texture.h"
+#include "Renderer.h"
 #include "Serialization/Json.h"
 #include "Core/StringUtils.h"
 
 namespace bnhe
 {
-	bool Tilemap::Load(const std::string& filename, class Renderer& renderer) {
-		// load json
+	bool Tilemap::Load(const std::string& filename, Renderer& renderer)
+	{
+		// load json 
 		json::document_t document;
 		if (!json::Load(filename, document))
 		{
@@ -17,11 +18,11 @@ namespace bnhe
 			return false;
 		}
 
-		// read tilemap data
+		// read tilemap data 
 		JSON_READ_NAME_REQ(document, "tilewidth", m_tileWidth);
 		JSON_READ_NAME_REQ(document, "tileheight", m_tileHeight);
 
-		// read tilemap layers
+		// read tilemap layers 
 		if (JSON_HAS_NAME(document, "layers"))
 		{
 			for (auto& layerValue : JSON_GET_NAME(document, "layers").GetArray())
@@ -32,60 +33,70 @@ namespace bnhe
 				JSON_READ_NAME_REQ(layerValue, "width", layer.width);
 				JSON_READ_NAME_REQ(layerValue, "data", layer.data);
 
-				// load texture from properties
+				// load texture from properties 
 				if (JSON_HAS_NAME(layerValue, "properties"))
 				{
 					for (auto& propertyValue : JSON_GET(layerValue, properties).GetArray())
+
 					{
 						std::string name;
 						JSON_READ(propertyValue, name);
 
-						// check if property name is TextureName
+						// check if property name is TextureName 
 						if (string::EqualsIgnoreCase(name, "texture_name"))
 						{
-							// read texture name value (texture name)
+							// read texture name value (texture name) 
 							std::string value;
 							JSON_READ(propertyValue, value);
-
 							layer.texture = Resources().Get<Texture>(value, renderer);
 							if (!layer.texture)
 							{
 								std::cerr << "Could not read tilemap layer texure " << value << std::endl;
 							}
 						}
-						else if (string::EqualsIgnoreCase(name, "collision"))
+						else if (string::EqualsIgnoreCase(name, "has_collision"))
 						{
 							JSON_READ_NAME(propertyValue, "value", layer.hasCollision);
 						}
 					}
 				}
-
 				m_layers.push_back(layer);
 			}
 		}
+		return true;
 	}
 
-	/*Rect Tilemap::GetTileRect(const Layer& layer, int tileId)
+	// get texture source rectangle from the tile id 
+	Rect Tilemap::GetTileRect(const Layer& layer, int tileId)
 	{
+		// tile id 0 is blank tile, return empty rect 
 		if (tileId == 0) return Rect();
 
 		Vector2 textureSize = layer.texture->GetSize();
-		int tilesPerRow = textureSize.x / m_tileWidth;
 
+		// get the number of tiles in a row (texture size / tile width size) 
+		int tilesPerRow = (int)(textureSize.x / m_tileWidth);
+
+		// get the column / row of the tile 
 		int column = (tileId - 1) % tilesPerRow;
-		int row    = (tileId - 1) / tilesPerRow;
+		int row = (tileId - 1) / tilesPerRow;
 
+		// return source rectangle of tile in texture 
 		return Rect
-		{
-			(float)column * m_tileWidth,
-			(float)row * m_tileHeight,
-			(float)m_tileWidth,
-			(float)m_tileHeight
-		};
+		(
+			((float)column * m_tileWidth),
+			((float)row * m_tileHeight),
+			((float)m_tileWidth),
+			((float)m_tileHeight)
+		);
 	}
 
-	Vector2 Tilemap::GetTilePosition(const Layer& layer)
+	// get the tile position from the tile index (index into tile data) 
+	Vector2 Tilemap::GetTilePosition(const Layer& layer, int tileIndex)
 	{
-		return Vector2();
-	}*/
+		int column = tileIndex % layer.width;
+		int row = tileIndex / layer.width;
+		
+		return Vector2{ (float)(column * m_tileWidth), (float)(row * m_tileHeight) };
+	}
 }

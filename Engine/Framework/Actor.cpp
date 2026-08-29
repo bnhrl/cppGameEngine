@@ -33,7 +33,8 @@ namespace bnhe
         if (JSON_HAS_NAME(value, "velocity")) JSON_READ_NAME(value, "velocity", m_velocity);
         if (JSON_HAS_NAME(value, "modulate")) JSON_READ_NAME(value, "modulate", m_modulate);
         if (JSON_HAS_NAME(value, "persistent")) JSON_READ_NAME(value, "persistent", m_persistent);
-        //if (JSON_HAS_NAME(value, "tags")) { JSON_READ_NAME(value, "tags", m_tags); } // TODO: fix this later
+        if (JSON_HAS_NAME(value, "lifespan")) JSON_READ_NAME(value, "lifespan", m_lifespan);
+        if (JSON_HAS_NAME(value, "tags")) { JSON_READ_NAME(value, "tags", m_tags); } 
 
         if (JSON_HAS_NAME(value, "components")) {
             for (auto& componentValue : JSON_GET_NAME(value, "components").GetArray()) {
@@ -70,8 +71,10 @@ namespace bnhe
             component->Update(delta);
         }
 
-        if (m_transform.position.x < -16.f || m_transform.position.x > Renderer::GetWidth()+16.f) { Destroy(); }
-        else if (m_transform.position.y < -16.f || m_transform.position.y > Renderer::GetHeight()+16.f) { Destroy(); }
+        if (m_lifespan > 0.f) {
+            m_lifespan -= delta;
+            if (m_lifespan < 0.f) Destroy();
+        }
     }
 
     void Actor::Draw(const class Renderer& renderer) const

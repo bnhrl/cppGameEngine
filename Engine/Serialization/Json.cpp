@@ -203,7 +203,7 @@ namespace bnhe::json
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, std::vector<int> data, bool required)
+    bool Read(const value_t& value, const std::string& name, std::vector<int>& data, bool required)
     {
         // check if the value has the "<name>" and is an array
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray())
@@ -226,13 +226,13 @@ namespace bnhe::json
             }
 
             // get the data
-            data[i] = array[i].GetInt();
+            data.push_back(array[i].GetInt());
         }
 
         return true;
     }
 
-    bool Read(const value_t& value, const std::string& name, std::vector<std::string> data, bool required)
+    bool Read(const value_t& value, const std::string& name, std::vector<std::string>& data, bool required)
     {
         // check if the value has the "<name>" and is an array
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray())
@@ -255,7 +255,7 @@ namespace bnhe::json
             }
 
             // get the data
-            data[i] = array[i].GetString();
+            data.push_back(array[i].GetString());
         }
 
         return true;

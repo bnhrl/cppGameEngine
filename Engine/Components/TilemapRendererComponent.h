@@ -8,12 +8,12 @@ namespace bnhe
 	class TilemapRendererComponent : public RendererComponent
 	{
 	public:
-		CLASS_PROTOTYPE(TilemapRendererComponent);
-
 		TilemapRendererComponent() = default;
 		TilemapRendererComponent(const TilemapRendererComponent& other);
 
-		virtual void Start();
+		CLASS_PROTOTYPE(TilemapRendererComponent);
+
+		virtual void OnStart() override;
 		virtual void Draw(const Renderer& renderer) override;
 
 		virtual void Read(const json::value_t& value) override;

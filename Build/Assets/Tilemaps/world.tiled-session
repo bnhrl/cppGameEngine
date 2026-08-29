@@ -8,11 +8,11 @@
             "scaleInEditor": 1
         },
         "world.json": {
-            "scale": 0.75,
+            "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 828.6666666666665,
-                "y": 463.33333333333337
+                "x": 432.5,
+                "y": 394.5
             }
         }
     },
