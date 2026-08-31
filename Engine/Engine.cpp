@@ -8,7 +8,6 @@
 namespace bnhe
 {
 	bool Engine::Initialize(int resolution_x, int resolution_y) {
-		SetWorkingDirectory("Assets");
 		std::cout << "Set working directory to " << GetWorkingDirectory() << "\n";
 
 		//// Register static library

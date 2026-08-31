@@ -1,21 +1,7 @@
-#include "Engine.h"
+#include "pch.h"
+#include "ArcadeGame.h"
 
-#include "Models.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "PowerUp.h"
-#include "Bullet.h"
-
-const int RESOLUTION_X = 1280;
-const int RESOLUTION_Y = 960;
-const float RESOLUTION_Xf = RESOLUTION_X;
-const float RESOLUTION_Yf = RESOLUTION_Y;
-
-using namespace bnhe;
-
-
-
-void CreateEnemy(Scene* scene, Player* player) {
+void ArcadeGame::CreateEnemy(Scene* scene, Player* player) {
     Transform transform;
     if (Random::Int(1)) transform = { Vector2(0.f, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
     else                transform = { Vector2(RESOLUTION_Xf, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
@@ -27,7 +13,7 @@ void CreateEnemy(Scene* scene, Player* player) {
     scene->AddActor(std::move(enemy));
 }
 
-void CreateBullet(Scene* scene) {
+void ArcadeGame::CreateBullet(Scene* scene) {
     Transform transform;
     Vector2 direction;
     if (Random::Int(1)) { transform = { Vector2(0.f, Random::PointOnScreen().y), 0.0f, Vector2(.75f) }; direction = Vector2(1.f, 0.f); }
@@ -41,7 +27,7 @@ void CreateBullet(Scene* scene) {
     scene->AddActor(std::move(bullet));
 }
 
-void CreatePowerUp(Scene* scene, Player* player) {
+void ArcadeGame::CreatePowerUp(Scene* scene, Player* player) {
     std::unique_ptr<PowerUp> powerUp;
     Transform transform;
     if (Random::Int(1)) transform = { Vector2(0.f, Random::PointOnScreen().y), 0.0f, Vector2(1.0f) };
@@ -55,26 +41,14 @@ void CreatePowerUp(Scene* scene, Player* player) {
     scene->AddActor(std::move(powerUp));
 }
 
-Player* CreatePlayer(Scene* scene) {
+Player* ArcadeGame::CreatePlayer(Scene* scene) {
     std::unique_ptr<Player> player = Factory::Instance().Create<Player>("PlayerPrototype");
     Player* ptr = player.get();
     scene->AddActor(std::move(player));
     return ptr;
 }
 
-float points = 0.f;
-const float MAX_TIME_UNTIL_ENEMY = 5.f;
-const float MAX_TIME_UNTIL_BULLET = 5.f;
-const float MAX_TIME_UNTIL_POWER_UP = 8.f;
-float MAX_timeUntilEnemy = MAX_TIME_UNTIL_ENEMY;
-float MAX_timeUntilBullet = MAX_TIME_UNTIL_BULLET;
-float MAX_timeUntilPowerUp = MAX_TIME_UNTIL_POWER_UP;
-float timeUntilEnemy = MAX_timeUntilEnemy;
-float timeUntilBullet = MAX_timeUntilBullet;
-float timeUntilPowerUp = MAX_timeUntilPowerUp;
-
-
-void StartGame(Scene* scene, Player*& player) {
+void ArcadeGame::StartGame(Scene* scene, Player*& player) {
     scene->Clear(); // Cleaning up scene
 
     // Resetting Values
@@ -96,33 +70,15 @@ void StartGame(Scene* scene, Player*& player) {
 
 
 
-int main()
+int ArcadeGame::Run()
 {
     ///
     // INITIALIZATION
     ///
 
+    SetWorkingDirectory("ArcadeGame/Assets");
     Engine& engine = Engine::Get();
     engine.Initialize(RESOLUTION_X, RESOLUTION_Y);
-
-
-
-    ///
-    // Factory Testing
-    ///
-
-    /*auto actor = Factory::Instance().Create<Actor>("Actor");
-    std::cout << actor->IsActive() << std::endl;
-
-    json::document_t document;
-    if (json::Load("data/scene.json", document)) {
-        actor->Read(document);
-        std::cout << "name: " << actor->GetName() << std::endl;
-        std::cout << "active: " << actor->IsActive() << std::endl;
-        std::cout << "velocity: " << actor->GetVelocity().x << " " << actor->GetVelocity().y << std::endl;
-        std::cout << "rotation: " << actor->GetTransform().rotation << std::endl;
-        std::cout << "modulate: " << actor->GetModulate().r << " " << actor->GetModulate().g << " " << actor->GetModulate().b << " " << actor->GetModulate().a << std::endl;
-    }*/
 
 
 

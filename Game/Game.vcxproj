@@ -159,23 +159,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Models.h" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PowerUp.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{2ae39682-2127-4dff-a3c2-5f15b45ab5b8}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PowerUp.h" />
+    <ClCompile Include="ArcadeGame\ArcadeGame.cpp" />
+    <ClCompile Include="ArcadeGame\Bullet.cpp" />
+    <ClCompile Include="ArcadeGame\Enemy.cpp" />
+    <ClCompile Include="ArcadeGame\Player.cpp" />
+    <ClCompile Include="ArcadeGame\PowerUp.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PlatformerGame\PlatformerGame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArcadeGame\ArcadeGame.h" />
+    <ClInclude Include="ArcadeGame\Bullet.h" />
+    <ClInclude Include="ArcadeGame\Enemy.h" />
+    <ClInclude Include="ArcadeGame\Models.h" />
+    <ClInclude Include="ArcadeGame\Player.h" />
+    <ClInclude Include="ArcadeGame\PowerUp.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="PlatformerGame\PlatformerGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
