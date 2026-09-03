@@ -8,7 +8,7 @@
       "active": true,
       "persistent": false,
       "transform": {
-        "position": [ 0.0, 0.0 ],
+        "position": [ -16.0, -16.0 ],
         "rotation": 0.0,
         "scale": 1.0
       },
@@ -22,17 +22,91 @@
 
     {
       "type": "Actor",
-      "prototype": true,
-      "name": "BoxPrototype",
-      "tags": [ "Ground" ],
+      "prototype": false,
+      "name": "Box1",
+      "tags": [],
       "active": true,
       "persistent": false,
       "transform": {
-        "position": [ 0.0, 0.0 ],
+        "position": [ 1120.0, 320.0 ],
         "rotation": 0.0,
-        "scale": 1.0
-      }
+        "scale": [ 2.0, 2.0 ]
+      },
+      "components": [
+        {
+          "type": "SpriteAnimationRendererComponent",
+          "texture_frames": "Animations/box.json",
+          "fps": 7.0,
+          "loop": true
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "linear_damping": 2.0,
+          "angular_damping": 2.0,
+          "size": [ 32.0, 32.0 ],
+          "gravity_scale": 5.0
+        }
+      ]
     },
+    {
+      "type": "Actor",
+      "prototype": false,
+      "name": "Box2",
+      "tags": [],
+      "active": true,
+      "persistent": false,
+      "transform": {
+        "position": [ 160.0, 320.0 ],
+        "rotation": 0.0,
+        "scale": [ 2.0, 2.0 ]
+      },
+      "components": [
+        {
+          "type": "SpriteAnimationRendererComponent",
+          "texture_frames": "Animations/box.json",
+          "fps": 7.0,
+          "loop": true
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "linear_damping": 2.0,
+          "angular_damping": 2.0,
+          "size": [ 32.0, 32.0 ],
+          "gravity_scale": 5.0
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "prototype": false,
+      "name": "JumpPad",
+      "tags": ["Bouncer"],
+      "active": true,
+      "persistent": false,
+      "transform": {
+        "position": [ 720.0, 824.0 ],
+        "rotation": 0.0,
+        "scale": [ 2.0, 2.0 ]
+      },
+      "components": [
+        {
+          "type": "SpriteAnimationRendererComponent",
+          "texture_frames": "Animations/jump_pad.json",
+          "fps": 7.0,
+          "loop": true
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "linear_damping": 1000.0,
+          "angular_damping": 1.0,
+          "size": [ 16.0, 8.0 ],
+          "gravity_scale": 0.0
+        }
+      ]
+    },
+
+
+
 
     {
       "name": "PlayerPrototype",
@@ -83,7 +157,7 @@
           "linear_damping": 2.0,
           "angular_damping": 2.0,
           "size": [ 16.0, 32.0 ],
-          "gravity_scale": 48.0
+          "gravity_scale": 1.0
         }
       ]
     },
@@ -123,7 +197,7 @@
           "type": "Box2DPhysicsComponent",
           "linear_damping": 2.0,
           "angular_damping": 2.0,
-          "size": [ 32.0, 16.0 ],
+          "size": [ 28.0, 16.0 ],
           "gravity_scale": 48.0
         }
       ]

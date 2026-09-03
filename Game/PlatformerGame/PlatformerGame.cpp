@@ -4,6 +4,14 @@
 #include "PlatformerPlayer.h"
 #include "PlatformerEnemy.h"
 
+void SpawnEnemy(Scene* scene, PlatformerPlayer* playerRef)
+{
+    std::unique_ptr<PlatformerEnemy> enemy = Factory::Instance().Create<PlatformerEnemy>("EnemyPrototype");
+    enemy->SetTarget(playerRef);
+    if (Random::Bool()) enemy->SetPosition(Vector2{ 1280.f, 480.f });
+    scene->AddActor(std::move(enemy));
+}
+
 int PlatformerGame::Run() 
 {
     ///
@@ -28,6 +36,7 @@ int PlatformerGame::Run()
         Color{ 1, 1, 1, 1 }, 720);
 
     float points = 0.f;
+    float enemySpawnTimer = 0.f;
 
     // Game Scene
     Scene* gameScene = new Scene("Game");
@@ -38,8 +47,8 @@ int PlatformerGame::Run()
     gameScene->AddActor(std::move(player));
 
     // Game Over Scene
-    Scene* gameOverScene = new Scene("Game Over");
-    Text* textGameOver = new Text(engine.GetFontBig()); textTitle->Create(engine.GetRenderer(), "GAME OVER", Color{ 1, 1, 1, 1 });
+    Scene* gameOverScene = new Scene("GameOver");
+    Text* textGameOver = new Text(engine.GetFontBig()); textGameOver->Create(engine.GetRenderer(), "GAME OVER", Color{ 1, 1, 1, 1 });
 
 
     // Scene setup
@@ -67,6 +76,7 @@ int PlatformerGame::Run()
         }
 
         engine.Update();
+        float delta = engine.GetTime().GetDeltaTime();
 
         if (engine.GetSM().GetActiveScene())
             engine.GetSM().GetActiveScene()->Draw(engine.GetRenderer());
@@ -77,8 +87,7 @@ int PlatformerGame::Run()
         engine.GetRenderer().Clear();                // Clear the renderer
         engine.UpdateAudio();
 
-        Scene* activeScene = engine.GetSM().GetActiveScene();
-        if (activeScene == menuScene)
+        if (engine.GetSM().GetActiveScene() == menuScene)
         {
             textTitle->Draw(engine.GetRenderer(), 32, 32);
             textInstructions->Draw(engine.GetRenderer(), 32, 160);
@@ -86,16 +95,27 @@ int PlatformerGame::Run()
             {
                 points = 0.f;
                 engine.GetSM().SetActiveScene("Game");
-                std::unique_ptr<PlatformerEnemy> enemy = Factory::Instance().Create<PlatformerEnemy>("EnemyPrototype");
-                enemy->SetTarget(playerRef);
-                gameScene->AddActor(std::move(enemy));
             }
         }
-        else if (activeScene == gameScene)
+        else if (engine.GetSM().GetActiveScene() == gameScene)
         {
-            if (!playerRef or playerRef->IsDestroyed()) engine.GetSM().SetActiveScene("Game Over");
+            if (!playerRef or playerRef->IsDestroyed())
+            {
+                std::cout << "YEEOOOUUCH";
+                engine.GetSM().SetActiveScene("GameOver");
+            }
+
+            if (enemySpawnTimer < .5f)
+            {
+                enemySpawnTimer += delta;
+            }
+            else
+            {
+                SpawnEnemy(gameScene, playerRef);
+                enemySpawnTimer = 0.f;
+            }
         }
-        else if (activeScene == gameOverScene)
+        else
         {
             textGameOver->Draw(engine.GetRenderer(), 32, 32);
             if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_Z)) {

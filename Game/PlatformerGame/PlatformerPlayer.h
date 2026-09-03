@@ -23,7 +23,7 @@ protected:
 	SpriteAnimatorRendererComponent* m_spriteComponent = nullptr;
 
 private:
-	float m_speed = 500.0f;
+	float m_speed = 300.0f;
 	float m_invincibility = 0.f;
 	float m_jump = 0.f;
 };

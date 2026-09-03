@@ -14,6 +14,7 @@ void PlatformerEnemy::OnStart()
     assert(m_spriteComponent);
 }
 
+const float EPSILON = 1.f;
 void PlatformerEnemy::Update(float delta)
 {
     if (!m_target)
@@ -25,6 +26,9 @@ void PlatformerEnemy::Update(float delta)
     Vector2 direction = GetTransform().position.DirectionTo(m_target->GetTransform().position);
     m_physicsComponent->SetVelocity({ direction.x * -m_speed, GetVelocity().y });
     m_physicsComponent->SetRotation(0.f);
+
+    if (m_physicsComponent->GetVelocity().x < -EPSILON)      m_spriteComponent->SetFlipH();
+    else if (m_physicsComponent->GetVelocity().x > EPSILON) m_spriteComponent->SetFlipH(false);
 
     Actor::Update(delta);
 }

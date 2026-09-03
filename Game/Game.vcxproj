@@ -190,7 +190,9 @@
     <None Include="..\Build\ArcadeGame\Assets\Animations\player_idle.json" />
     <None Include="..\Build\ArcadeGame\Assets\Data\scene.json" />
     <None Include="..\Build\ArcadeGame\Assets\Tilemaps\world.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Animations\box.json" />
     <None Include="..\Build\PlatformerGame\Assets\Animations\enemy.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Animations\jump_pad.json" />
     <None Include="..\Build\PlatformerGame\Assets\Animations\player_idle.json" />
     <None Include="..\Build\PlatformerGame\Assets\Animations\player_jump.json" />
     <None Include="..\Build\PlatformerGame\Assets\Animations\player_run.json" />

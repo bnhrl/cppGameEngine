@@ -127,5 +127,11 @@
     <None Include="..\Build\PlatformerGame\Assets\Animations\enemy.json">
       <Filter>PlatformerGame\Assets\Animations</Filter>
     </None>
+    <None Include="..\Build\PlatformerGame\Assets\Animations\box.json">
+      <Filter>PlatformerGame\Assets\Animations</Filter>
+    </None>
+    <None Include="..\Build\PlatformerGame\Assets\Animations\jump_pad.json">
+      <Filter>PlatformerGame\Assets\Animations</Filter>
+    </None>
   </ItemGroup>
 </Project>

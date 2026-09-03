@@ -44,24 +44,20 @@ namespace bnhe
 		return true;
 	}
 
-	Rect TextureFrames::GetFrameRect(int frame) {
-		if (frame >= m_totalFrames) 
+	Rect TextureFrames::GetFrameRect(int frame)
+	{
+		if (frame >= m_totalFrames)
 		{
-			std::cerr << "Invalid frame number: " << frame << " / " << m_totalFrames << std::endl;
-			return Rect();
+			std::cerr << "Frame " << frame << " of TextureFrames is out of bounds.\n";
+        
 		}
-		int currentFrame = m_startFrame * frame;
+		int currentFrame = m_startFrame + frame;
+		int column = currentFrame % m_numColumns;
+		int row = currentFrame / m_numColumns;
 
-		float column = frame % m_numColumns;
-		float row = frame / m_numColumns;
 		float x = column * m_frameSize.x;
 		float y = row * m_frameSize.y;
 
-		return Rect{
-			x,
-			y,
-			m_frameSize.x,
-			m_frameSize.y
-		};
+		return Rect{ x, y, m_frameSize.x, m_frameSize.y };
 	}
 }
