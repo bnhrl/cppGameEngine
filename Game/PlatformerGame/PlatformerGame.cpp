@@ -29,9 +29,11 @@ int PlatformerGame::Run()
     Text* textInstructions = new Text(engine.GetFont());
     textInstructions->Create(engine.GetRenderer(),
         "[ARROW KEYS] to MOVE."
-        "                                              "
-        "Press [X] to DASH ATTACK."
-        "                                              "
+        "                                                      "
+        "Press [X] to JUMP."
+        "                                                      "
+        "Gain POINTs by SURVIVING."
+        "                                                      "
         "Press [Z] to START!",
         Color{ 1, 1, 1, 1 }, 720);
 
@@ -40,11 +42,9 @@ int PlatformerGame::Run()
 
     // Game Scene
     Scene* gameScene = new Scene("Game");
-    gameScene->Load("Scenes/scene.json");
+    Text* textPoints = new Text(engine.GetFont());
 
-    std::unique_ptr<PlatformerPlayer> player = Factory::Instance().Create<PlatformerPlayer>("PlayerPrototype");
-    PlatformerPlayer* playerRef = player.get();
-    gameScene->AddActor(std::move(player));
+    PlatformerPlayer* playerRef = nullptr;
 
     // Game Over Scene
     Scene* gameOverScene = new Scene("GameOver");
@@ -93,15 +93,22 @@ int PlatformerGame::Run()
             textInstructions->Draw(engine.GetRenderer(), 32, 160);
             if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_Z)) 
             {
-                points = 0.f;
                 engine.GetSM().SetActiveScene("Game");
+                points = 0.f;
+                gameScene->RemoveAllActors();
+                gameScene->Load("Scenes/scene.json");
+                std::unique_ptr<PlatformerPlayer> player = Factory::Instance().Create<PlatformerPlayer>("PlayerPrototype");
+                playerRef = player.get();
+                gameScene->AddActor(std::move(player));
             }
         }
         else if (engine.GetSM().GetActiveScene() == gameScene)
         {
+            points += delta;
+            textPoints->Create(engine.GetRenderer(), "POINTs: " + std::to_string((int)points), Color{ 1, 1, 1, 1 });
+            textPoints->Draw(engine.GetRenderer(), 32, 32);
             if (!playerRef or playerRef->IsDestroyed())
             {
-                std::cout << "YEEOOOUUCH";
                 engine.GetSM().SetActiveScene("GameOver");
             }
 

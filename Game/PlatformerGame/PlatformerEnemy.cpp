@@ -27,8 +27,20 @@ void PlatformerEnemy::Update(float delta)
     m_physicsComponent->SetVelocity({ direction.x * -m_speed, GetVelocity().y });
     m_physicsComponent->SetRotation(0.f);
 
+    if (m_jump > 0.f)
+    {
+        m_jump -= delta * 100000.f;
+        m_physicsComponent->ApplyForce(Vector2(0.f, -m_jump));
+    }
+
     if (m_physicsComponent->GetVelocity().x < -EPSILON)      m_spriteComponent->SetFlipH();
     else if (m_physicsComponent->GetVelocity().x > EPSILON) m_spriteComponent->SetFlipH(false);
 
     Actor::Update(delta);
+}
+
+void PlatformerEnemy::OnCollision(Actor* actor)
+{
+    if (actor->HasTag("DamagesEnemy")) Destroy();
+    if (actor->HasTag("Bouncer")) m_jump = 10000.f;
 }

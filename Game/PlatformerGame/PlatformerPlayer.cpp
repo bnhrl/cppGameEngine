@@ -15,6 +15,7 @@ void PlatformerPlayer::OnStart()
     assert(m_spriteComponent);
 }
 
+const float EPSILON = 1.f;
 void PlatformerPlayer::Update(float delta)
 {
     // Input
@@ -26,18 +27,16 @@ void PlatformerPlayer::Update(float delta)
     m_physicsComponent->SetVelocity({ direction.x * m_speed, m_physicsComponent->GetVelocity().y });
     m_physicsComponent->SetRotation(0.f);
 
-    //if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_SPACE) && m_jump <= 0.f) m_jump = 100000.f;
+    if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_X) && m_physicsComponent->GetVelocity().y <= EPSILON && m_jump <= 0.f) m_jump = 9000.f;
     if (m_jump > 0.f)
     {
         m_jump -= delta * 100000.f;
         m_physicsComponent->ApplyForce(Vector2(0.f, -m_jump));
-        //m_physicsComponent->SetVelocity(Vector2(m_physicsComponent->GetVelocity().x, -m_jump));
     }
 
     Actor::Update(delta);
 }
 
-const float EPSILON = 1.f;
 void PlatformerPlayer::Draw(const Renderer& renderer)
 {
     // Animation
@@ -54,7 +53,6 @@ void PlatformerPlayer::Draw(const Renderer& renderer)
 
 void PlatformerPlayer::OnCollision(Actor* actor)
 {
-    std::cout << actor->GetName();
     if (actor->HasTag("DamagesPlayer")) Destroy();
     if (actor->HasTag("Bouncer")) m_jump = 10000.f;
 }
