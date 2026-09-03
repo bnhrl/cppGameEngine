@@ -1,0 +1,30 @@
+{
+    "activeFile": "world.json",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "tilemap.tsx": {
+            "scaleInDock": 1
+        },
+        "world.json": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 996.6666666666665,
+                "y": 650
+            }
+        }
+    },
+    "map.height": 120,
+    "map.lastUsedFormat": "json",
+    "map.width": 120,
+    "openFiles": [
+        "world.json"
+    ],
+    "project": "tilemap.tiled-project",
+    "recentFiles": [
+        "world.json"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}

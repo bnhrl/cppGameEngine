@@ -42,11 +42,17 @@ namespace bnhe
 		void DrawTexture(const Texture& texture, const Transform& transform, Color modulate = Color(1.f, 1.f, 1.f, 1.f), bool flipH = false) const;
 		void DrawTexture(const Texture& texture, const Rect& source, const Transform& transform, Color modulate = Color(1.f, 1.f, 1.f, 1.f), bool flipH = false) const;
 
+		void SetCamera(const Vector2& camera) { m_camera = camera; }
+		void EnableCamera(bool enable = true) { m_cameraEnabled = enable; }
+
 		static int GetWidth()  { return m_width; }
 		static int GetHeight() { return m_height; }
 	private:
 		SDL_Renderer* m_renderer = nullptr;
 		SDL_Window*   m_window   = nullptr;
+
+		Vector2 m_camera;
+		bool m_cameraEnabled;
 
 		static int m_width;
 		static int m_height;

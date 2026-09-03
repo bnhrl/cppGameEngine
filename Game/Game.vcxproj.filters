@@ -7,50 +7,125 @@
     <Filter Include="PlatformerGame">
       <UniqueIdentifier>{13935929-d590-4a80-a50e-3d4aa1da7f46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlatformerGame\Assets">
+      <UniqueIdentifier>{952fc07d-36af-4398-b143-3942da819adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArcadeGame\Assets">
+      <UniqueIdentifier>{f36e688c-dab9-4bf3-aa11-e6dd0fbda916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformerGame\Assets\Tilemaps">
+      <UniqueIdentifier>{09755399-9073-4e3a-bed4-06168fa8fa63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformerGame\Assets\Animations">
+      <UniqueIdentifier>{5273d0d8-b756-4bec-b772-fab881b908d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArcadeGame\Assets\Animations">
+      <UniqueIdentifier>{a652b831-6123-453b-b1fc-845fa8245481}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArcadeGame\Assets\Tilemaps">
+      <UniqueIdentifier>{b5fe169a-0959-4940-b665-3605cb3e930e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArcadeGame\Assets\Scenes">
+      <UniqueIdentifier>{68580c88-95d7-4a33-9f0f-71d4942c5e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArcadeGame\Source">
+      <UniqueIdentifier>{c6dd3932-4376-4953-9f27-cda316cb9c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArcadeGame\Header">
+      <UniqueIdentifier>{aaca1cbc-fee7-4fbc-90f1-8252b1e96774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformerGame\Header">
+      <UniqueIdentifier>{03f495e0-ce0f-4a28-9c5f-b33f689988d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformerGame\Source">
+      <UniqueIdentifier>{682d0eaf-81a5-4fa4-866c-590a772584df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformerGame\Assets\Scenes">
+      <UniqueIdentifier>{692282ef-861b-4ff2-93b4-aa3ec3a18c34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ArcadeGame\ArcadeGame.cpp">
-      <Filter>ArcadeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="ArcadeGame\Bullet.cpp">
-      <Filter>ArcadeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="ArcadeGame\Enemy.cpp">
-      <Filter>ArcadeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="ArcadeGame\Player.cpp">
-      <Filter>ArcadeGame</Filter>
-    </ClCompile>
-    <ClCompile Include="ArcadeGame\PowerUp.cpp">
-      <Filter>ArcadeGame</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlatformerGame\PlatformerGame.cpp">
       <Filter>PlatformerGame</Filter>
     </ClCompile>
+    <ClCompile Include="ArcadeGame\PowerUp.cpp">
+      <Filter>ArcadeGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcadeGame\Bullet.cpp">
+      <Filter>ArcadeGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcadeGame\Enemy.cpp">
+      <Filter>ArcadeGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcadeGame\Player.cpp">
+      <Filter>ArcadeGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcadeGame\ArcadeGame.cpp">
+      <Filter>ArcadeGame</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformerGame\PlatformerPlayer.cpp">
+      <Filter>PlatformerGame\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformerGame\PlatformerEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArcadeGame\Bullet.h">
-      <Filter>ArcadeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="ArcadeGame\Enemy.h">
-      <Filter>ArcadeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="ArcadeGame\Models.h">
-      <Filter>ArcadeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="ArcadeGame\Player.h">
-      <Filter>ArcadeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="ArcadeGame\PowerUp.h">
-      <Filter>ArcadeGame</Filter>
-    </ClInclude>
-    <ClInclude Include="ArcadeGame\ArcadeGame.h">
-      <Filter>ArcadeGame</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h" />
     <ClInclude Include="PlatformerGame\PlatformerGame.h">
       <Filter>PlatformerGame</Filter>
     </ClInclude>
+    <ClInclude Include="ArcadeGame\Bullet.h">
+      <Filter>ArcadeGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcadeGame\Enemy.h">
+      <Filter>ArcadeGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcadeGame\Models.h">
+      <Filter>ArcadeGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcadeGame\Player.h">
+      <Filter>ArcadeGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcadeGame\PowerUp.h">
+      <Filter>ArcadeGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcadeGame\ArcadeGame.h">
+      <Filter>ArcadeGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformerGame\PlatformerPlayer.h">
+      <Filter>PlatformerGame\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformerGame\PlatformerEnemy.h">
+      <Filter>PlatformerGame\Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Build\ArcadeGame\Assets\Data\scene.json">
+      <Filter>ArcadeGame\Assets\Scenes</Filter>
+    </None>
+    <None Include="..\Build\ArcadeGame\Assets\Tilemaps\world.json">
+      <Filter>ArcadeGame\Assets\Tilemaps</Filter>
+    </None>
+    <None Include="..\Build\ArcadeGame\Assets\Animations\player_idle.json">
+      <Filter>ArcadeGame\Assets\Animations</Filter>
+    </None>
+    <None Include="..\Build\PlatformerGame\Assets\Animations\player_idle.json">
+      <Filter>PlatformerGame\Assets\Animations</Filter>
+    </None>
+    <None Include="..\Build\PlatformerGame\Assets\Animations\player_jump.json">
+      <Filter>PlatformerGame\Assets\Animations</Filter>
+    </None>
+    <None Include="..\Build\PlatformerGame\Assets\Animations\player_run.json">
+      <Filter>PlatformerGame\Assets\Animations</Filter>
+    </None>
+    <None Include="..\Build\PlatformerGame\Assets\Scenes\scene.json">
+      <Filter>PlatformerGame\Assets\Scenes</Filter>
+    </None>
+    <None Include="..\Build\PlatformerGame\Assets\Tilemaps\world.json">
+      <Filter>PlatformerGame\Assets\Tilemaps</Filter>
+    </None>
+    <None Include="..\Build\PlatformerGame\Assets\Animations\enemy.json">
+      <Filter>PlatformerGame\Assets\Animations</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -22,7 +22,7 @@ namespace bnhe {
         virtual void Read(const json::value_t& value);
 
         virtual void Update(float delta);
-        virtual void Draw(const class Renderer& renderer) const;
+        virtual void Draw(const class Renderer& renderer);
 
         virtual void OnStart();
         virtual void OnDestroy();

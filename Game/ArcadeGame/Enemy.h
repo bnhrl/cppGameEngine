@@ -13,7 +13,7 @@ public:
 	Enemy(const Transform& transform, const res_t<Texture> texture) : Actor{ transform, texture } { AddTag("DamagesPlayer"); AddTag("Enemy"); m_speed = Random::Float(2000.f, 3150.f); }
 
 	virtual void Update(float delta) override;
-	virtual void Draw(const class Renderer& renderer) const override;
+	virtual void Draw(const class Renderer& renderer) override;
 
 	void SetTarget(Actor* actor) { m_target = actor; }
 	virtual void OnCollision(Actor* actor) override;

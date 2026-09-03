@@ -164,6 +164,9 @@
     <ClInclude Include="Components\TilemapRendererComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\SpriteAnimatorRendererComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Random.cpp">
@@ -248,6 +251,9 @@
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Components\TilemapRendererComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SpriteAnimatorRendererComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,0 +1,7 @@
+{
+  "texture_name": "Textures/protagonist.png",
+  "columns": 3,
+  "rows": 3,
+  "start_frame": 3,
+  "total_frames": 3
+}

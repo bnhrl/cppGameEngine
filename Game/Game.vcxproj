@@ -170,7 +170,9 @@
     <ClCompile Include="ArcadeGame\Player.cpp" />
     <ClCompile Include="ArcadeGame\PowerUp.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PlatformerGame\PlatformerEnemy.cpp" />
     <ClCompile Include="PlatformerGame\PlatformerGame.cpp" />
+    <ClCompile Include="PlatformerGame\PlatformerPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcadeGame\ArcadeGame.h" />
@@ -180,7 +182,20 @@
     <ClInclude Include="ArcadeGame\Player.h" />
     <ClInclude Include="ArcadeGame\PowerUp.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="PlatformerGame\PlatformerEnemy.h" />
     <ClInclude Include="PlatformerGame\PlatformerGame.h" />
+    <ClInclude Include="PlatformerGame\PlatformerPlayer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Build\ArcadeGame\Assets\Animations\player_idle.json" />
+    <None Include="..\Build\ArcadeGame\Assets\Data\scene.json" />
+    <None Include="..\Build\ArcadeGame\Assets\Tilemaps\world.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Animations\enemy.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Animations\player_idle.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Animations\player_jump.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Animations\player_run.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Scenes\scene.json" />
+    <None Include="..\Build\PlatformerGame\Assets\Tilemaps\world.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -77,7 +77,7 @@ namespace bnhe
         }
     }
 
-    void Actor::Draw(const class Renderer& renderer) const
+    void Actor::Draw(const class Renderer& renderer)
     {
         if (destroyed) return;
 

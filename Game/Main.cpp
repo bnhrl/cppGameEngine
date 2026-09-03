@@ -2,6 +2,6 @@
 #include "PlatformerGame/PlatformerGame.h"
 
 int main() {
-	std::unique_ptr<Game> game = std::make_unique<ArcadeGame>();
+	std::unique_ptr<Game> game = std::make_unique<PlatformerGame>();
 	return game->Run();
 }

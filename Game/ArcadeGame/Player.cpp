@@ -138,7 +138,7 @@ void Player::Update(float delta) {
     }
 }
 
-void Player::Draw(const class Renderer& renderer) const {
+void Player::Draw(const class Renderer& renderer) {
     Actor::Draw(renderer);
     if (m_charge > 0.1f) {
         Color color = m_modulate;

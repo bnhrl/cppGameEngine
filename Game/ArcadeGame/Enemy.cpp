@@ -29,7 +29,7 @@ void Enemy::Update(float delta)
 	Actor::Update(delta);
 }
 
-void Enemy::Draw(const class Renderer& renderer) const {
+void Enemy::Draw(const class Renderer& renderer) {
 	Actor::Draw(renderer);
 }
 

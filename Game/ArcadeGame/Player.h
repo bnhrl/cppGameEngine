@@ -22,7 +22,7 @@ public:
 
 	virtual void Read(const json::value_t& value) override;
 	virtual void Update(float delta) override;
-	virtual void Draw(const class Renderer& renderer) const override;
+	virtual void Draw(const class Renderer& renderer) override;
 
 	virtual void OnCollision(Actor* actor);
 
