@@ -39,6 +39,8 @@ int PlatformerGame::Run()
         "                                                      "
         "Gain POINTs by SURVIVING."
         "                                                      "
+        "BOXES can destroy ENEMIES."
+        "                                                      "
         "Press [Z] to START!",
         Color{ 1, 1, 1, 1 }, 720);
 

@@ -1,6 +1,7 @@
 #include "PlatformerEnemy.h"
 
 #include "Core/Factory.h"
+#include "Engine.h"
 
 FACTORY_REGISTER(PlatformerEnemy);
 
@@ -41,6 +42,10 @@ void PlatformerEnemy::Update(float delta)
 
 void PlatformerEnemy::OnCollision(Actor* actor)
 {
-    if (actor->HasTag("DamagesEnemy")) Destroy();
+    if (actor->HasTag("DamagesEnemy"))
+    {
+        Engine::Get().GetAudio().PlaySound("enemy_death");
+        Destroy();
+    }
     if (actor->HasTag("Bouncer")) m_jump = 10000.f;
 }
