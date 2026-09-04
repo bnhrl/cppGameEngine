@@ -8,7 +8,12 @@ void SpawnEnemy(Scene* scene, PlatformerPlayer* playerRef)
 {
     std::unique_ptr<PlatformerEnemy> enemy = Factory::Instance().Create<PlatformerEnemy>("EnemyPrototype");
     enemy->SetTarget(playerRef);
-    if (Random::Bool()) enemy->SetPosition(Vector2{ 1280.f, 480.f });
+    float y = Random::Float(360.f, 480.f);
+    if (Random::Bool())
+    {
+        enemy->SetPosition(Vector2{ 1328.f, 480.f });
+    }
+    enemy->SetPosition(Vector2{ enemy->GetTransform().position.x, y });
     scene->AddActor(std::move(enemy));
 }
 
@@ -125,6 +130,8 @@ int PlatformerGame::Run()
         else
         {
             textGameOver->Draw(engine.GetRenderer(), 32, 32);
+            textPoints->Create(engine.GetRenderer(), "POINTs: " + std::to_string((int)points), Color{ 1, 1, 1, 1 });
+            textPoints->Draw(engine.GetRenderer(), 32, 128);
             if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_Z)) {
                 engine.GetSM().SetActiveScene("Menu");
             }

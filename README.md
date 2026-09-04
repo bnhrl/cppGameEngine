@@ -8,5 +8,8 @@ Features:
 - Sprite animations
 - Tilemaps & physics bodies
 
+Known Issues
+- SpriteAnimatorRendererComponents will briefly appear as their full sprite sheet when instantiated
+
 
 Utilizes SDL3, Box2D, rapidjson, and FMOD. 

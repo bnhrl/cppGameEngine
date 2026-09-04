@@ -8,11 +8,11 @@
             "scaleInDock": 1
         },
         "world.json": {
-            "scale": 0.75,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 716.6666666666665,
-                "y": 654
+                "x": 1183,
+                "y": 767
             }
         }
     },
